@@ -1,0 +1,29 @@
+name: dw_bike_trips_client
+description: A new Flutter project.
+
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  cupertino_icons: ^1.0.0
+  datetime_picker_formfield: ^1.0.0
+  flutter:
+    sdk: flutter
+  flutter_config: ^1.0.7
+  flutter_svg: ^0.19.1
+  graphql_flutter: ^3.0.0
+  graphql_builder: ^1.0.0
+  jwt_decoder: ^1.0.3
+  provider: ^4.3.2+2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/logo.svg
