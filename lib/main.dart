@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
     return createSessionProvider(
         _session,
         MaterialApp(
-          title: 'Flutter Demo',
+          title: 'dasd.ware BikeTrips',
           theme: AppTheme.themeData,
           home: MainScreen(),
         ));
