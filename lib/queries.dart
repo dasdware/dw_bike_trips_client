@@ -1,6 +1,5 @@
 import 'package:dw_bike_trips_client/session.dart';
 import 'package:graphql_builder/graphql_builder.dart';
-import 'package:intl/intl.dart';
 
 var login = Document().add(Query(name: 'Login', variables: [
   VariableDefinition('email', VariableType("String", nullable: false)),

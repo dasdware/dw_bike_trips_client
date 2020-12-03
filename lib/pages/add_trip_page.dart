@@ -1,9 +1,7 @@
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:dw_bike_trips_client/session.dart';
 import 'package:dw_bike_trips_client/theme.dart' as AppTheme;
-import 'package:dw_bike_trips_client/widgets/logo.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class AddTripPage extends StatefulWidget {
@@ -12,7 +10,6 @@ class AddTripPage extends StatefulWidget {
 }
 
 class _AddTripPageState extends State<AddTripPage> {
-  final TextEditingController _timestampController = TextEditingController();
   final TextEditingController _distanceController = TextEditingController();
 
   DateTime _selectedTimestamp;

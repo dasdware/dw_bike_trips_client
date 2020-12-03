@@ -68,6 +68,7 @@ class Session {
 
   dispose() {
     _sessionStatusStreamController.close();
+    _tripsToSubmitStreamController.close();
   }
 
   String get host => _host;
