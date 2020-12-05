@@ -1,6 +1,7 @@
 import 'package:dw_bike_trips_client/session.dart';
 import 'package:dw_bike_trips_client/theme.dart' as AppTheme;
 import 'package:dw_bike_trips_client/widgets/logo.dart';
+import 'package:dw_bike_trips_client/widgets/themed.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -64,9 +65,10 @@ class _LoginPageState extends State<LoginPage> {
   Widget _buildButtons(BuildContext context) {
     return new Column(
       children: <Widget>[
-        new RaisedButton(
+        RaisedButton.icon(
+          icon: Icon(Icons.login),
           color: AppTheme.secondaryColors[2],
-          child: new Text('Login'),
+          label: Text('Login'),
           onPressed: () => _loginPressed(context),
         ),
       ],
@@ -80,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
     _emailFilter.value = TextEditingValue(text: session.email);
     _passwordFilter.value = TextEditingValue(text: session.password);
 
-    return Scaffold(
+    return ThemedScaffold(
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Center(

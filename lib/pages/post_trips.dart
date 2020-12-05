@@ -21,8 +21,8 @@ class PostTripsPage extends StatelessWidget {
             return ProgressPage(text: 'Sending trips to server');
           }
 
-          return Scaffold(
-            appBar: AppBar(
+          return ThemedScaffold(
+            appBar: themedAppBar(
               title: Text('Trips enqueued for posting'),
             ),
             body: Padding(
@@ -44,6 +44,7 @@ class PostTripsPage extends StatelessWidget {
               ),
             ),
             floatingActionButton: FloatingActionButton(
+              child: Icon(Icons.cloud_upload_outlined),
               onPressed: () async {
                 _postPressed(context);
               },

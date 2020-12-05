@@ -16,7 +16,7 @@ class Logo extends StatelessWidget {
           SizedBox(
             height: 8.0,
           ),
-          ThemedText(text: 'dasd.ware Bike Trips'),
+          ThemedText(text: 'dasd.ware BikeTrips'),
         ],
       ),
     );

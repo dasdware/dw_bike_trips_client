@@ -9,7 +9,6 @@ environment:
 
 dependencies:
   cupertino_icons: ^1.0.0
-  datetime_picker_formfield: ^1.0.0
   flutter:
     sdk: flutter
   flutter_config: ^1.0.7

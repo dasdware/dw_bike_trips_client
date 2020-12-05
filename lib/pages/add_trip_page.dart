@@ -1,6 +1,6 @@
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:dw_bike_trips_client/session.dart';
 import 'package:dw_bike_trips_client/theme.dart' as AppTheme;
+import 'package:dw_bike_trips_client/widgets/themed.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -33,7 +33,56 @@ class _AddTripPageState extends State<AddTripPage> {
     });
   }
 
-  _buildTextFields() {
+  _selectDate(BuildContext context) async {
+    DateTime selection = await showDatePicker(
+      context: context,
+      initialDate: _selectedTimestamp,
+      firstDate: DateTime(1970),
+      lastDate: DateTime(2170),
+      builder: themedDatePickerBuilder,
+    );
+
+    if (selection != null) {
+      _setSelectedTimestamp(
+        DateTime(
+          selection.year,
+          selection.month,
+          selection.day,
+          _selectedTimestamp.hour,
+          _selectedTimestamp.minute,
+          _selectedTimestamp.second,
+          0,
+          0,
+        ),
+      );
+    }
+  }
+
+  _selectTime(BuildContext context) async {
+    TimeOfDay selection = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.fromDateTime(_selectedTimestamp),
+      builder: themedTimePickerBuilder,
+    );
+
+    if (selection != null) {
+      _setSelectedTimestamp(
+        DateTime(
+          _selectedTimestamp.year,
+          _selectedTimestamp.month,
+          _selectedTimestamp.day,
+          selection.hour,
+          selection.minute,
+          _selectedTimestamp.second,
+          0,
+          0,
+        ),
+      );
+    }
+  }
+
+  _buildTextFields(BuildContext context) {
+    var session = context.watch<Session>();
     return Container(
       child: Column(
         children: <Widget>[
@@ -44,29 +93,30 @@ class _AddTripPageState extends State<AddTripPage> {
               style: TextStyle(color: Colors.redAccent),
             ),
           ),
-          DateTimeField(
-            format: context.watch<Session>().timestampFormat,
-            decoration: InputDecoration(labelText: 'Point in time'),
-            initialValue: _selectedTimestamp,
-            onShowPicker: (context, currentValue) async {
-              final date = await showDatePicker(
-                  context: context,
-                  firstDate: DateTime(1900),
-                  initialDate: currentValue ?? DateTime.now(),
-                  lastDate: DateTime(2100));
-              if (date != null) {
-                final time = await showTimePicker(
-                  context: context,
-                  initialTime:
-                      TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
-                );
-                _setSelectedTimestamp(DateTimeField.combine(date, time));
-                return _selectedTimestamp;
-              } else {
-                return currentValue;
-              }
-            },
-          ), // TextField(
+          Padding(
+            padding: const EdgeInsets.all(1.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: FieldButton(
+                    icon: Icons.date_range,
+                    text: session.dateFormat.format(_selectedTimestamp),
+                    onPressed: () => _selectDate(context),
+                  ),
+                ),
+                SizedBox(
+                  width: 8.0,
+                ),
+                Expanded(
+                  child: FieldButton(
+                    icon: Icons.watch_later_outlined,
+                    text: session.timeFormat.format(_selectedTimestamp),
+                    onPressed: () => _selectTime(context),
+                  ),
+                ),
+              ],
+            ),
+          ),
           SizedBox(
             height: 8.0,
           ),
@@ -94,8 +144,8 @@ class _AddTripPageState extends State<AddTripPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    return ThemedScaffold(
+      appBar: themedAppBar(
         title: Text('Add new trip'),
       ),
       body: Padding(
@@ -105,7 +155,7 @@ class _AddTripPageState extends State<AddTripPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                _buildTextFields(),
+                _buildTextFields(context),
                 SizedBox(
                   height: 16.0,
                 ),
@@ -114,6 +164,36 @@ class _AddTripPageState extends State<AddTripPage> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class FieldButton extends StatelessWidget {
+  final IconData icon;
+  final String text;
+  final Function onPressed;
+
+  const FieldButton({Key key, this.icon, this.text, this.onPressed})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 50,
+      child: OutlinedButton.icon(
+        icon: Icon(icon),
+        style: ButtonStyle(
+          foregroundColor:
+              MaterialStateProperty.all<Color>(AppTheme.secondaryColor_2),
+          side: MaterialStateProperty.all<BorderSide>(
+            BorderSide(color: AppTheme.secondaryColor_2),
+          ),
+        ),
+        label: ThemedText(
+          text: text,
+        ),
+        onPressed: onPressed,
       ),
     );
   }

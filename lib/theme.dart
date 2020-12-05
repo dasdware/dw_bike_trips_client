@@ -32,10 +32,12 @@ const secondaryColors = [
 ];
 
 var themeData = ThemeData(
-  appBarTheme: AppBarTheme(color: primaryColors[2]),
+  appBarTheme: AppBarTheme(
+    color: Colors.transparent,
+  ),
   primaryColor: primaryColors[2],
   visualDensity: VisualDensity.adaptivePlatformDensity,
-  scaffoldBackgroundColor: primaryColors[4],
+  scaffoldBackgroundColor: Colors.transparent,
   floatingActionButtonTheme: FloatingActionButtonThemeData(
     backgroundColor: secondaryColors[2],
     foregroundColor: secondaryColors[4],

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:dw_bike_trips_client/pages/add_trip_page.dart';
 import 'package:dw_bike_trips_client/pages/post_trips.dart';
 import 'package:dw_bike_trips_client/session.dart';
@@ -17,8 +19,10 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    return ThemedScaffold(
+      innerKey: _innerScaffoldKey,
+      endDrawer: CurrentUserDrawer(),
+      appBar: themedAppBar(
         actions: [
           UploadTripsButton(),
           EndDrawerThemedAvatar(
@@ -26,14 +30,16 @@ class _MainPageState extends State<MainPage> {
           )
         ],
       ),
-      body: Scaffold(
-        key: _innerScaffoldKey,
-        endDrawer: CurrentUserDrawer(),
-        body: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 100, 0, 100),
-          child: Center(child: Logo()),
-        ),
+      body:
+          /* Scaffold(
+        backgroundColor: Colors.transparent,
+        // endDrawer: CurrentUserDrawer(),
+        body:*/
+          Padding(
+        padding: const EdgeInsets.fromLTRB(0, 100, 0, 100),
+        child: Center(child: Logo()),
       ),
+      // ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add_circle_outline),
         onPressed: () {
@@ -66,7 +72,7 @@ class UploadTripsButton extends StatelessWidget {
                       width: 18,
                       height: 18,
                       child: CircleAvatar(
-                        backgroundColor: AppTheme.primaryColors[3],
+                        backgroundColor: AppTheme.secondaryColors[3],
                         child: Text(
                           snapshot.data.length.toString(),
                           style: TextStyle(
@@ -78,7 +84,7 @@ class UploadTripsButton extends StatelessWidget {
                 IconButton(
                   icon: Icon(
                     Icons.cloud_upload_outlined,
-                    color: AppTheme.primaryColors[4],
+                    color: AppTheme.secondaryColors[2],
                   ),
                   padding: EdgeInsets.zero,
                   onPressed: () {
@@ -105,54 +111,92 @@ class CurrentUserDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     User currentUser = context.watch<Session>().currentUser;
-    return Container(
-      width: 200,
-      child: Drawer(
-        child: Container(
-          color: AppTheme.primaryColors[3],
-          child: ListView(
+    return Theme(
+      data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
+      child: Container(
+        width: 230,
+        child: Drawer(
+          child: Stack(
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(6.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    ThemedText(
-                      text: currentUser.firstname + ' ' + currentUser.lastname,
-                      textAlign: TextAlign.end,
-                    ),
-                    ThemedText(
-                      text: currentUser.email,
-                      fontSize: 14,
-                      textAlign: TextAlign.end,
-                    ),
-                    ThemedText(
-                      text: context
-                          .watch<Session>()
-                          .timestampFormat
-                          .format(context.watch<Session>().loggedInUntil),
-                      fontSize: 14,
-                      textAlign: TextAlign.end,
-                    ),
-                  ],
+              BackdropFilter(
+                filter: ImageFilter.blur(
+                  sigmaX: 5.0,
+                  sigmaY: 5.0,
+                ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.black.withAlpha(10),
+                  ),
                 ),
               ),
-              Container(color: AppTheme.secondaryColors[2], height: 4),
-              Padding(
-                padding: const EdgeInsets.all(6.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    RaisedButton(
+              ListView(
+                padding: EdgeInsets.zero,
+                // itemExtent: 40,
+                children: <Widget>[
+                  SizedBox(
+                    height: 150,
+                    child: DrawerHeader(
+                      margin: EdgeInsets.fromLTRB(40, 0, 20, 0),
+                      child: ThemedAvatar(user: currentUser),
+                    ),
+                  ),
+                  InfoListTile(
+                    icon: Icons.account_circle,
+                    text: '${currentUser.firstname} ${currentUser.lastname}',
+                  ),
+                  InfoListTile(
+                    icon: Icons.email,
+                    text: currentUser.email,
+                  ),
+                  InfoListTile(
+                    icon: Icons.timer,
+                    text: context
+                        .watch<Session>()
+                        .timestampFormat
+                        .format(context.watch<Session>().loggedInUntil),
+                  ),
+                  // SizedBox.expand(),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(30, 40, 30, 20),
+                    child: RaisedButton.icon(
+                      icon: Icon(Icons.logout),
                       color: AppTheme.secondaryColors[2],
-                      child: new Text('Logout'),
+                      label: Text('Logout'),
                       onPressed: () => _logoutPressed(context),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               )
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class InfoListTile extends StatelessWidget {
+  const InfoListTile({
+    Key key,
+    @required this.icon,
+    @required this.text,
+  }) : super(key: key);
+
+  final IconData icon;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 40,
+      child: ListTile(
+        leading: Icon(
+          icon,
+          color: AppTheme.secondaryColor_2,
+        ),
+        title: Text(
+          text,
+          style: TextStyle(color: AppTheme.secondaryColor_2),
         ),
       ),
     );

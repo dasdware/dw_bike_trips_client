@@ -40,6 +40,8 @@ class Session {
   List<Trip> _tripsToSubmit = [];
 
   final DateFormat timestampFormat = DateFormat.yMd().add_jm();
+  final DateFormat dateFormat = DateFormat.yMd();
+  final DateFormat timeFormat = DateFormat.jm();
 
   StreamController<SessionStatus> _sessionStatusStreamController =
       StreamController<SessionStatus>.broadcast();
