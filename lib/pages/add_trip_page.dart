@@ -1,4 +1,4 @@
-import 'package:dw_bike_trips_client/session.dart';
+import 'package:dw_bike_trips_client/session/session.dart';
 import 'package:dw_bike_trips_client/theme.dart' as AppTheme;
 import 'package:dw_bike_trips_client/widgets/themed.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ class _AddTripPageState extends State<AddTripPage> {
   DateTime _selectedTimestamp;
 
   initState() {
-    _selectedTimestamp = context.read<Session>().lastTripSubmisionTimestamp;
+    _selectedTimestamp = context.read<Session>().tripsQueue.lastSubmision;
     super.initState();
   }
 

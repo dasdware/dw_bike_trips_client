@@ -1,4 +1,4 @@
-import 'package:dw_bike_trips_client/session.dart';
+import 'package:dw_bike_trips_client/session/session.dart';
 import 'package:dw_bike_trips_client/theme.dart' as AppTheme;
 import 'package:dw_bike_trips_client/widgets/error_list.dart';
 import 'package:dw_bike_trips_client/widgets/logo.dart';

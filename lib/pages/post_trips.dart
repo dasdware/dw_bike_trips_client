@@ -1,12 +1,13 @@
 import 'package:dw_bike_trips_client/pages/progress_page.dart';
-import 'package:dw_bike_trips_client/session.dart';
+import 'package:dw_bike_trips_client/session/session.dart';
+import 'package:dw_bike_trips_client/session/status.dart';
 import 'package:dw_bike_trips_client/widgets/themed.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PostTripsPage extends StatelessWidget {
   _postPressed(BuildContext context) async {
-    if (await context.read<Session>().postEnqueuedTrips()) {
+    if (await context.read<Session>().tripsQueue.post()) {
       Navigator.of(context).pop();
     }
   }
@@ -28,7 +29,7 @@ class PostTripsPage extends StatelessWidget {
             body: Padding(
               padding: const EdgeInsets.all(8.0),
               child: ListView(
-                children: session.tripsToSubmit
+                children: session.tripsQueue.trips
                     .map(
                       (trip) => ListTile(
                         title: ThemedText(

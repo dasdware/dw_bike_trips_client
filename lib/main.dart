@@ -1,7 +1,8 @@
 import 'package:dw_bike_trips_client/pages/login_page.dart';
 import 'package:dw_bike_trips_client/pages/main_page.dart';
 import 'package:dw_bike_trips_client/pages/progress_page.dart';
-import 'package:dw_bike_trips_client/session.dart';
+import 'package:dw_bike_trips_client/session/session.dart';
+import 'package:dw_bike_trips_client/session/status.dart';
 import 'package:dw_bike_trips_client/theme.dart' as AppTheme;
 import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';

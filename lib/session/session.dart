@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:dw_bike_trips_client/queries.dart' as GraphQLQueries;
+import 'package:dw_bike_trips_client/session/status.dart' show SessionStatus;
+import 'package:dw_bike_trips_client/session/trips_queue.dart';
 import 'package:dw_bike_trips_client/widgets/error_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_config/flutter_config.dart';
@@ -9,22 +11,12 @@ import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:provider/provider.dart';
 
-enum SessionStatus { loggedOut, loggingIn, loggedIn, postingTrips, loggingOut }
-
 class User {
   final String email;
   final String firstname;
   final String lastname;
 
   User(this.email, this.firstname, this.lastname);
-}
-
-class Trip {
-  final int id;
-  final DateTime timestamp;
-  final double distance;
-
-  Trip({this.id = -1, this.timestamp, this.distance});
 }
 
 class Session {
@@ -62,42 +54,25 @@ class Session {
 
   GraphQLClient get client => _client;
 
-  DateTime get lastTripSubmisionTimestamp => _lastTripSubmisionTimestamp;
-  List<Trip> get tripsToSubmit => _tripsToSubmit;
-  Stream<List<Trip>> get tripsToSubmitStream =>
-      _tripsToSubmitStreamController.stream;
-
-  DateTime _lastTripSubmisionTimestamp;
-  List<Trip> _tripsToSubmit = [];
-
   final DateFormat timestampFormat = DateFormat.yMd().add_jm();
   final DateFormat dateFormat = DateFormat.yMd();
   final DateFormat timeFormat = DateFormat.jm();
 
   StreamController<OperationResult> _operationResultStreamController =
       StreamController<OperationResult>.broadcast();
-  StreamController<List<Trip>> _tripsToSubmitStreamController =
-      StreamController<List<Trip>>.broadcast();
+
+  TripsQueue _tripsQueue;
+  TripsQueue get tripsQueue => _tripsQueue;
 
   Session() {
+    _tripsQueue = TripsQueue(_setStatus, _doGraphQL);
     _setStatus(SessionStatus.loggedOut);
-    _tripsToSubmitStreamController.sink.add(_tripsToSubmit);
-    _lastTripSubmisionTimestamp = DateTime.now();
-    _lastTripSubmisionTimestamp = DateTime(
-        _lastTripSubmisionTimestamp.year,
-        _lastTripSubmisionTimestamp.month,
-        _lastTripSubmisionTimestamp.day,
-        0,
-        0,
-        0,
-        0,
-        0);
   }
 
   dispose() {
     _sessionStatusStreamController.close();
     _operationResultStreamController.close();
-    _tripsToSubmitStreamController.close();
+    _tripsQueue.dispose();
   }
 
   _setStatus(SessionStatus status) {
@@ -105,7 +80,7 @@ class Session {
     _sessionStatusStreamController.sink.add(status);
   }
 
-  _doGraphQL(
+  Future<dynamic> _doGraphQL(
       {Document request,
       GraphQLClient client,
       Map<String, dynamic> variables,
@@ -204,33 +179,7 @@ class Session {
   }
 
   enqueueTrip(DateTime timestamp, double distance) {
-    Trip trip = Trip(timestamp: timestamp, distance: distance);
-    _tripsToSubmit.add(trip);
-    _lastTripSubmisionTimestamp = timestamp;
-    _tripsToSubmitStreamController.sink.add(_tripsToSubmit);
-  }
-
-  postEnqueuedTrips() async {
-    if (tripsToSubmit.isEmpty) {
-      return true;
-    }
-
-    _setStatus(SessionStatus.postingTrips);
-
-    var result = await _doGraphQL(
-      request: GraphQLQueries.postTrips(tripsToSubmit),
-      mutation: true,
-    );
-
-    bool success = (result['postTrips'] == tripsToSubmit.length);
-    if (success) {
-      _tripsToSubmit.clear();
-      _tripsToSubmitStreamController.sink.add(_tripsToSubmit);
-    }
-
-    _setStatus(SessionStatus.loggedIn);
-
-    return success;
+    _tripsQueue.enqueue(Trip(timestamp: timestamp, distance: distance));
   }
 
   formatTimestamp(DateTime timestamp) {

@@ -1,4 +1,4 @@
-import 'package:dw_bike_trips_client/session.dart';
+import 'package:dw_bike_trips_client/session/trips_queue.dart';
 import 'package:graphql_builder/graphql_builder.dart';
 
 var login = Document().add(Query(name: 'Login', variables: [

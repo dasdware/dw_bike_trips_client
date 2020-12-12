@@ -2,7 +2,8 @@ import 'dart:ui';
 
 import 'package:dw_bike_trips_client/pages/add_trip_page.dart';
 import 'package:dw_bike_trips_client/pages/post_trips.dart';
-import 'package:dw_bike_trips_client/session.dart';
+import 'package:dw_bike_trips_client/session/session.dart';
+import 'package:dw_bike_trips_client/session/trips_queue.dart';
 import 'package:dw_bike_trips_client/theme.dart' as AppTheme;
 import 'package:dw_bike_trips_client/widgets/logo.dart';
 import 'package:dw_bike_trips_client/widgets/themed.dart';
@@ -59,7 +60,7 @@ class UploadTripsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<Trip>>(
-        stream: context.watch<Session>().tripsToSubmitStream,
+        stream: context.watch<Session>().tripsQueue.tripsStream,
         builder: (context, snapshot) {
           return Center(
             child: Stack(
