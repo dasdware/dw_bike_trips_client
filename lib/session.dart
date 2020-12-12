@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:dw_bike_trips_client/queries.dart' as GraphQLQueries;
+import 'package:dw_bike_trips_client/widgets/error_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -27,15 +28,45 @@ class Trip {
 }
 
 class Session {
+  StreamController<SessionStatus> _sessionStatusStreamController =
+      StreamController<SessionStatus>.broadcast();
   SessionStatus _status = SessionStatus.loggedOut;
+
+  SessionStatus get status => _status;
+  Stream<SessionStatus> get sessionStatusStream =>
+      _sessionStatusStreamController.stream;
+
+  bool get isLoggedIn => (status == SessionStatus.loggedIn);
+  bool get isProcessing =>
+      (status == SessionStatus.loggingIn) ||
+      (status == SessionStatus.loggingOut);
+
+  OperationResult _lastOperationResult = OperationResult.withSuccess();
+  OperationResult get lastOperationResult => _lastOperationResult;
+
   DateTime _loggedInUntil;
-  String _lastError = '';
+  DateTime get loggedInUntil => _loggedInUntil;
+
+  Duration _timeout = Duration(seconds: 5);
+  GraphQLClient _client;
+
   String _host = FlutterConfig.get('DEFAULT_HOST');
   String _email = '';
   String _password = '';
-  GraphQLClient _client;
-  Duration _timeout = Duration(seconds: 5);
+  String get host => _host;
+  String get email => _email;
+  String get password => _password;
+
   User _currentUser;
+  User get currentUser => _currentUser;
+
+  GraphQLClient get client => _client;
+
+  DateTime get lastTripSubmisionTimestamp => _lastTripSubmisionTimestamp;
+  List<Trip> get tripsToSubmit => _tripsToSubmit;
+  Stream<List<Trip>> get tripsToSubmitStream =>
+      _tripsToSubmitStreamController.stream;
+
   DateTime _lastTripSubmisionTimestamp;
   List<Trip> _tripsToSubmit = [];
 
@@ -43,8 +74,8 @@ class Session {
   final DateFormat dateFormat = DateFormat.yMd();
   final DateFormat timeFormat = DateFormat.jm();
 
-  StreamController<SessionStatus> _sessionStatusStreamController =
-      StreamController<SessionStatus>.broadcast();
+  StreamController<OperationResult> _operationResultStreamController =
+      StreamController<OperationResult>.broadcast();
   StreamController<List<Trip>> _tripsToSubmitStreamController =
       StreamController<List<Trip>>.broadcast();
 
@@ -63,41 +94,16 @@ class Session {
         0);
   }
 
+  dispose() {
+    _sessionStatusStreamController.close();
+    _operationResultStreamController.close();
+    _tripsToSubmitStreamController.close();
+  }
+
   _setStatus(SessionStatus status) {
     _status = status;
     _sessionStatusStreamController.sink.add(status);
   }
-
-  dispose() {
-    _sessionStatusStreamController.close();
-    _tripsToSubmitStreamController.close();
-  }
-
-  String get host => _host;
-  String get email => _email;
-  String get password => _password;
-
-  User get currentUser => _currentUser;
-
-  GraphQLClient get client => _client;
-
-  SessionStatus get status => _status;
-  Stream<SessionStatus> get sessionStatusStream =>
-      _sessionStatusStreamController.stream;
-
-  bool get isLoggedIn => (status == SessionStatus.loggedIn);
-  bool get isProcessing =>
-      (status == SessionStatus.loggingIn) ||
-      (status == SessionStatus.loggingOut);
-
-  DateTime get loggedInUntil => _loggedInUntil;
-
-  String get lastError => _lastError;
-
-  DateTime get lastTripSubmisionTimestamp => _lastTripSubmisionTimestamp;
-  List<Trip> get tripsToSubmit => _tripsToSubmit;
-  Stream<List<Trip>> get tripsToSubmitStream =>
-      _tripsToSubmitStreamController.stream;
 
   _doGraphQL(
       {Document request,
@@ -130,13 +136,15 @@ class Session {
 
       if (result.hasException) {
         if (onError != null) {
-          onError(result.exception.toString());
+          onError(result.exception);
         }
       } else {
         return result.data;
       }
     } on TimeoutException catch (_) {
-      onError('Timeout while trying to connect to server');
+      onError(OperationException(graphqlErrors: [
+        GraphQLError(message: 'Timeout while trying to connect to server')
+      ]));
     }
 
     return null;
@@ -156,13 +164,17 @@ class Session {
         request: GraphQLQueries.login,
         variables: {'email': email, 'password': password},
         client: client,
-        onError: (message) {
-          _lastError = message;
+        onError: (OperationException exception) {
+          _lastOperationResult = OperationResult.withErrors(
+            exception.graphqlErrors
+                .map((e) => OperationError(e.message))
+                .toList(),
+          );
           _setStatus(SessionStatus.loggedOut);
         });
 
     if (result != null) {
-      _lastError = '';
+      _lastOperationResult = OperationResult.withSuccess();
       _password = '';
 
       String token = result['login']['token'];
@@ -178,7 +190,7 @@ class Session {
 
   logout() async {
     _setStatus(SessionStatus.loggingOut);
-    _lastError = '';
+    _lastOperationResult = OperationResult.withSuccess();
     _currentUser = null;
     _client = null;
     _loggedInUntil = null;

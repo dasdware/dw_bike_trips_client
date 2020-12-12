@@ -86,13 +86,13 @@ class _AddTripPageState extends State<AddTripPage> {
     return Container(
       child: Column(
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              Provider.of<Session>(context).lastError,
-              style: TextStyle(color: Colors.redAccent),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: Text(
+          //     Provider.of<Session>(context).lastError,
+          //     style: TextStyle(color: Colors.redAccent),
+          //   ),
+          // ),
           Padding(
             padding: const EdgeInsets.all(1.0),
             child: Row(

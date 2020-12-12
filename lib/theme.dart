@@ -31,6 +31,8 @@ const secondaryColors = [
   secondaryColor_4,
 ];
 
+const errorColor = Colors.redAccent;
+
 var themeData = ThemeData(
   appBarTheme: AppBarTheme(
     color: Colors.transparent,

@@ -1,5 +1,6 @@
 import 'package:dw_bike_trips_client/session.dart';
 import 'package:dw_bike_trips_client/theme.dart' as AppTheme;
+import 'package:dw_bike_trips_client/widgets/error_list.dart';
 import 'package:dw_bike_trips_client/widgets/logo.dart';
 import 'package:dw_bike_trips_client/widgets/themed.dart';
 import 'package:flutter/material.dart';
@@ -30,12 +31,9 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       child: Column(
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              Provider.of<Session>(context).lastError,
-              style: TextStyle(color: Colors.redAccent),
-            ),
+          ErrorList(result: context.watch<Session>().lastOperationResult),
+          SizedBox(
+            height: 8.0,
           ),
           TextField(
             controller: _hostFilter,
