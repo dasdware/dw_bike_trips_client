@@ -46,10 +46,8 @@ class Session {
   Duration _timeout = Duration(seconds: 5);
   GraphQLClient _client;
 
-  String _host = FlutterConfig.get('DEFAULT_HOST');
   String _email = '';
   String _password = '';
-  String get host => _host;
   String get email => _email;
   String get password => _password;
 
@@ -132,7 +130,7 @@ class Session {
   }
 
   Future<Host> serverInfo(String url) async {
-    HttpLink httpLink = HttpLink(uri: host);
+    HttpLink httpLink = HttpLink(uri: url);
     GraphQLClient client =
         GraphQLClient(cache: InMemoryCache(), link: httpLink);
 
@@ -154,13 +152,12 @@ class Session {
     return null;
   }
 
-  login(String host, String email, String password) async {
-    _host = host;
+  login(String email, String password) async {
     _email = email;
     _password = password;
     _setStatus(SessionStatus.loggingIn);
 
-    HttpLink httpLink = HttpLink(uri: host);
+    HttpLink httpLink = HttpLink(uri: hosts.activeHost.url);
     GraphQLClient client =
         GraphQLClient(cache: InMemoryCache(), link: httpLink);
 

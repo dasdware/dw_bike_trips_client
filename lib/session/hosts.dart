@@ -41,6 +41,15 @@ class Hosts {
     _changed();
   }
 
+  Host get activeHost {
+    for (var host in _entries) {
+      if (host.active) {
+        return host;
+      }
+    }
+    return null;
+  }
+
   List<Host> get entries => _entries;
   Stream<List<Host>> get entriesStream => _entriesStreamController.stream;
 }

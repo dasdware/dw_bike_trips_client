@@ -111,14 +111,11 @@ class _LoginForm extends StatefulWidget {
 }
 
 class __LoginFormState extends State<_LoginForm> {
-  final TextEditingController _hostFilter = TextEditingController();
   final TextEditingController _emailFilter = TextEditingController();
   final TextEditingController _passwordFilter = TextEditingController();
 
   void _loginPressed(BuildContext context) async {
-    context
-        .read<Session>()
-        .login(_hostFilter.text, _emailFilter.text, _passwordFilter.text);
+    context.read<Session>().login(_emailFilter.text, _passwordFilter.text);
   }
 
   _buildTextFields() {
@@ -127,10 +124,6 @@ class __LoginFormState extends State<_LoginForm> {
         children: <Widget>[
           SizedBox(
             height: 8.0,
-          ),
-          TextField(
-            controller: _hostFilter,
-            decoration: InputDecoration(labelText: 'Host'),
           ),
           SizedBox(
             height: 8.0,
@@ -169,12 +162,22 @@ class __LoginFormState extends State<_LoginForm> {
   @override
   Widget build(BuildContext context) {
     Session session = Provider.of<Session>(context);
-    _hostFilter.value = TextEditingValue(text: session.host);
     _emailFilter.value = TextEditingValue(text: session.email);
     _passwordFilter.value = TextEditingValue(text: session.password);
 
     return Column(
       children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(32, 8, 32, 8),
+          child: Text(
+            context.watch<Session>().hosts.activeHost.name,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
         _buildTextFields(),
         SizedBox(
           height: 16.0,
