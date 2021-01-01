@@ -1,3 +1,6 @@
+import 'package:dw_bike_trips_client/pages/add_host_page.dart';
+import 'package:dw_bike_trips_client/pages/hosts_page.dart';
+import 'package:dw_bike_trips_client/session/hosts.dart';
 import 'package:dw_bike_trips_client/session/session.dart';
 import 'package:dw_bike_trips_client/theme.dart' as AppTheme;
 import 'package:dw_bike_trips_client/widgets/error_list.dart';
@@ -12,14 +15,105 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController _hostFilter = TextEditingController();
-  final TextEditingController _emailFilter = TextEditingController();
-  final TextEditingController _passwordFilter = TextEditingController();
-
   @override
   void initState() {
     super.initState();
   }
+
+  @override
+  Widget build(BuildContext context) {
+    Session session = Provider.of<Session>(context);
+
+    _manageHostsPressed(BuildContext context) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => HostsPage()));
+    }
+
+    return ThemedScaffold(
+      appBar: themedAppBar(
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.cloud_outlined,
+              color: AppTheme.secondaryColors[2],
+            ),
+            tooltip: 'Manage Hosts',
+            onPressed: () => _manageHostsPressed(context),
+          ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Logo(),
+                ErrorList(result: context.watch<Session>().lastOperationResult),
+                StreamBuilder<List<Host>>(
+                  stream: session.hosts.entriesStream,
+                  initialData: session.hosts.entries,
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData || snapshot.data.isEmpty) {
+                      return _NoHostsInfo();
+                    } else {
+                      return _LoginForm();
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _NoHostsInfo extends StatelessWidget {
+  _registerHostPressed(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => AddHostPage()));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: [
+      Padding(
+        padding: const EdgeInsets.fromLTRB(8.0, 24.0, 8.0, 8.0),
+        child: Text(
+          'You have not yet registered any hosts. Go to the hosts management page or use the button below to register one.',
+          style: TextStyle(color: Colors.white, fontSize: 16),
+          textAlign: TextAlign.center,
+        ),
+      ),
+      SizedBox(
+        height: 4.0,
+      ),
+      RaisedButton.icon(
+        icon: Icon(Icons.cloud),
+        color: AppTheme.secondaryColors[2],
+        label: Text('Register Host'),
+        onPressed: () => _registerHostPressed(context),
+      ),
+    ]);
+  }
+}
+
+class _LoginForm extends StatefulWidget {
+  const _LoginForm({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  __LoginFormState createState() => __LoginFormState();
+}
+
+class __LoginFormState extends State<_LoginForm> {
+  final TextEditingController _hostFilter = TextEditingController();
+  final TextEditingController _emailFilter = TextEditingController();
+  final TextEditingController _passwordFilter = TextEditingController();
 
   void _loginPressed(BuildContext context) async {
     context
@@ -31,7 +125,6 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       child: Column(
         children: <Widget>[
-          ErrorList(result: context.watch<Session>().lastOperationResult),
           SizedBox(
             height: 8.0,
           ),
@@ -62,7 +155,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _buildButtons(BuildContext context) {
     return new Column(
-      children: <Widget>[
+      children: [
         RaisedButton.icon(
           icon: Icon(Icons.login),
           color: AppTheme.secondaryColors[2],
@@ -80,25 +173,14 @@ class _LoginPageState extends State<LoginPage> {
     _emailFilter.value = TextEditingValue(text: session.email);
     _passwordFilter.value = TextEditingValue(text: session.password);
 
-    return ThemedScaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Logo(),
-                _buildTextFields(),
-                SizedBox(
-                  height: 16.0,
-                ),
-                _buildButtons(context)
-              ],
-            ),
-          ),
+    return Column(
+      children: [
+        _buildTextFields(),
+        SizedBox(
+          height: 16.0,
         ),
-      ),
+        _buildButtons(context),
+      ],
     );
   }
 }

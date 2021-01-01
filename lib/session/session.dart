@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:dw_bike_trips_client/queries.dart' as GraphQLQueries;
+import 'package:dw_bike_trips_client/session/hosts.dart';
 import 'package:dw_bike_trips_client/session/status.dart' show SessionStatus;
 import 'package:dw_bike_trips_client/session/trips_queue.dart';
 import 'package:dw_bike_trips_client/widgets/error_list.dart';
@@ -36,6 +37,9 @@ class Session {
   OperationResult _lastOperationResult = OperationResult.withSuccess();
   OperationResult get lastOperationResult => _lastOperationResult;
 
+  Hosts _hosts;
+  Hosts get hosts => _hosts;
+
   DateTime _loggedInUntil;
   DateTime get loggedInUntil => _loggedInUntil;
 
@@ -66,12 +70,14 @@ class Session {
 
   Session() {
     _tripsQueue = TripsQueue(_setStatus, _doGraphQL);
+    _hosts = Hosts();
     _setStatus(SessionStatus.loggedOut);
   }
 
   dispose() {
     _sessionStatusStreamController.close();
     _operationResultStreamController.close();
+    _hosts.dispose();
     _tripsQueue.dispose();
   }
 
@@ -122,6 +128,29 @@ class Session {
       ]));
     }
 
+    return null;
+  }
+
+  Future<Host> serverInfo(String url) async {
+    HttpLink httpLink = HttpLink(uri: host);
+    GraphQLClient client =
+        GraphQLClient(cache: InMemoryCache(), link: httpLink);
+
+    var result = await _doGraphQL(
+        request: GraphQLQueries.serverInfo,
+        client: client,
+        onError: (OperationException exception) {
+          _lastOperationResult = OperationResult.withErrors(
+            exception.graphqlErrors
+                .map((e) => OperationError(e.message))
+                .toList(),
+          );
+        });
+
+    if (result != null) {
+      _lastOperationResult = OperationResult.withSuccess();
+      return Host(result['serverInfo']['name'], url);
+    }
     return null;
   }
 

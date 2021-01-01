@@ -1,6 +1,9 @@
 import 'package:dw_bike_trips_client/session/trips_queue.dart';
 import 'package:graphql_builder/graphql_builder.dart';
 
+var serverInfo = Document()
+    .add(Query().addSelection(Field('serverInfo').addSelection(Field('name'))));
+
 var login = Document().add(Query(name: 'Login', variables: [
   VariableDefinition('email', VariableType("String", nullable: false)),
   VariableDefinition('password', VariableType("String", nullable: false)),

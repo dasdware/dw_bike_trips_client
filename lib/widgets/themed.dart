@@ -145,7 +145,39 @@ class ThemedScaffold extends StatelessWidget {
         appBar: appBar,
         body: body,
         floatingActionButton: floatingActionButton,
+        extendBodyBehindAppBar: true,
       ),
+    );
+  }
+}
+
+class ThemedIcon extends StatelessWidget {
+  final IconData icon;
+
+  const ThemedIcon({Key key, this.icon}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Icon(
+      this.icon,
+      color: AppTheme.secondaryColor_2,
+    );
+  }
+}
+
+class ThemedIconButton extends StatelessWidget {
+  final IconData icon;
+  final Function onPressed;
+
+  const ThemedIconButton({Key key, this.icon, this.onPressed})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Icon(icon),
+      color: AppTheme.secondaryColor_2,
+      onPressed: onPressed,
     );
   }
 }
