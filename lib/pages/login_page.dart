@@ -161,10 +161,6 @@ class __LoginFormState extends State<_LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    Session session = Provider.of<Session>(context);
-    _emailFilter.value = TextEditingValue(text: session.email);
-    _passwordFilter.value = TextEditingValue(text: session.password);
-
     return Column(
       children: [
         Padding(

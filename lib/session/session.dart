@@ -21,11 +21,6 @@ class Session {
   final Hosts hosts = Hosts();
   final TripsQueue tripsQueue = TripsQueue();
 
-  String _email = '';
-  String _password = '';
-  String get email => _email;
-  String get password => _password;
-
   final DateFormat timestampFormat = DateFormat.yMd().add_jm();
   final DateFormat dateFormat = DateFormat.yMd();
   final DateFormat timeFormat = DateFormat.jm();
