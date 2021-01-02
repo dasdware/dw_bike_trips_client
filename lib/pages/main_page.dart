@@ -4,6 +4,7 @@ import 'package:dw_bike_trips_client/pages/add_trip_page.dart';
 import 'package:dw_bike_trips_client/pages/post_trips.dart';
 import 'package:dw_bike_trips_client/session/session.dart';
 import 'package:dw_bike_trips_client/session/trips_queue.dart';
+import 'package:dw_bike_trips_client/session/user.dart';
 import 'package:dw_bike_trips_client/theme.dart' as AppTheme;
 import 'package:dw_bike_trips_client/widgets/logo.dart';
 import 'package:dw_bike_trips_client/widgets/themed.dart';
@@ -111,7 +112,7 @@ class CurrentUserDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    User currentUser = context.watch<Session>().currentUser;
+    User currentUser = context.watch<Session>().currentLogin.user;
     return Theme(
       data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
       child: Container(
@@ -151,10 +152,8 @@ class CurrentUserDrawer extends StatelessWidget {
                   ),
                   InfoListTile(
                     icon: Icons.timer,
-                    text: context
-                        .watch<Session>()
-                        .timestampFormat
-                        .format(context.watch<Session>().loggedInUntil),
+                    text: context.watch<Session>().timestampFormat.format(
+                        context.watch<Session>().currentLogin.loggedInUntil),
                   ),
                   // SizedBox.expand(),
                   Padding(
@@ -215,7 +214,7 @@ class EndDrawerThemedAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ThemedAvatar(
-      user: context.watch<Session>().currentUser,
+      user: context.watch<Session>().currentLogin.user,
       onPressed: () {
         if (_scaffoldKey.currentState.isEndDrawerOpen) {
           Navigator.pop(context);

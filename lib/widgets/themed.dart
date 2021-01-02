@@ -1,6 +1,11 @@
+import 'dart:ui';
+
+import 'package:dw_bike_trips_client/session/operations.dart';
 import 'package:dw_bike_trips_client/session/session.dart';
+import 'package:dw_bike_trips_client/session/user.dart';
 import 'package:dw_bike_trips_client/theme.dart' as AppTheme;
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ThemedText extends StatelessWidget {
   static const double FONT_SIZE_TEXT = 18;
@@ -135,18 +140,108 @@ class ThemedScaffold extends StatelessWidget {
       this.endDrawer})
       : super(key: key);
 
+  _buildBody() {
+    return Stack(
+      children: [
+        body,
+        BackdropFilter(
+          filter: ImageFilter.blur(
+            sigmaX: 5.0,
+            sigmaY: 5.0,
+          ),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.black.withAlpha(10),
+            ),
+          ),
+        ),
+        Container(
+          color: Colors.redAccent.withAlpha(50),
+        )
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ThemedBackground(
-      child: Scaffold(
-        key: innerKey,
-        backgroundColor: Colors.transparent,
-        endDrawer: endDrawer,
-        appBar: appBar,
-        body: body,
-        floatingActionButton: floatingActionButton,
-        extendBodyBehindAppBar: true,
-      ),
+      child: StreamBuilder<Operation>(
+          stream:
+              context.watch<Session>().operationContext.activeOperationStream,
+          initialData:
+              context.watch<Session>().operationContext.activeOperation,
+          builder: (context, snapshot) {
+            var operationContext = context.watch<Session>().operationContext;
+            return Stack(
+              children: [
+                Scaffold(
+                  key: innerKey,
+                  backgroundColor: Colors.transparent,
+                  endDrawer: endDrawer,
+                  appBar: appBar,
+                  body: body,
+                  floatingActionButton: floatingActionButton,
+                  extendBodyBehindAppBar: true,
+                ),
+                if (operationContext.hasActiveOperation)
+                  ThemedProgressIndicator(
+                      operationContext.activeOperation.title),
+              ],
+            );
+          }),
+    );
+  }
+}
+
+class ThemedProgressIndicator extends StatelessWidget {
+  final String text;
+
+  const ThemedProgressIndicator(
+    this.text, {
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        BackdropFilter(
+          filter: ImageFilter.blur(
+            sigmaX: 5.0,
+            sigmaY: 5.0,
+          ),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.black.withAlpha(10),
+            ),
+          ),
+        ),
+        Container(
+          color: Colors.black.withAlpha(175),
+        ),
+        Scaffold(
+          body: Padding(
+            padding: const EdgeInsets.all(32.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                LinearProgressIndicator(
+                  backgroundColor: AppTheme.primaryColors[3],
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                      AppTheme.secondaryColors[2]),
+                ),
+                SizedBox(
+                  height: 8.0,
+                  width: double.infinity,
+                ),
+                ThemedText(
+                  text: text,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

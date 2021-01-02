@@ -1,8 +1,7 @@
 import 'dart:async';
-
-import 'package:dw_bike_trips_client/session/part.dart';
-import 'package:dw_bike_trips_client/session/status.dart';
-import 'package:dw_bike_trips_client/queries.dart' as GraphQLQueries;
+import 'package:dw_bike_trips_client/session/operations.dart';
+import 'package:dw_bike_trips_client/session/operations/post_trips_operation.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 
 class Trip {
   final int id;
@@ -12,7 +11,7 @@ class Trip {
   Trip({this.id = -1, this.timestamp, this.distance});
 }
 
-class TripsQueue extends SessionPart {
+class TripsQueue {
   DateTime _lastSubmission;
   List<Trip> _trips = [];
   StreamController<List<Trip>> _tripsStreamController =
@@ -22,8 +21,7 @@ class TripsQueue extends SessionPart {
   List<Trip> get trips => _trips;
   Stream<List<Trip>> get tripsStream => _tripsStreamController.stream;
 
-  TripsQueue(SetStatusFn setStatus, DoGraphQLFn doGraphQL)
-      : super(setStatus, doGraphQL) {
+  TripsQueue() {
     _changed();
     _lastSubmission = DateTime.now();
     _lastSubmission = DateTime(_lastSubmission.year, _lastSubmission.month,
@@ -49,25 +47,18 @@ class TripsQueue extends SessionPart {
     _changed();
   }
 
-  post() async {
+  Future<bool> post(OperationContext context, GraphQLClient client) async {
     if (_trips.isEmpty) {
       return true;
     }
 
-    setStatus(SessionStatus.postingTrips);
-
-    var result = await doGraphQL(
-      request: GraphQLQueries.postTrips(_trips),
-      mutation: true,
-    );
-
-    bool success = (result['postTrips'] == _trips.length);
-    if (success) {
+    var postTripsResult =
+        await context.perform(PostTripsOperation(client, trips));
+    if (postTripsResult.success && postTripsResult.value) {
       _clear();
+      return true;
     }
 
-    setStatus(SessionStatus.loggedIn);
-
-    return success;
+    return false;
   }
 }

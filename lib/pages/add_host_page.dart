@@ -63,9 +63,7 @@ class _AddHostPageState extends State<AddHostPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                ErrorList(result: context.watch<Session>().lastOperationResult),
-                if (!context.watch<Session>().lastOperationResult.success)
-                  SizedBox(height: 8.0),
+                ErrorList(operationName: 'serverInfo'),
                 _buildTextFields(context),
                 SizedBox(
                   height: 16.0,

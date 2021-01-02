@@ -1,4 +1,5 @@
 import 'package:dw_bike_trips_client/session/session.dart';
+import 'package:dw_bike_trips_client/session/trips_queue.dart';
 import 'package:dw_bike_trips_client/theme.dart' as AppTheme;
 import 'package:dw_bike_trips_client/widgets/themed.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,12 @@ class _AddTripPageState extends State<AddTripPage> {
   _addPressed(BuildContext context) {
     var distance = double.tryParse(_distanceController.value.text);
     if (distance != null) {
-      context.read<Session>().enqueueTrip(_selectedTimestamp, distance);
+      context.read<Session>().tripsQueue.enqueue(
+            Trip(
+              timestamp: _selectedTimestamp,
+              distance: distance,
+            ),
+          );
       Navigator.of(context).pop();
     }
   }
@@ -86,13 +92,6 @@ class _AddTripPageState extends State<AddTripPage> {
     return Container(
       child: Column(
         children: <Widget>[
-          // Padding(
-          //   padding: const EdgeInsets.all(8.0),
-          //   child: Text(
-          //     Provider.of<Session>(context).lastError,
-          //     style: TextStyle(color: Colors.redAccent),
-          //   ),
-          // ),
           Padding(
             padding: const EdgeInsets.all(1.0),
             child: Row(

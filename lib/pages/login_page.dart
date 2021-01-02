@@ -50,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Logo(),
-                ErrorList(result: context.watch<Session>().lastOperationResult),
+                ErrorList(operationName: 'login'),
                 StreamBuilder<List<Host>>(
                   stream: session.hosts.entriesStream,
                   initialData: session.hosts.entries,
