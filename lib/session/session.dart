@@ -18,12 +18,14 @@ class Session {
       StreamController<Login>.broadcast();
   Stream<Login> get currentLoginStream => _currentLoginStreamController.stream;
 
-  final Hosts hosts = Hosts();
+  final Hosts hosts;
   final TripsQueue tripsQueue = TripsQueue();
 
   final DateFormat timestampFormat = DateFormat.yMd().add_jm();
   final DateFormat dateFormat = DateFormat.yMd();
   final DateFormat timeFormat = DateFormat.jm();
+
+  Session(this.hosts);
 
   dispose() {
     _currentLoginStreamController.close();
