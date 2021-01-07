@@ -14,6 +14,7 @@ class _AddTripPageState extends State<AddTripPage> {
   final TextEditingController _distanceController = TextEditingController();
 
   DateTime _selectedTimestamp;
+  bool _keepOpen = false;
 
   initState() {
     _selectedTimestamp = context.read<Session>().tripsQueue.lastSubmision;
@@ -29,13 +30,32 @@ class _AddTripPageState extends State<AddTripPage> {
               distance: distance,
             ),
           );
-      Navigator.of(context).pop();
+      if (_keepOpen) {
+        _distanceController.value = TextEditingValue.empty;
+        Scaffold.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: AppTheme.primaryColor_4,
+            content: ThemedText(
+              text:
+                  'Added trip, ${context.read<Session>().tripsQueue.trips.length} trips in queue.',
+            ),
+          ),
+        );
+      } else {
+        Navigator.of(context).pop();
+      }
     }
   }
 
   _setSelectedTimestamp(DateTime timestamp) {
     setState(() {
       _selectedTimestamp = timestamp;
+    });
+  }
+
+  _setKeepOpen(bool value) {
+    setState(() {
+      _keepOpen = value;
     });
   }
 
@@ -124,20 +144,43 @@ class _AddTripPageState extends State<AddTripPage> {
             keyboardType: TextInputType.number,
             decoration: InputDecoration(labelText: 'Distance'),
           ),
+          Row(
+            children: [
+              Switch(
+                activeTrackColor: AppTheme.secondaryColor_3,
+                activeColor: AppTheme.secondaryColor_2,
+                inactiveThumbColor: Colors.white,
+                inactiveTrackColor: Colors.grey,
+                value: _keepOpen,
+                onChanged: _setKeepOpen,
+              ),
+              if (_keepOpen)
+                ThemedText(
+                  text: "Keep open",
+                )
+              else
+                ThemedText(
+                  text: "Keep open",
+                  color: Colors.white,
+                )
+            ],
+          )
         ],
       ),
     );
   }
 
   Widget _buildButtons(BuildContext context) {
-    return new Column(
-      children: <Widget>[
-        new RaisedButton(
-          color: AppTheme.secondaryColors[2],
-          child: new Text('Add'),
-          onPressed: () => _addPressed(context),
-        ),
-      ],
+    return Builder(
+      builder: (context) => new Column(
+        children: <Widget>[
+          new RaisedButton(
+            color: AppTheme.secondaryColors[2],
+            child: new Text('Add'),
+            onPressed: () => _addPressed(context),
+          ),
+        ],
+      ),
     );
   }
 
