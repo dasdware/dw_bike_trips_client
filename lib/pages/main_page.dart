@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:dw_bike_trips_client/pages/add_trip_page.dart';
 import 'package:dw_bike_trips_client/pages/post_trips.dart';
+import 'package:dw_bike_trips_client/pages/history_page.dart';
 import 'package:dw_bike_trips_client/session/session.dart';
 import 'package:dw_bike_trips_client/session/trips_queue.dart';
 import 'package:dw_bike_trips_client/session/user.dart';
@@ -26,22 +27,24 @@ class _MainPageState extends State<MainPage> {
       endDrawer: CurrentUserDrawer(),
       appBar: themedAppBar(
         actions: [
+          IconButton(
+            icon: Icon(Icons.history),
+            color: AppTheme.secondaryColor_2,
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => HistoryPage()));
+            },
+          ),
           UploadTripsButton(),
           EndDrawerThemedAvatar(
             scaffoldKey: _innerScaffoldKey,
           )
         ],
       ),
-      body:
-          /* Scaffold(
-        backgroundColor: Colors.transparent,
-        // endDrawer: CurrentUserDrawer(),
-        body:*/
-          Padding(
-        padding: const EdgeInsets.fromLTRB(0, 100, 0, 100),
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 200, 0, 100),
         child: Center(child: Logo()),
       ),
-      // ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add_circle_outline),
         onPressed: () {

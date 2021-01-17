@@ -130,6 +130,7 @@ class ThemedScaffold extends StatelessWidget {
   final Widget appBar;
   final Widget floatingActionButton;
   final Widget endDrawer;
+  final bool extendBodyBehindAppBar;
 
   const ThemedScaffold(
       {Key key,
@@ -137,30 +138,9 @@ class ThemedScaffold extends StatelessWidget {
       this.body,
       this.appBar,
       this.floatingActionButton,
-      this.endDrawer})
+      this.endDrawer,
+      this.extendBodyBehindAppBar = true})
       : super(key: key);
-
-  _buildBody() {
-    return Stack(
-      children: [
-        body,
-        BackdropFilter(
-          filter: ImageFilter.blur(
-            sigmaX: 5.0,
-            sigmaY: 5.0,
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.black.withAlpha(10),
-            ),
-          ),
-        ),
-        Container(
-          color: Colors.redAccent.withAlpha(50),
-        )
-      ],
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -181,7 +161,7 @@ class ThemedScaffold extends StatelessWidget {
                   appBar: appBar,
                   body: body,
                   floatingActionButton: floatingActionButton,
-                  extendBodyBehindAppBar: true,
+                  extendBodyBehindAppBar: extendBodyBehindAppBar,
                 ),
                 if (operationContext.hasActiveOperation)
                   ThemedProgressIndicator(
@@ -262,9 +242,11 @@ class ThemedIcon extends StatelessWidget {
 
 class ThemedIconButton extends StatelessWidget {
   final IconData icon;
+  final bool enabled;
   final Function onPressed;
 
-  const ThemedIconButton({Key key, this.icon, this.onPressed})
+  const ThemedIconButton(
+      {Key key, this.icon, this.onPressed, this.enabled = true})
       : super(key: key);
 
   @override
@@ -272,7 +254,8 @@ class ThemedIconButton extends StatelessWidget {
     return IconButton(
       icon: Icon(icon),
       color: AppTheme.secondaryColor_2,
-      onPressed: onPressed,
+      disabledColor: Colors.grey,
+      onPressed: (enabled) ? onPressed : null,
     );
   }
 }

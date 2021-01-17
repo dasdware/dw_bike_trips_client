@@ -42,3 +42,27 @@ Document postTrips(List<Trip> trips) {
     ),
   );
 }
+
+var countTrips = Document().add(Query().addSelection(Field('countTrips')));
+
+class LimitConst extends Const {
+  final Value count;
+  final Value offset;
+
+  LimitConst(this.count, this.offset);
+
+  @override
+  String bake() {
+    return "{count:${count.bake()},offset:${offset.bake()}}";
+  }
+}
+
+var trips = Document().add(Query(name: 'Trips', variables: [
+  VariableDefinition('limit', VariableType("Int", nullable: false)),
+  VariableDefinition('offset', VariableType("Int", nullable: false)),
+]).addSelection(Field("trips")
+    .addArgument(
+        Argument('limit', LimitConst(Variable("limit"), Variable("offset"))))
+    .addSelection(Field("id"))
+    .addSelection(Field("timestamp"))
+    .addSelection(Field("distance"))));

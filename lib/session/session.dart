@@ -4,6 +4,7 @@ import 'package:dw_bike_trips_client/session/login.dart';
 import 'package:dw_bike_trips_client/session/operations.dart';
 import 'package:dw_bike_trips_client/session/operations/login_operation.dart';
 import 'package:dw_bike_trips_client/session/operations/server_info_operation.dart';
+import 'package:dw_bike_trips_client/session/trips_history.dart';
 import 'package:dw_bike_trips_client/session/trips_queue.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -21,9 +22,15 @@ class Session {
   final Hosts hosts;
   final TripsQueue tripsQueue = TripsQueue();
 
+  TripsHistory _tripsHistory;
+  TripsHistory get tripsHistory => _tripsHistory;
+
   final DateFormat timestampFormat = DateFormat.yMd().add_jm();
   final DateFormat dateFormat = DateFormat.yMd();
   final DateFormat timeFormat = DateFormat.jm();
+  final DateFormat weekdayFormat = DateFormat('E');
+
+  final NumberFormat distanceFormat = NumberFormat("###.00'km'");
 
   Session(this.hosts);
 
@@ -32,6 +39,14 @@ class Session {
     hosts.dispose();
     tripsQueue.dispose();
     operationContext.close();
+    _disposeTripsController();
+  }
+
+  _disposeTripsController() {
+    if (_tripsHistory != null) {
+      _tripsHistory.dispose();
+      _tripsHistory = null;
+    }
   }
 
   Future<Host> serverInfo(String url) async {
@@ -48,11 +63,13 @@ class Session {
     }
 
     _setCurrentLogin(loginResult.value);
+    _tripsHistory = TripsHistory(operationContext, currentLogin.client);
     return true;
   }
 
   Future<bool> logout() async {
     _setCurrentLogin(null);
+    _disposeTripsController();
     return true;
   }
 
@@ -65,8 +82,16 @@ class Session {
     return timestampFormat.format(timestamp);
   }
 
+  formatDate(DateTime timestamp) {
+    return dateFormat.format(timestamp);
+  }
+
+  formatWeekday(DateTime timestamp) {
+    return weekdayFormat.format(timestamp);
+  }
+
   formatDistance(double distance) {
-    return distance.toString() + 'km';
+    return distanceFormat.format(distance);
   }
 }
 

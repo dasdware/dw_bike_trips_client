@@ -9,6 +9,7 @@ class PostTripsPage extends StatelessWidget {
     if (await session.tripsQueue.post(
       session.operationContext,
       session.currentLogin.client,
+      session.tripsHistory,
     )) {
       Navigator.of(context).pop();
     }
