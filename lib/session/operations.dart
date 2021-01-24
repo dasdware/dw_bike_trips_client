@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:stack/stack.dart';
 
 class OperationError {

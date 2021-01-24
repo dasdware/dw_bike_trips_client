@@ -115,7 +115,7 @@ class TripsHistory {
     if (_count == null) {
       var countResult = await context.perform(CountTripsOperation(client));
       if (countResult.success) {
-        _count = countResult.value;
+        _count = countResult.value.count;
       } else {
         _count = -1;
       }

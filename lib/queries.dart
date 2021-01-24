@@ -43,7 +43,10 @@ Document postTrips(List<Trip> trips) {
   );
 }
 
-var countTrips = Document().add(Query().addSelection(Field('countTrips')));
+var countTrips = Document().add(Query().addSelection(Field('countTrips')
+    .addSelection(Field('count'))
+    .addSelection(Field('begin'))
+    .addSelection(Field('end'))));
 
 class LimitConst extends Const {
   final Value count;
