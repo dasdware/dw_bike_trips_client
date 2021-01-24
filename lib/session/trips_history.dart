@@ -17,8 +17,34 @@ class AccumulatedTrip {
             trip.timestamp.toLocal().month, trip.timestamp.toLocal().day),
         parts = List<Trip>.of([trip]);
 
-  get count => parts.length;
-  get distance => parts.fold<double>(0.0, (prev, trip) => prev + trip.distance);
+  int get count => parts.length;
+  double get distance =>
+      parts.fold<double>(0.0, (prev, trip) => prev + trip.distance);
+}
+
+class TripsGroup {
+  final int key;
+  final List<AccumulatedTrip> trips;
+
+  TripsGroup(this.key, AccumulatedTrip trip)
+      : trips = List<AccumulatedTrip>.of([trip]);
+
+  int get month => key % 100;
+  int get year => key ~/ 100;
+
+  int get count => trips.fold<int>(0, (prev, trip) => prev + trip.count);
+  double get distance =>
+      trips.fold<double>(0.0, (prev, trip) => prev + trip.distance);
+}
+
+int calculateAccumulationKey(Trip trip) {
+  var t = trip.timestamp.toLocal();
+  return t.year * 100 * 100 + t.month * 100 + t.day;
+}
+
+int calculateGroupKey(AccumulatedTrip trip) {
+  var t = trip.timestamp /*.toLocal()*/;
+  return t.year * 100 + t.month;
 }
 
 class TripsHistory {
@@ -42,26 +68,41 @@ class TripsHistory {
   int _count;
   get count => _count;
 
+  final Map<int, TripsGroup> _groups = {};
+
   TripsHistory(this.context, this.client);
 
   void dispose() {
     _streamController.close();
   }
 
+  TripsGroup groupByKey(int groupKey) {
+    return _groups[groupKey];
+  }
+
   _accumulate(List<Trip> trips) {
     List<AccumulatedTrip> accumulatedTrips = [];
     Map<int, AccumulatedTrip> accumulatedTripsByTimestamp = {};
+    _groups.clear();
 
     for (var trip in trips) {
-      var timestamp = trip.timestamp.year * 100 * 100 +
-          trip.timestamp.month * 100 +
-          trip.timestamp.day;
-      var accumulatedTrip = accumulatedTripsByTimestamp[timestamp];
+      var key = calculateAccumulationKey(trip);
+      var accumulatedTrip = accumulatedTripsByTimestamp[key];
 
       if (accumulatedTrip == null) {
         accumulatedTrip = AccumulatedTrip(trip);
-        accumulatedTripsByTimestamp[timestamp] = accumulatedTrip;
+        accumulatedTripsByTimestamp[key] = accumulatedTrip;
         accumulatedTrips.add(accumulatedTrip);
+
+        var groupKey = calculateGroupKey(accumulatedTrip);
+        var group = _groups[groupKey];
+
+        if (group == null) {
+          group = TripsGroup(groupKey, accumulatedTrip);
+          _groups[groupKey] = group;
+        } else {
+          group.trips.add(accumulatedTrip);
+        }
       } else {
         accumulatedTrip.parts.add(trip);
       }

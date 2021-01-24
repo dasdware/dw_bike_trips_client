@@ -3,9 +3,9 @@ import 'package:dw_bike_trips_client/session/trips_history.dart';
 import 'package:dw_bike_trips_client/theme.dart' as AppTheme;
 import 'package:dw_bike_trips_client/widgets/themed.dart';
 import 'package:flutter/material.dart';
-import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:sticky_grouped_list/sticky_grouped_list.dart';
 
 class HistoryPage extends StatelessWidget {
   @override
@@ -17,14 +17,13 @@ class HistoryPage extends StatelessWidget {
         stream: session.tripsHistory.stream,
         builder: (context, snapshot) {
           Widget body = (snapshot.hasData)
-              ? GroupedListView<AccumulatedTrip, int>(
-                  // useStickyGroupSeparators: true,
+              ? StickyGroupedListView<AccumulatedTrip, int>(
+                  stickyHeaderBackgroundColor: AppTheme.primaryColor_4,
                   groupComparator: (first, second) => second - first,
                   itemComparator: (first, second) =>
                       second.timestamp.compareTo(first.timestamp),
                   elements: snapshot.data,
-                  groupBy: (trip) =>
-                      trip.timestamp.year * 100 + trip.timestamp.month,
+                  groupBy: (trip) => calculateGroupKey(trip),
                   indexedItemBuilder: (context, trip, index) => Padding(
                         padding:
                             const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
@@ -137,8 +136,8 @@ class HistoryPage extends StatelessWidget {
                         ),
                       ),
                   groupSeparatorBuilder: (value) {
-                    var month = value % 100;
-                    var year = value ~/ 100;
+                    var group = session.tripsHistory
+                        .groupByKey(calculateGroupKey(value));
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
@@ -158,9 +157,31 @@ class HistoryPage extends StatelessWidget {
                               ),
                               ThemedText(
                                 text: DateFormat.yMMMM()
-                                    .format(DateTime(year, month)),
+                                    .format(DateTime(group.year, group.month)),
                                 color: AppTheme.primaryColor_4,
                                 fontSize: 16.0,
+                              ),
+                              Expanded(
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    ThemedText(
+                                      text: '${group.count} trips',
+                                      color: AppTheme.primaryColor_4,
+                                      fontSize: 14.0,
+                                    ),
+                                    SizedBox(
+                                      width: 8.0,
+                                    ),
+                                    ThemedText(
+                                      text: session
+                                          .formatDistance(group.distance),
+                                      color: AppTheme.primaryColor_4,
+                                      fontSize: 14.0,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
