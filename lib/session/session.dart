@@ -30,7 +30,8 @@ class Session {
   final DateFormat timeFormat = DateFormat.jm();
   final DateFormat weekdayFormat = DateFormat('E');
 
-  final NumberFormat distanceFormat = NumberFormat("###.00'km'");
+  final NumberFormat distanceFormat = NumberFormat("##0.00'km'");
+  final NumberFormat distanceWithoutUnitFormat = NumberFormat("##0.00");
 
   Session(this.hosts);
 
@@ -90,8 +91,12 @@ class Session {
     return weekdayFormat.format(timestamp);
   }
 
-  formatDistance(double distance) {
-    return distanceFormat.format(distance);
+  formatDistance(double distance, {bool withUnit = true}) {
+    if (withUnit) {
+      return distanceFormat.format(distance);
+    } else {
+      return distanceWithoutUnitFormat.format(distance);
+    }
   }
 }
 

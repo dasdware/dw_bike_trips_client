@@ -12,7 +12,7 @@ class Logo extends StatelessWidget {
         children: [
           SvgPicture.asset('assets/logo.svg',
               color: AppTheme.secondaryColors[2],
-              semanticsLabel: 'A red up arrow'),
+              semanticsLabel: 'dasd.ware BikeTrips Logo'),
           SizedBox(
             height: 8.0,
           ),

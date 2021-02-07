@@ -69,3 +69,11 @@ var trips = Document().add(Query(name: 'Trips', variables: [
     .addSelection(Field("id"))
     .addSelection(Field("timestamp"))
     .addSelection(Field("distance"))));
+
+var dashboard = Document().add(Query(name: 'Dashboard').addSelection(
+    Field('dashboard').addSelection(Field('distances')
+        .addSelection(Field('today'))
+        .addSelection(Field('thisWeek'))
+        .addSelection(Field('thisMonth'))
+        .addSelection(Field('thisYear'))
+        .addSelection(Field('allTime')))));

@@ -1,5 +1,5 @@
+import 'package:dw_bike_trips_client/pages/dashboard_page.dart';
 import 'package:dw_bike_trips_client/pages/login_page.dart';
-import 'package:dw_bike_trips_client/pages/main_page.dart';
 import 'package:dw_bike_trips_client/session/login.dart';
 import 'package:dw_bike_trips_client/session/session.dart';
 import 'package:dw_bike_trips_client/json/storage.dart' as Storage;
@@ -21,7 +21,7 @@ class MainScreen extends StatelessWidget {
       stream: Provider.of<Session>(context).currentLoginStream,
       builder: (context, snapshot) {
         if (snapshot.hasData && snapshot.data != null) {
-          return MainPage();
+          return DashboardPage();
         } else {
           return LoginPage();
         }

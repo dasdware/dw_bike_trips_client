@@ -1,6 +1,7 @@
 import 'package:dw_bike_trips_client/session/session.dart';
 import 'package:dw_bike_trips_client/session/trips_history.dart';
 import 'package:dw_bike_trips_client/theme.dart' as AppTheme;
+import 'package:dw_bike_trips_client/widgets/calendar_icon.dart';
 import 'package:dw_bike_trips_client/widgets/themed.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -25,49 +26,16 @@ class HistoryPage extends StatelessWidget {
                   elements: snapshot.data,
                   groupBy: (trip) => calculateGroupKey(trip),
                   indexedItemBuilder: (context, trip, index) => Padding(
-                        padding:
-                            const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+                        padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
                         child: Column(
                           children: [
                             Row(
                               children: [
-                                Stack(
-                                  children: [
-                                    Container(
-                                      width: 30,
-                                      height: 30,
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(4.0),
-                                        border: Border.all(
-                                          color: Colors.white.withOpacity(0.8),
-                                          width: 2.0,
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 6.0),
-                                      child: Container(
-                                        width: 30.0,
-                                        height: 2.0,
-                                        color: Colors.white.withOpacity(0.8),
-                                      ),
-                                    ),
-                                    Positioned.fill(
-                                      child: Align(
-                                        alignment: Alignment.bottomCenter,
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              bottom: 2.0),
-                                          child: ThemedText(
-                                            text: trip.timestamp.day.toString(),
-                                            color:
-                                                Colors.white.withOpacity(0.8),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                DayCalendarIcon(
+                                  day: trip.timestamp.day,
+                                  style: CalendarIconStyle(
+                                    color: Colors.white.withOpacity(0.7),
+                                  ),
                                 ),
                                 SizedBox(width: 16.0),
                                 Container(

@@ -125,7 +125,6 @@ class ThemedBackground extends StatelessWidget {
 }
 
 class ThemedScaffold extends StatelessWidget {
-  final Key innerKey;
   final Widget body;
   final Widget appBar;
   final Widget floatingActionButton;
@@ -134,7 +133,6 @@ class ThemedScaffold extends StatelessWidget {
 
   const ThemedScaffold(
       {Key key,
-      this.innerKey,
       this.body,
       this.appBar,
       this.floatingActionButton,
@@ -155,7 +153,6 @@ class ThemedScaffold extends StatelessWidget {
             return Stack(
               children: [
                 Scaffold(
-                  key: innerKey,
                   backgroundColor: Colors.transparent,
                   endDrawer: endDrawer,
                   appBar: appBar,
