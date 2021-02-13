@@ -13,6 +13,8 @@ import 'package:dw_bike_trips_client/theme.dart' as AppTheme;
 import 'package:dw_bike_trips_client/widgets/calendar_icon.dart';
 import 'package:dw_bike_trips_client/widgets/logo.dart';
 import 'package:dw_bike_trips_client/widgets/themed.dart';
+import 'package:dw_bike_trips_client/widgets/themed/heading.dart';
+import 'package:dw_bike_trips_client/widgets/themed/panel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,14 +25,9 @@ class DashboardPage extends StatelessWidget {
       extendBodyBehindAppBar: false,
       endDrawer: CurrentUserDrawer(),
       appBar: themedAppBar(
-        title: Text(
-          'Dashboard'.toUpperCase(),
-          style: TextStyle(
-            color: Colors.white.withOpacity(0.9),
-            fontWeight: FontWeight.w500,
-            letterSpacing: 0.9,
-            fontSize: 20.0,
-          ),
+        title: ThemedHeading(
+          caption: 'Dashboard',
+          style: ThemedHeadingStyle.Big,
         ),
         actions: [
           IconButton(
@@ -62,14 +59,8 @@ class DashboardPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'distances (km)'.toUpperCase(),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 0.8,
-                      fontSize: 16.0,
-                    ),
+                  ThemedHeading(
+                    caption: 'Distances (km)',
                   ),
                   SizedBox(
                     height: 8.0,
@@ -174,17 +165,10 @@ class DashboardDistancePanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return ThemedPanel(
       width: 160,
       height: 72,
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(4.0),
-        border: Border.all(
-          color: Colors.white.withOpacity(0.9),
-          width: 1.0,
-        ),
-      ),
+      padding: EdgeInsets.zero,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -200,14 +184,9 @@ class DashboardDistancePanel extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                caption.toUpperCase(),
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.6),
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 0.6,
-                  fontSize: 12.0,
-                ),
+              ThemedHeading(
+                caption: caption,
+                style: ThemedHeadingStyle.Small,
               ),
               SizedBox(
                 height: 2.0,

@@ -3,6 +3,9 @@ import 'package:dw_bike_trips_client/session/trips_history.dart';
 import 'package:dw_bike_trips_client/theme.dart' as AppTheme;
 import 'package:dw_bike_trips_client/widgets/calendar_icon.dart';
 import 'package:dw_bike_trips_client/widgets/themed.dart';
+import 'package:dw_bike_trips_client/widgets/themed/dot.dart';
+import 'package:dw_bike_trips_client/widgets/themed/heading.dart';
+import 'package:dw_bike_trips_client/widgets/themed/panel.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -108,51 +111,38 @@ class HistoryPage extends StatelessWidget {
                         .groupByKey(calculateGroupKey(value));
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        // color: AppTheme.secondaryColor_2,
-                        decoration: new BoxDecoration(
-                          color: AppTheme.secondaryColor_2,
-                          borderRadius: new BorderRadius.circular(6.0),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(Icons.calendar_today),
-                              SizedBox(
-                                width: 8.0,
-                              ),
-                              ThemedText(
-                                text: DateFormat.yMMMM()
-                                    .format(DateTime(group.year, group.month)),
-                                color: AppTheme.primaryColor_4,
-                                fontSize: 16.0,
-                              ),
-                              Expanded(
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.end,
+                      child: ThemedPanel(
+                        style: ThemedPanelStyle.Emphasized,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            MonthCalendarIcon(),
+                            SizedBox(width: 8.0),
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ThemedHeading(
+                                  caption: DateFormat.yMMMM().format(
+                                      DateTime(group.year, group.month)),
+                                ),
+                                Row(
                                   children: [
-                                    ThemedText(
-                                      text: '${group.count} trips',
-                                      color: AppTheme.primaryColor_4,
-                                      fontSize: 14.0,
+                                    ThemedHeading(
+                                      caption: '${group.count} trips',
+                                      style: ThemedHeadingStyle.Tiny,
                                     ),
-                                    SizedBox(
-                                      width: 8.0,
-                                    ),
-                                    ThemedText(
-                                      text: session
+                                    ThemedDot(),
+                                    ThemedHeading(
+                                      caption: session
                                           .formatDistance(group.distance),
-                                      color: AppTheme.primaryColor_4,
-                                      fontSize: 14.0,
+                                      style: ThemedHeadingStyle.Tiny,
                                     ),
                                   ],
                                 ),
-                              ),
-                            ],
-                          ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                     );
@@ -163,7 +153,10 @@ class HistoryPage extends StatelessWidget {
           return ThemedScaffold(
             extendBodyBehindAppBar: false,
             appBar: themedAppBar(
-              title: Text('Timeline'),
+              title: ThemedHeading(
+                caption: 'Timeline',
+                style: ThemedHeadingStyle.Big,
+              ),
               actions: [
                 ThemedIconButton(
                   icon: Icons.refresh,
