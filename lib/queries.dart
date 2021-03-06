@@ -70,10 +70,41 @@ var trips = Document().add(Query(name: 'Trips', variables: [
     .addSelection(Field("timestamp"))
     .addSelection(Field("distance"))));
 
-var dashboard = Document().add(Query(name: 'Dashboard').addSelection(
-    Field('dashboard').addSelection(Field('distances')
-        .addSelection(Field('today'))
-        .addSelection(Field('thisWeek'))
-        .addSelection(Field('thisMonth'))
-        .addSelection(Field('thisYear'))
-        .addSelection(Field('allTime')))));
+class RangeConst extends Const {
+  final DateTime from;
+  final DateTime to;
+
+  RangeConst(this.from, this.to);
+
+  @override
+  String bake() {
+    return "{from:\"${from.toIso8601String()}\",to:\"${to.toIso8601String()}\"}";
+  }
+}
+
+class NameConst extends Const {
+  final String name;
+
+  NameConst(this.name);
+
+  @override
+  String bake() {
+    return name;
+  }
+}
+
+Document dashboard(DateTime from, DateTime to) {
+  return Document().add(Query(name: 'CompleteDashboard')
+      .addSelection(Field('dashboard').addSelection(Field('distances')
+          .addSelection(Field('today'))
+          .addSelection(Field('thisWeek'))
+          .addSelection(Field('thisMonth'))
+          .addSelection(Field('thisYear'))
+          .addSelection(Field('allTime'))))
+      .addSelection(Field('accumulateTrips')
+          .addArgument(Argument('range', RangeConst(from, to)))
+          .addArgument(Argument('grouping', NameConst('month')))
+          .addSelection(Field('name'))
+          .addSelection(Field('count'))
+          .addSelection(Field('distance'))));
+}

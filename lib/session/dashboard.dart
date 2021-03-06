@@ -9,8 +9,18 @@ class DashboardDistances {
       {this.today, this.thisWeek, this.thisMonth, this.thisYear, this.allTime});
 }
 
+class DashboardHistoryEntry {
+  final int year;
+  final int month;
+  final int count;
+  final double distance;
+
+  DashboardHistoryEntry(this.year, this.month, this.count, this.distance);
+}
+
 class Dashboard {
   final DashboardDistances distances;
+  final List<DashboardHistoryEntry> history;
 
-  Dashboard({this.distances});
+  Dashboard({this.distances, this.history});
 }
