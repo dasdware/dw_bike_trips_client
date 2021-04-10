@@ -3,7 +3,7 @@ import 'package:dw_bike_trips_client/pages/login_page.dart';
 import 'package:dw_bike_trips_client/session/login.dart';
 import 'package:dw_bike_trips_client/session/session.dart';
 import 'package:dw_bike_trips_client/json/storage.dart' as Storage;
-import 'package:dw_bike_trips_client/theme.dart' as AppTheme;
+import 'package:dw_bike_trips_client/theme_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:provider/provider.dart';
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
       _session,
       MaterialApp(
         title: 'dasd.ware BikeTrips',
-        theme: AppTheme.themeData,
+        theme: AppThemeData.themeData,
         home: MainScreen(),
       ),
     );

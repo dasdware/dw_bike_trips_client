@@ -32,31 +32,3 @@ const secondaryColors = [
 ];
 
 const errorColor = Colors.redAccent;
-
-var themeData = ThemeData(
-  appBarTheme: AppBarTheme(
-    color: Colors.transparent,
-  ),
-  primaryColor: primaryColors[2],
-  visualDensity: VisualDensity.adaptivePlatformDensity,
-  scaffoldBackgroundColor: Colors.transparent,
-  floatingActionButtonTheme: FloatingActionButtonThemeData(
-    backgroundColor: secondaryColors[2],
-    foregroundColor: secondaryColors[4],
-  ),
-  inputDecorationTheme: InputDecorationTheme(
-    labelStyle: TextStyle(color: Colors.white70),
-    filled: true,
-    fillColor: primaryColors[3],
-    border: OutlineInputBorder(
-      borderSide: BorderSide(
-        color: Colors.transparent,
-      ),
-    ),
-  ),
-  textTheme: TextTheme(
-    subtitle1: TextStyle(
-      color: Colors.white,
-    ),
-  ),
-);

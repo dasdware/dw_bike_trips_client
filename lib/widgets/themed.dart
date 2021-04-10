@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:dw_bike_trips_client/session/operations.dart';
 import 'package:dw_bike_trips_client/session/session.dart';
-import 'package:dw_bike_trips_client/session/user.dart';
 import 'package:dw_bike_trips_client/theme.dart' as AppTheme;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

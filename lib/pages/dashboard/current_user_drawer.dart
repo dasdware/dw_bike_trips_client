@@ -4,6 +4,7 @@ import 'package:dw_bike_trips_client/session/session.dart';
 import 'package:dw_bike_trips_client/session/user.dart';
 import 'package:dw_bike_trips_client/theme_data.dart';
 import 'package:dw_bike_trips_client/widgets/themed/avatar.dart';
+import 'package:dw_bike_trips_client/widgets/themed/button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -62,16 +63,9 @@ class CurrentUserDrawer extends StatelessWidget {
                   // SizedBox.expand(),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(30, 40, 30, 20),
-                    child: RaisedButton.icon(
-                      icon: Icon(Icons.logout,
-                          color: AppThemeData.activeDarkestColor),
-                      color: AppThemeData.activeColor,
-                      label: Text(
-                        'Logout',
-                        style: TextStyle(
-                          color: AppThemeData.activeDarkestColor,
-                        ),
-                      ),
+                    child: ThemedButton(
+                      icon: Icons.logout,
+                      caption: 'Logout',
                       onPressed: () => _logoutPressed(context),
                     ),
                   ),

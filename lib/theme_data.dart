@@ -8,6 +8,9 @@ class AppThemeData {
       const Color.fromRGBO(255, 255, 255, 0.2);
   static const panelBorderRadius = 4.0;
 
+  static const spacing = 8.0;
+  static const largeSpacing = 16.0;
+
   static const headingColor = const Color.fromRGBO(255, 255, 255, 0.7);
   static const headingMediumColor = const Color.fromRGBO(255, 255, 255, 0.8);
   static const headingBigColor = const Color.fromRGBO(255, 255, 255, 0.9);
@@ -15,10 +18,19 @@ class AppThemeData {
   static const headingMediumFontSize = 16.0;
   static const headingBigFontSize = 20.0;
 
+  static const mainLightestColor = Color(0xFF837EB1);
+  static const mainLighterColor = Color(0xFF5B5494);
+  static const mainColor = Color(0xFF393276);
+  static const mainDarkerColor = Color(0xFF1F1959);
+  static const mainDarkestColor = Color(0xFF0D083B);
+
+  static const textColor = Colors.white;
+  static const textSize = 16.0;
+
   static const highlightColor = Color(0xFFD4BD6A);
   static const highlightLighterColor = Color(0xFFFFECAA);
   static const highlightDarkerColor = Color(0xFF806815);
-  static const highlightDarkestColor = Color(0xFF554200);
+  static const highlightDarkestColor = Color(0xFF2e2400);
 
   static const activeColor = highlightColor;
   static const activeLighterColor = highlightLighterColor;
@@ -26,4 +38,17 @@ class AppThemeData {
   static const activeDarkestColor = highlightDarkestColor;
 
   static const tooltipBackground = const Color.fromRGBO(0, 0, 0, 0.6);
+
+  static final themeData = ThemeData(
+    appBarTheme: AppBarTheme(
+      color: Colors.transparent,
+    ),
+    primaryColor: AppThemeData.activeColor,
+    visualDensity: VisualDensity.adaptivePlatformDensity,
+    scaffoldBackgroundColor: Colors.transparent,
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: AppThemeData.activeColor,
+      foregroundColor: AppThemeData.activeDarkestColor,
+    ),
+  );
 }
