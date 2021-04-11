@@ -6,9 +6,14 @@ class ThemedTextField extends StatelessWidget {
   final String labelText;
 
   final bool obscureText;
+  final TextInputType keyboardType;
 
   const ThemedTextField(
-      {Key key, this.controller, this.labelText, this.obscureText = false})
+      {Key key,
+      this.controller,
+      this.labelText,
+      this.obscureText = false,
+      this.keyboardType = TextInputType.text})
       : super(key: key);
 
   @override

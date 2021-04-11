@@ -2,6 +2,7 @@ import 'package:dw_bike_trips_client/session/session.dart';
 import 'package:dw_bike_trips_client/session/trips_queue.dart';
 import 'package:dw_bike_trips_client/theme.dart' as AppTheme;
 import 'package:dw_bike_trips_client/widgets/themed.dart';
+import 'package:dw_bike_trips_client/widgets/themed/textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -139,10 +140,10 @@ class _AddTripPageState extends State<AddTripPage> {
           SizedBox(
             height: 8.0,
           ),
-          TextField(
+          ThemedTextField(
             controller: _distanceController,
+            labelText: 'Distance',
             keyboardType: TextInputType.number,
-            decoration: InputDecoration(labelText: 'Distance'),
           ),
           Row(
             children: [
