@@ -42,8 +42,11 @@ class AppThemeData {
   static final themeData = ThemeData(
     appBarTheme: AppBarTheme(
       color: Colors.transparent,
+      iconTheme: IconThemeData(
+        color: Colors.white,
+      ),
     ),
-    primaryColor: AppThemeData.activeColor,
+    primaryColor: AppThemeData.mainDarkestColor,
     visualDensity: VisualDensity.adaptivePlatformDensity,
     scaffoldBackgroundColor: Colors.transparent,
     floatingActionButtonTheme: FloatingActionButtonThemeData(
