@@ -40,12 +40,15 @@ class _LoginFormState extends State<LoginForm> {
             ThemedTextField(
               controller: _emailFilter,
               labelText: 'Email',
+              keyboardType: TextInputType.emailAddress,
+              textInputAction: TextInputAction.next,
             ),
             ThemedSpacing(),
             ThemedTextField(
               controller: _passwordFilter,
               labelText: 'Password',
               obscureText: true,
+              onEditingComplete: () => _loginPressed(context),
             ),
             ThemedSpacing(size: ThemedSpacingSize.Large),
             ThemedButton(

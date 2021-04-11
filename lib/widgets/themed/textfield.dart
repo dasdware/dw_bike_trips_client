@@ -7,13 +7,17 @@ class ThemedTextField extends StatelessWidget {
 
   final bool obscureText;
   final TextInputType keyboardType;
+  final TextInputAction textInputAction;
+  final Function onEditingComplete;
 
   const ThemedTextField(
       {Key key,
       this.controller,
       this.labelText,
       this.obscureText = false,
-      this.keyboardType = TextInputType.text})
+      this.keyboardType = TextInputType.text,
+      this.textInputAction = TextInputAction.done,
+      this.onEditingComplete})
       : super(key: key);
 
   @override
@@ -47,6 +51,8 @@ class ThemedTextField extends StatelessWidget {
         controller: controller,
         keyboardType: TextInputType.emailAddress,
         obscureText: obscureText,
+        textInputAction: textInputAction,
+        onEditingComplete: onEditingComplete,
         decoration: InputDecoration(
           labelText: labelText,
         ),
