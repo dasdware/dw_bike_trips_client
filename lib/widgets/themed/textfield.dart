@@ -49,7 +49,7 @@ class ThemedTextField extends StatelessWidget {
       ),
       child: TextField(
         controller: controller,
-        keyboardType: TextInputType.emailAddress,
+        keyboardType: keyboardType,
         obscureText: obscureText,
         textInputAction: textInputAction,
         onEditingComplete: onEditingComplete,
