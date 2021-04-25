@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:dw_bike_trips_client/session/dashboard.dart';
 import 'package:dw_bike_trips_client/session/operations.dart';
 import 'package:dw_bike_trips_client/session/operations/post_trips_operation.dart';
 import 'package:dw_bike_trips_client/session/trips_history.dart';
@@ -48,14 +49,17 @@ class TripsQueue {
     _changed();
   }
 
-  Future<bool> post(OperationContext context, GraphQLClient client,
-      TripsHistory tripsController) async {
+  Future<bool> post(
+      OperationContext context,
+      GraphQLClient client,
+      TripsHistory tripsController,
+      DashboardController dashboardController) async {
     if (_trips.isEmpty) {
       return true;
     }
 
-    var postTripsResult = await context
-        .perform(PostTripsOperation(client, tripsController, trips));
+    var postTripsResult = await context.perform(PostTripsOperation(
+        client, tripsController, trips, dashboardController));
     if (postTripsResult.success && postTripsResult.value) {
       _clear();
       return true;

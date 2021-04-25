@@ -6,8 +6,6 @@ import 'package:dw_bike_trips_client/pages/dashboard/history_section.dart';
 import 'package:dw_bike_trips_client/pages/dashboard/upload_trips_button.dart';
 import 'package:dw_bike_trips_client/pages/history_page.dart';
 import 'package:dw_bike_trips_client/session/dashboard.dart';
-import 'package:dw_bike_trips_client/session/operations.dart';
-import 'package:dw_bike_trips_client/session/operations/dashboard_operation.dart';
 import 'package:dw_bike_trips_client/session/session.dart';
 import 'package:dw_bike_trips_client/theme_data.dart';
 import 'package:dw_bike_trips_client/widgets/logo.dart';
@@ -40,13 +38,12 @@ class DashboardPage extends StatelessWidget {
           CurrentUserButton()
         ],
       ),
-      body: FutureBuilder<ValuedOperationResult<Dashboard>>(
-        future: context.watch<Session>().operationContext.perform(
-            DashboardOperation(context.watch<Session>().currentLogin.client)),
-        initialData: null,
+      body: StreamBuilder<Dashboard>(
+        stream: context.watch<Session>().dashboardController.stream,
+        initialData: context.watch<Session>().dashboardController.dashboard,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            var history = snapshot.data.value.history;
+            var history = snapshot.data.history;
 
             return SingleChildScrollView(
               child: Padding(
@@ -54,7 +51,7 @@ class DashboardPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    DistancesSection(distances: snapshot.data.value.distances),
+                    DistancesSection(distances: snapshot.data.distances),
                     SizedBox(
                       height: 16.0,
                     ),

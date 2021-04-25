@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:dw_bike_trips_client/session/dashboard.dart';
 import 'package:dw_bike_trips_client/session/hosts.dart';
 import 'package:dw_bike_trips_client/session/login.dart';
 import 'package:dw_bike_trips_client/session/operations.dart';
@@ -25,6 +26,9 @@ class Session {
   TripsHistory _tripsHistory;
   TripsHistory get tripsHistory => _tripsHistory;
 
+  DashboardController _dashboardController;
+  DashboardController get dashboardController => _dashboardController;
+
   final DateFormat timestampFormat = DateFormat.yMd().add_jm();
   final DateFormat dateFormat = DateFormat.yMd();
   final DateFormat timeFormat = DateFormat.jm();
@@ -41,12 +45,20 @@ class Session {
     tripsQueue.dispose();
     operationContext.close();
     _disposeTripsController();
+    _disposeDashboardController();
   }
 
   _disposeTripsController() {
     if (_tripsHistory != null) {
       _tripsHistory.dispose();
       _tripsHistory = null;
+    }
+  }
+
+  _disposeDashboardController() {
+    if (_dashboardController != null) {
+      _dashboardController.dispose();
+      _dashboardController = null;
     }
   }
 
@@ -65,12 +77,15 @@ class Session {
 
     _setCurrentLogin(loginResult.value);
     _tripsHistory = TripsHistory(operationContext, currentLogin.client);
+    _dashboardController =
+        DashboardController(operationContext, currentLogin.client);
     return true;
   }
 
   Future<bool> logout() async {
     _setCurrentLogin(null);
     _disposeTripsController();
+    _disposeDashboardController();
     return true;
   }
 

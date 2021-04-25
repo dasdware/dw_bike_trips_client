@@ -7,10 +7,10 @@ class PostTripsPage extends StatelessWidget {
   _postPressed(BuildContext context) async {
     Session session = context.read<Session>();
     if (await session.tripsQueue.post(
-      session.operationContext,
-      session.currentLogin.client,
-      session.tripsHistory,
-    )) {
+        session.operationContext,
+        session.currentLogin.client,
+        session.tripsHistory,
+        session.dashboardController)) {
       Navigator.of(context).pop();
     }
   }
