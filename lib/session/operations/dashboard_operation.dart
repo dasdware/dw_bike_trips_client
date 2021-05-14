@@ -18,9 +18,13 @@ class DashboardOperation extends ValuedOperation<Dashboard> {
     return doGraphQL(client, GraphQLQueries.dashboard(from, to), (result) {
       var distances = DashboardDistances(
         today: result['dashboard']['distances']['today'].toDouble(),
+        yesterday: result['dashboard']['distances']['yesterday'].toDouble(),
         thisWeek: result['dashboard']['distances']['thisWeek'].toDouble(),
+        lastWeek: result['dashboard']['distances']['lastWeek'].toDouble(),
         thisMonth: result['dashboard']['distances']['thisMonth'].toDouble(),
+        lastMonth: result['dashboard']['distances']['lastMonth'].toDouble(),
         thisYear: result['dashboard']['distances']['thisYear'].toDouble(),
+        lastYear: result['dashboard']['distances']['lastYear'].toDouble(),
         allTime: result['dashboard']['distances']['allTime'].toDouble(),
       );
 

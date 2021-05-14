@@ -6,19 +6,35 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 
 class DashboardDistances {
   final double today;
+  final double yesterday;
   final double thisWeek;
+  final double lastWeek;
   final double thisMonth;
+  final double lastMonth;
   final double thisYear;
+  final double lastYear;
   final double allTime;
 
   DashboardDistances(
-      {this.today, this.thisWeek, this.thisMonth, this.thisYear, this.allTime});
+      {this.today,
+      this.yesterday,
+      this.thisWeek,
+      this.lastWeek,
+      this.thisMonth,
+      this.lastMonth,
+      this.thisYear,
+      this.lastYear,
+      this.allTime});
 
   DashboardDistances.zero()
       : today = 0,
+        yesterday = 0,
         thisWeek = 0,
+        lastWeek = 0,
         thisMonth = 0,
+        lastMonth = 0,
         thisYear = 0,
+        lastYear = 0,
         allTime = 0;
 }
 
