@@ -1,3 +1,6 @@
+import 'dart:ui';
+import 'dart:math';
+
 import 'package:dw_bike_trips_client/session/dashboard.dart';
 import 'package:dw_bike_trips_client/session/session.dart';
 import 'package:dw_bike_trips_client/theme_data.dart';
@@ -112,36 +115,123 @@ class DistanceProgressBar extends StatelessWidget {
   final double distance;
   final double referenceDistance;
 
-  const DistanceProgressBar({Key key, this.distance, this.referenceDistance})
+  final double trackSize;
+  final double thumbSize;
+  final double thumbBorderRadius;
+
+  const DistanceProgressBar(
+      {Key key,
+      this.distance,
+      this.referenceDistance,
+      this.trackSize = 8.0,
+      this.thumbSize = 16.0,
+      this.thumbBorderRadius = 2.0})
       : super(key: key);
 
+  double get _thumbHalfSize => thumbSize / 2;
+
   double get factor {
-    if (referenceDistance == 0) {
+    if (distance <= 0) {
+      return 0;
+    } else if (referenceDistance < distance) {
       return 1;
     } else {
       return distance / referenceDistance;
     }
   }
 
+  double get valuePosition {
+    if (distance <= 0) {
+      return 0;
+    } else if (referenceDistance < distance) {
+      return 1;
+    } else {
+      return distance / referenceDistance;
+    }
+  }
+
+  double get referenceValuePosition {
+    if (referenceDistance <= 0) {
+      return 0;
+    } else if (referenceDistance < distance) {
+      return referenceDistance / distance;
+    } else {
+      return 1;
+    }
+  }
+
+  bool get displayThumbs => distance > 0 || referenceDistance > 0;
+
+  double _lerpThumbTransformOffset(double t) {
+    return lerpDouble(-_thumbHalfSize, _thumbHalfSize, t);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 8.0,
-      alignment: Alignment.centerLeft,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-        color: AppThemeData.panelMostEmphasizedBackground,
-      ),
-      child: FractionallySizedBox(
-        widthFactor: factor,
-        child: Container(
-          height: 8.0,
-          width: 20,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-            color: AppThemeData.headingColor,
+      height: max(trackSize, thumbSize),
+      child: Stack(
+        children: [
+          // reference value
+          Center(
+            child: Container(
+                height: trackSize,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(trackSize)),
+                  color: AppThemeData.referenceValue,
+                )),
           ),
-        ),
+          (!displayThumbs)
+              ? Container()
+              : Align(
+                  alignment: Alignment(-1 + referenceValuePosition * 2, 0),
+                  child: Transform.translate(
+                    offset: Offset(
+                        _lerpThumbTransformOffset(referenceValuePosition), 0),
+                    child: Container(
+                      width: thumbSize,
+                      height: thumbSize,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(thumbBorderRadius)),
+                        color: AppThemeData.referenceValue,
+                      ),
+                    ),
+                  ),
+                ),
+
+          // current value
+          Align(
+            alignment: Alignment(-1, 0),
+            child: FractionallySizedBox(
+              widthFactor: factor,
+              child: Container(
+                height: trackSize,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  color: AppThemeData.currentValue,
+                ),
+              ),
+            ),
+          ),
+          (!displayThumbs)
+              ? Container()
+              : Align(
+                  alignment: Alignment(-1 + valuePosition * 2, 0),
+                  child: Transform.translate(
+                    offset: Offset(_lerpThumbTransformOffset(valuePosition), 0),
+                    child: Container(
+                      width: thumbSize,
+                      height: thumbSize,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(thumbBorderRadius)),
+                        color: AppThemeData.currentValue,
+                      ),
+                    ),
+                  ),
+                ),
+        ],
       ),
     );
   }
@@ -169,7 +259,7 @@ class DashboardDistancePanel extends StatelessWidget {
       width: 160,
       padding: EdgeInsets.zero,
       child: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.fromLTRB(13.0, 12.0, 13.0, 12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [

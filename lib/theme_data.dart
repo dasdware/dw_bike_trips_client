@@ -39,6 +39,9 @@ class AppThemeData {
 
   static const tooltipBackground = const Color.fromRGBO(0, 0, 0, 0.6);
 
+  static const currentValue = mainLightestColor;
+  static const referenceValue = mainLighterColor;
+
   static final themeData = ThemeData(
     appBarTheme: AppBarTheme(
       color: Colors.transparent,
