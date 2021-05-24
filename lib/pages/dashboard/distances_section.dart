@@ -111,10 +111,86 @@ class DistancesSection extends StatelessWidget {
   }
 }
 
+class _DistanceProgressBarElement extends StatelessWidget {
+  final double value;
+  final Duration duration;
+  final Color color;
+  final bool displayTrack;
+  final double trackSize;
+  final bool displayThumb;
+  final double thumbSize;
+  final double thumbBorderRadius;
+
+  const _DistanceProgressBarElement({
+    Key key,
+    @required this.value,
+    @required this.duration,
+    @required this.color,
+    @required this.displayTrack,
+    @required this.trackSize,
+    @required this.displayThumb,
+    @required this.thumbSize,
+    @required this.thumbBorderRadius,
+  }) : super(key: key);
+
+  double get _thumbHalfSize => thumbSize / 2;
+
+  double _lerpThumbTransformOffset(double t) {
+    return lerpDouble(-_thumbHalfSize, _thumbHalfSize, t);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TweenAnimationBuilder<double>(
+        tween: Tween<double>(begin: 0, end: value),
+        duration: duration,
+        curve: Curves.easeOut,
+        builder: (BuildContext context, double size, Widget child) {
+          return Container(
+            height: thumbSize,
+            child: Stack(
+              children: [
+                Align(
+                  alignment: Alignment(-1, 0),
+                  child: FractionallySizedBox(
+                    widthFactor: (displayTrack) ? size : 0,
+                    child: Container(
+                      height: trackSize,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        color: color,
+                      ),
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment(-1 + size * 2, 0),
+                  child: Transform.translate(
+                    offset: Offset(_lerpThumbTransformOffset(size), 0),
+                    child: AnimatedContainer(
+                      duration: duration,
+                      width: (displayThumb) ? thumbSize : 0,
+                      height: (displayThumb) ? thumbSize : 0,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(thumbBorderRadius)),
+                        color: color,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+}
+
 class DistanceProgressBar extends StatelessWidget {
   final double distance;
   final double referenceDistance;
 
+  final Duration duration;
   final double trackSize;
   final double thumbSize;
   final double thumbBorderRadius;
@@ -123,22 +199,11 @@ class DistanceProgressBar extends StatelessWidget {
       {Key key,
       this.distance,
       this.referenceDistance,
+      this.duration = const Duration(milliseconds: 300),
       this.trackSize = 8.0,
       this.thumbSize = 16.0,
       this.thumbBorderRadius = 2.0})
       : super(key: key);
-
-  double get _thumbHalfSize => thumbSize / 2;
-
-  double get factor {
-    if (distance <= 0) {
-      return 0;
-    } else if (referenceDistance < distance) {
-      return 1;
-    } else {
-      return distance / referenceDistance;
-    }
-  }
 
   double get valuePosition {
     if (distance <= 0) {
@@ -162,17 +227,12 @@ class DistanceProgressBar extends StatelessWidget {
 
   bool get displayThumbs => distance > 0 || referenceDistance > 0;
 
-  double _lerpThumbTransformOffset(double t) {
-    return lerpDouble(-_thumbHalfSize, _thumbHalfSize, t);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
       height: max(trackSize, thumbSize),
       child: Stack(
         children: [
-          // reference value
           Center(
             child: Container(
                 height: trackSize,
@@ -181,56 +241,30 @@ class DistanceProgressBar extends StatelessWidget {
                   color: AppThemeData.referenceValue,
                 )),
           ),
-          (!displayThumbs)
-              ? Container()
-              : Align(
-                  alignment: Alignment(-1 + referenceValuePosition * 2, 0),
-                  child: Transform.translate(
-                    offset: Offset(
-                        _lerpThumbTransformOffset(referenceValuePosition), 0),
-                    child: Container(
-                      width: thumbSize,
-                      height: thumbSize,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                            Radius.circular(thumbBorderRadius)),
-                        color: AppThemeData.referenceValue,
-                      ),
-                    ),
-                  ),
-                ),
+
+          // reference value
+          _DistanceProgressBarElement(
+            value: referenceValuePosition,
+            duration: duration,
+            color: AppThemeData.referenceValue,
+            displayTrack: false,
+            trackSize: trackSize,
+            displayThumb: displayThumbs,
+            thumbSize: thumbSize,
+            thumbBorderRadius: thumbBorderRadius,
+          ),
 
           // current value
-          Align(
-            alignment: Alignment(-1, 0),
-            child: FractionallySizedBox(
-              widthFactor: factor,
-              child: Container(
-                height: trackSize,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  color: AppThemeData.currentValue,
-                ),
-              ),
-            ),
+          _DistanceProgressBarElement(
+            value: valuePosition,
+            duration: duration,
+            color: AppThemeData.currentValue,
+            displayTrack: true,
+            trackSize: trackSize,
+            displayThumb: displayThumbs,
+            thumbSize: thumbSize,
+            thumbBorderRadius: thumbBorderRadius,
           ),
-          (!displayThumbs)
-              ? Container()
-              : Align(
-                  alignment: Alignment(-1 + valuePosition * 2, 0),
-                  child: Transform.translate(
-                    offset: Offset(_lerpThumbTransformOffset(valuePosition), 0),
-                    child: Container(
-                      width: thumbSize,
-                      height: thumbSize,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                            Radius.circular(thumbBorderRadius)),
-                        color: AppThemeData.currentValue,
-                      ),
-                    ),
-                  ),
-                ),
         ],
       ),
     );
