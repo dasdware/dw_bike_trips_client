@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
 class AppThemeData {
-  static const panelBackground = const Color.fromRGBO(255, 255, 255, 0.1);
-  static const panelEmphasizedBackground =
-      const Color.fromRGBO(255, 255, 255, 0.15);
-  static const panelMostEmphasizedBackground =
-      const Color.fromRGBO(255, 255, 255, 0.2);
+  static const panelBackgroundColor = Colors.white;
+  static const panelBackgroundOpacity = 0.1;
+  static const panelBackgroundEmphasizedOpacity = 0.15;
+  static const panelBackgroundMostEmphasizedOpacity = 0.2;
   static const panelBorderRadius = 4.0;
 
   static const spacing = 8.0;
@@ -26,6 +25,7 @@ class AppThemeData {
 
   static const textColor = Colors.white;
   static const textSize = 16.0;
+  static const textSmallSize = 12.0;
 
   static const highlightColor = Color(0xFFD4BD6A);
   static const highlightLighterColor = Color(0xFFFFECAA);

@@ -7,7 +7,6 @@ import 'package:dw_bike_trips_client/pages/dashboard/upload_trips_button.dart';
 import 'package:dw_bike_trips_client/pages/history_page.dart';
 import 'package:dw_bike_trips_client/session/dashboard.dart';
 import 'package:dw_bike_trips_client/session/session.dart';
-import 'package:dw_bike_trips_client/theme_data.dart';
 import 'package:dw_bike_trips_client/widgets/logo.dart';
 import 'package:dw_bike_trips_client/widgets/themed.dart';
 import 'package:dw_bike_trips_client/widgets/themed/heading.dart';
@@ -26,9 +25,8 @@ class DashboardPage extends StatelessWidget {
           style: ThemedHeadingStyle.Big,
         ),
         actions: [
-          IconButton(
-            icon: Icon(Icons.history),
-            color: AppThemeData.activeColor,
+          ThemedIconButton(
+            icon: Icons.history,
             onPressed: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => HistoryPage()));

@@ -52,7 +52,8 @@ class ThemedAvatar extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.all(4.0),
         child: CircleAvatar(
-          backgroundColor: AppThemeData.panelMostEmphasizedBackground,
+          backgroundColor: AppThemeData.panelBackgroundColor
+              .withOpacity(AppThemeData.panelBackgroundMostEmphasizedOpacity),
           child: Padding(
             padding: EdgeInsets.all(20.0),
             child: FittedBox(

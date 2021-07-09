@@ -23,7 +23,10 @@ class DashboardHistoryEntryBarChartGroupData extends BarChartGroupData {
               backDrawRodData: BackgroundBarChartRodData(
                 show: true,
                 y: maxDistance,
-                colors: [AppThemeData.panelEmphasizedBackground],
+                colors: [
+                  AppThemeData.panelBackgroundColor.withOpacity(
+                      AppThemeData.panelBackgroundMostEmphasizedOpacity)
+                ],
               ),
             ),
           ],
