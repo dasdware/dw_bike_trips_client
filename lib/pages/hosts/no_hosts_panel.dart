@@ -1,4 +1,5 @@
 import 'package:dw_bike_trips_client/pages/add_host_page.dart';
+import 'package:dw_bike_trips_client/theme_data.dart';
 import 'package:dw_bike_trips_client/widgets/themed/button.dart';
 import 'package:dw_bike_trips_client/widgets/themed/icon.dart';
 import 'package:dw_bike_trips_client/widgets/themed/panel.dart';
@@ -32,15 +33,16 @@ class NoHostsPanel extends StatelessWidget {
                   size: 64,
                 ),
               ),
-              ThemedSpacing(),
+              ThemedSpacing(size: ThemedSpacingSize.Large),
               Text(
                 'You have not yet registered any hosts. Use the button below to add a new one.',
-                style: TextStyle(color: Colors.white, fontSize: 18),
+                style: TextStyle(color: AppThemeData.textColor, fontSize: 18),
                 textAlign: TextAlign.center,
               ),
-              ThemedSpacing(),
+              ThemedSpacing(size: ThemedSpacingSize.Large),
               ThemedButton(
                 icon: Icons.cloud_outlined,
+                overlayIcon: Icons.add,
                 caption: 'Register Host',
                 onPressed: () => _registerHostPressed(context),
               ),
