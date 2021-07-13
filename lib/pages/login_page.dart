@@ -1,6 +1,6 @@
+import 'package:dw_bike_trips_client/pages/hosts/no_hosts_panel.dart';
 import 'package:dw_bike_trips_client/pages/hosts_page.dart';
 import 'package:dw_bike_trips_client/pages/login/login_form.dart';
-import 'package:dw_bike_trips_client/pages/login/no_hosts_info.dart';
 import 'package:dw_bike_trips_client/session/hosts.dart';
 import 'package:dw_bike_trips_client/session/session.dart';
 import 'package:dw_bike_trips_client/theme.dart' as AppTheme;
@@ -30,44 +30,42 @@ class _LoginPageState extends State<LoginPage> {
           context, MaterialPageRoute(builder: (context) => HostsPage()));
     }
 
-    return ThemedScaffold(
-      appBar: themedAppBar(
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.cloud_outlined,
-              color: AppTheme.secondaryColors[2],
-            ),
-            tooltip: 'Manage Hosts',
-            onPressed: () => _manageHostsPressed(context),
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Logo(),
-                ErrorList(operationName: 'login'),
-                StreamBuilder<List<Host>>(
-                  stream: session.hosts.entriesStream,
-                  initialData: session.hosts.entries,
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData || snapshot.data.isEmpty) {
-                      return NoHostsInfo();
-                    } else {
-                      return LoginForm();
-                    }
-                  },
+    return StreamBuilder<List<Host>>(
+      stream: session.hosts.entriesStream,
+      initialData: session.hosts.entries,
+      builder: (context, snapshot) {
+        final haveHosts = snapshot.hasData && snapshot.data.isNotEmpty;
+        return ThemedScaffold(
+          appBar: themedAppBar(
+            actions: [
+              if (haveHosts)
+                IconButton(
+                  icon: Icon(
+                    Icons.cloud_outlined,
+                    color: AppTheme.secondaryColors[2],
+                  ),
+                  tooltip: 'Manage Hosts',
+                  onPressed: () => _manageHostsPressed(context),
                 ),
-              ],
+            ],
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Logo(),
+                    ErrorList(operationName: 'login'),
+                    if (!haveHosts) NoHostsPanel() else LoginForm()
+                  ],
+                ),
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
