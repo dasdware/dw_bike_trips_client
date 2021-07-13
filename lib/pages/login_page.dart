@@ -6,7 +6,7 @@ import 'package:dw_bike_trips_client/session/session.dart';
 import 'package:dw_bike_trips_client/theme.dart' as AppTheme;
 import 'package:dw_bike_trips_client/widgets/error_list.dart';
 import 'package:dw_bike_trips_client/widgets/logo.dart';
-import 'package:dw_bike_trips_client/widgets/themed.dart';
+import 'package:dw_bike_trips_client/widgets/themed/icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -39,11 +39,8 @@ class _LoginPageState extends State<LoginPage> {
           appBar: themedAppBar(
             actions: [
               if (haveHosts)
-                IconButton(
-                  icon: Icon(
-                    Icons.cloud_outlined,
-                    color: AppTheme.secondaryColors[2],
-                  ),
+                ThemedIconButton(
+                  icon: Icons.cloud_outlined,
                   tooltip: 'Manage Hosts',
                   onPressed: () => _manageHostsPressed(context),
                 ),
