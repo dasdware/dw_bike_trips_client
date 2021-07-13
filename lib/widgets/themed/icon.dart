@@ -26,14 +26,21 @@ class ThemedIcon extends StatelessWidget {
 
   _buildOverlay() {
     if (overlayText != null) {
-      return Text(
+      var text = Text(
         overlayText,
         style: TextStyle(
-            fontSize: 10,
-            fontWeight: FontWeight.bold,
-            color: AppThemeData.activeLighterColor),
-        //),
+          fontSize: 10,
+          fontWeight: FontWeight.bold,
+          color: AppThemeData.activeLighterColor,
+        ),
       );
+
+      if (overlayText.length == 1) {
+        return Container(
+            padding: EdgeInsets.symmetric(horizontal: 3.0), child: text);
+      }
+
+      return text;
     } else {
       return Icon(
         this.overlayIcon,
@@ -63,7 +70,7 @@ class ThemedIcon extends StatelessWidget {
               bottom: 0,
               child: Container(
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.4),
+                  color: color.withOpacity(0.5),
                   borderRadius: BorderRadius.circular(100),
                 ),
                 child: Padding(
