@@ -1,7 +1,7 @@
 import 'package:dw_bike_trips_client/session/session.dart';
-import 'package:dw_bike_trips_client/theme.dart' as AppTheme;
+import 'package:dw_bike_trips_client/theme_data.dart';
 import 'package:dw_bike_trips_client/widgets/error_list.dart';
-import 'package:dw_bike_trips_client/widgets/themed.dart';
+import 'package:dw_bike_trips_client/widgets/themed/scaffold.dart';
 import 'package:dw_bike_trips_client/widgets/themed/textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';
@@ -43,7 +43,7 @@ class _AddHostPageState extends State<AddHostPage> {
     return new Column(
       children: <Widget>[
         new RaisedButton(
-          color: AppTheme.secondaryColors[2],
+          color: AppThemeData.highlightColor,
           child: new Text('Add'),
           onPressed: () => _addPressed(context),
         ),

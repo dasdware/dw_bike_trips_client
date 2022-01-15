@@ -1,5 +1,5 @@
-import 'package:dw_bike_trips_client/theme.dart' as AppTheme;
-import 'package:dw_bike_trips_client/widgets/themed.dart';
+import 'package:dw_bike_trips_client/theme_data.dart';
+import 'package:dw_bike_trips_client/widgets/themed/text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -11,12 +11,15 @@ class Logo extends StatelessWidget {
       child: Column(
         children: [
           SvgPicture.asset('assets/logo.svg',
-              color: AppTheme.secondaryColors[2],
+              color: AppThemeData.highlightColor,
               semanticsLabel: 'dasd.ware BikeTrips Logo'),
           SizedBox(
             height: 8.0,
           ),
-          ThemedText(text: 'dasd.ware BikeTrips'),
+          ThemedText(
+            text: 'dasd.ware BikeTrips',
+            textColor: ThemedTextColor.Highlight,
+          ),
         ],
       ),
     );

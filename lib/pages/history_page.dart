@@ -1,11 +1,13 @@
 import 'package:dw_bike_trips_client/session/session.dart';
 import 'package:dw_bike_trips_client/session/trips_history.dart';
-import 'package:dw_bike_trips_client/theme.dart' as AppTheme;
+import 'package:dw_bike_trips_client/theme_data.dart';
 import 'package:dw_bike_trips_client/widgets/calendar_icon.dart';
-import 'package:dw_bike_trips_client/widgets/themed.dart';
 import 'package:dw_bike_trips_client/widgets/themed/dot.dart';
 import 'package:dw_bike_trips_client/widgets/themed/heading.dart';
+import 'package:dw_bike_trips_client/widgets/themed/icon_button.dart';
 import 'package:dw_bike_trips_client/widgets/themed/panel.dart';
+import 'package:dw_bike_trips_client/widgets/themed/scaffold.dart';
+import 'package:dw_bike_trips_client/widgets/themed/text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +24,7 @@ class HistoryPage extends StatelessWidget {
         builder: (context, snapshot) {
           Widget body = (snapshot.hasData)
               ? StickyGroupedListView<AccumulatedTrip, int>(
-                  stickyHeaderBackgroundColor: AppTheme.primaryColor_4,
+                  stickyHeaderBackgroundColor: AppThemeData.mainDarkestColor,
                   groupComparator: (first, second) => second - first,
                   itemComparator: (first, second) =>
                       second.timestamp.compareTo(first.timestamp),
@@ -45,16 +47,15 @@ class HistoryPage extends StatelessWidget {
                                   width: 32,
                                   child: ThemedText(
                                     text:
-                                        '${session.formatWeekday(trip.timestamp)}',
-                                    fontSize: 16,
-                                    color: Colors.white.withOpacity(0.8),
+                                        '${session.formatWeekday(trip.timestamp)}'
+                                            .toUpperCase(),
+                                    textSize: ThemedTextSize.Small,
+                                    deemphasized: true,
                                   ),
                                 ),
                                 SizedBox(width: 16.0),
                                 ThemedText(
                                   text: session.formatDistance(trip.distance),
-                                  fontSize: 19.0,
-                                  color: Colors.white,
                                 ),
                                 if (trip.count > 1)
                                   Expanded(
@@ -68,15 +69,18 @@ class HistoryPage extends StatelessWidget {
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             ThemedText(
-                                              text: '${trip.count} trips',
-                                              fontSize: 14,
+                                              text: '${trip.count} trips'
+                                                  .toUpperCase(),
+                                              textSize: ThemedTextSize.Small,
+                                              deemphasized: true,
                                             ),
                                             SizedBox(width: 4.0),
                                             Icon(
                                               (!trip.expanded)
                                                   ? Icons.add_circle
                                                   : Icons.remove_circle,
-                                              color: AppTheme.secondaryColor_2,
+                                              color:
+                                                  AppThemeData.highlightColor,
                                             ),
                                           ],
                                         ),
@@ -96,8 +100,7 @@ class HistoryPage extends StatelessWidget {
                                             ThemedText(
                                               text: session.formatDistance(
                                                   part.distance),
-                                              color:
-                                                  Colors.white.withOpacity(0.8),
+                                              deemphasized: true,
                                             ),
                                           ],
                                         ))

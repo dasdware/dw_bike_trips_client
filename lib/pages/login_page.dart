@@ -3,10 +3,10 @@ import 'package:dw_bike_trips_client/pages/hosts_page.dart';
 import 'package:dw_bike_trips_client/pages/login/login_form.dart';
 import 'package:dw_bike_trips_client/session/hosts.dart';
 import 'package:dw_bike_trips_client/session/session.dart';
-import 'package:dw_bike_trips_client/theme.dart' as AppTheme;
 import 'package:dw_bike_trips_client/widgets/error_list.dart';
 import 'package:dw_bike_trips_client/widgets/logo.dart';
 import 'package:dw_bike_trips_client/widgets/themed/icon_button.dart';
+import 'package:dw_bike_trips_client/widgets/themed/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

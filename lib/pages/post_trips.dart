@@ -1,5 +1,6 @@
 import 'package:dw_bike_trips_client/session/session.dart';
-import 'package:dw_bike_trips_client/widgets/themed.dart';
+import 'package:dw_bike_trips_client/widgets/themed/scaffold.dart';
+import 'package:dw_bike_trips_client/widgets/themed/text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -33,7 +34,7 @@ class PostTripsPage extends StatelessWidget {
                   ),
                   subtitle: ThemedText(
                     text: session.formatTimestamp(trip.timestamp),
-                    fontSize: ThemedText.FONT_SIZE_SUBTITLE,
+                    textSize: ThemedTextSize.Small,
                   ),
                 ),
               )

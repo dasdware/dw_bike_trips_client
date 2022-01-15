@@ -1,8 +1,11 @@
 import 'package:dw_bike_trips_client/session/session.dart';
 import 'package:dw_bike_trips_client/session/trips_queue.dart';
-import 'package:dw_bike_trips_client/theme.dart' as AppTheme;
-import 'package:dw_bike_trips_client/widgets/themed.dart';
+import 'package:dw_bike_trips_client/theme_data.dart';
+import 'package:dw_bike_trips_client/widgets/themed/date_picker.dart';
+import 'package:dw_bike_trips_client/widgets/themed/scaffold.dart';
+import 'package:dw_bike_trips_client/widgets/themed/text.dart';
 import 'package:dw_bike_trips_client/widgets/themed/textfield.dart';
+import 'package:dw_bike_trips_client/widgets/themed/time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -35,7 +38,7 @@ class _AddTripPageState extends State<AddTripPage> {
         _distanceController.value = TextEditingValue.empty;
         Scaffold.of(context).showSnackBar(
           SnackBar(
-            backgroundColor: AppTheme.primaryColor_4,
+            backgroundColor: AppThemeData.mainDarkestColor,
             content: ThemedText(
               text:
                   'Added trip, ${context.read<Session>().tripsQueue.trips.length} trips in queue.',
@@ -61,13 +64,8 @@ class _AddTripPageState extends State<AddTripPage> {
   }
 
   _selectDate(BuildContext context) async {
-    DateTime selection = await showDatePicker(
-      context: context,
-      initialDate: _selectedTimestamp,
-      firstDate: DateTime(1970),
-      lastDate: DateTime(2170),
-      builder: themedDatePickerBuilder,
-    );
+    DateTime selection =
+        await showThemedDatePicker(context, _selectedTimestamp);
 
     if (selection != null) {
       _setSelectedTimestamp(
@@ -86,25 +84,11 @@ class _AddTripPageState extends State<AddTripPage> {
   }
 
   _selectTime(BuildContext context) async {
-    TimeOfDay selection = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.fromDateTime(_selectedTimestamp),
-      builder: themedTimePickerBuilder,
-    );
+    DateTime selection =
+        await showThemedTimePicker(context, _selectedTimestamp);
 
     if (selection != null) {
-      _setSelectedTimestamp(
-        DateTime(
-          _selectedTimestamp.year,
-          _selectedTimestamp.month,
-          _selectedTimestamp.day,
-          selection.hour,
-          selection.minute,
-          _selectedTimestamp.second,
-          0,
-          0,
-        ),
-      );
+      _setSelectedTimestamp(selection);
     }
   }
 
@@ -148,8 +132,8 @@ class _AddTripPageState extends State<AddTripPage> {
           Row(
             children: [
               Switch(
-                activeTrackColor: AppTheme.secondaryColor_3,
-                activeColor: AppTheme.secondaryColor_2,
+                activeTrackColor: AppThemeData.highlightDarkerColor,
+                activeColor: AppThemeData.highlightColor,
                 inactiveThumbColor: Colors.white,
                 inactiveTrackColor: Colors.grey,
                 value: _keepOpen,
@@ -162,7 +146,6 @@ class _AddTripPageState extends State<AddTripPage> {
               else
                 ThemedText(
                   text: "Keep open",
-                  color: Colors.white,
                 )
             ],
           )
@@ -176,7 +159,7 @@ class _AddTripPageState extends State<AddTripPage> {
       builder: (context) => new Column(
         children: <Widget>[
           new RaisedButton(
-            color: AppTheme.secondaryColors[2],
+            color: AppThemeData.highlightColor,
             child: new Text('Add'),
             onPressed: () => _addPressed(context),
           ),
@@ -228,13 +211,14 @@ class FieldButton extends StatelessWidget {
         icon: Icon(icon),
         style: ButtonStyle(
           foregroundColor:
-              MaterialStateProperty.all<Color>(AppTheme.secondaryColor_2),
+              MaterialStateProperty.all<Color>(AppThemeData.highlightColor),
           side: MaterialStateProperty.all<BorderSide>(
-            BorderSide(color: AppTheme.secondaryColor_2),
+            BorderSide(color: AppThemeData.highlightColor),
           ),
         ),
         label: ThemedText(
           text: text,
+          textColor: ThemedTextColor.Highlight,
         ),
         onPressed: onPressed,
       ),

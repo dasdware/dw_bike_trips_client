@@ -1,6 +1,6 @@
 import 'package:dw_bike_trips_client/session/operations.dart';
 import 'package:dw_bike_trips_client/session/session.dart';
-import 'package:dw_bike_trips_client/theme.dart' as AppTheme;
+import 'package:dw_bike_trips_client/theme_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,7 +26,7 @@ class ErrorList extends StatelessWidget {
             padding: padding,
             child: Container(
               decoration: BoxDecoration(
-                border: Border.all(color: AppTheme.errorColor),
+                border: Border.all(color: AppThemeData.errorColor),
                 borderRadius: BorderRadius.all(Radius.circular(4.0)),
               ),
               child: Padding(
@@ -39,14 +39,15 @@ class ErrorList extends StatelessWidget {
                           child: Row(children: [
                             Icon(
                               Icons.error,
-                              color: AppTheme.errorColor,
+                              color: AppThemeData.errorColor,
                               size: 16,
                             ),
                             SizedBox(width: 8.0),
                             Flexible(
                               child: Text(
                                 error.message,
-                                style: TextStyle(color: AppTheme.errorColor),
+                                style:
+                                    TextStyle(color: AppThemeData.errorColor),
                               ),
                             ),
                           ]),

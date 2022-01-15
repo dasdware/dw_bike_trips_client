@@ -42,6 +42,10 @@ class AppThemeData {
   static const currentValue = mainLightestColor;
   static const referenceValue = mainLighterColor;
 
+  static const deemphesizedOpacity = 0.8;
+
+  static const errorColor = Colors.redAccent;
+
   static final themeData = ThemeData(
     appBarTheme: AppBarTheme(
       color: Colors.transparent,

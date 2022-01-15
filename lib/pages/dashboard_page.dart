@@ -8,8 +8,9 @@ import 'package:dw_bike_trips_client/pages/history_page.dart';
 import 'package:dw_bike_trips_client/session/dashboard.dart';
 import 'package:dw_bike_trips_client/session/session.dart';
 import 'package:dw_bike_trips_client/widgets/logo.dart';
-import 'package:dw_bike_trips_client/widgets/themed.dart';
 import 'package:dw_bike_trips_client/widgets/themed/heading.dart';
+import 'package:dw_bike_trips_client/widgets/themed/icon_button.dart';
+import 'package:dw_bike_trips_client/widgets/themed/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

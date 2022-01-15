@@ -3,8 +3,8 @@ import 'package:dw_bike_trips_client/pages/hosts/host_list_tile.dart';
 import 'package:dw_bike_trips_client/pages/hosts/no_hosts_panel.dart';
 import 'package:dw_bike_trips_client/session/hosts.dart';
 import 'package:dw_bike_trips_client/session/session.dart';
-import 'package:dw_bike_trips_client/widgets/themed.dart';
 import 'package:dw_bike_trips_client/widgets/themed/heading.dart';
+import 'package:dw_bike_trips_client/widgets/themed/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
