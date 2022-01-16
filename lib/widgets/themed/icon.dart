@@ -1,6 +1,37 @@
 import 'package:dw_bike_trips_client/theme_data.dart';
 import 'package:flutter/material.dart';
 
+class _IconClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+
+    const s = 8.0;
+    path.lineTo(0.0, size.height);
+
+    path.lineTo(size.width - s, size.height);
+
+    // path.lineTo(size.width, 5);
+
+    path.arcToPoint(
+      Offset(size.width - 2 * s, size.height - s),
+      clockwise: true,
+      radius: Radius.circular(s),
+    );
+    path.arcToPoint(
+      Offset(size.width, size.height - s),
+      clockwise: true,
+      radius: Radius.circular(s),
+    );
+
+    path.lineTo(size.width, 0);
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => true;
+}
+
 class ThemedIcon extends StatelessWidget {
   final IconData icon;
   final double size;
@@ -50,35 +81,52 @@ class ThemedIcon extends StatelessWidget {
     }
   }
 
+  get _clipper {
+    if (!_haveOverlay) {
+      return null;
+    }
+    return _IconClipper();
+  }
+
   @override
   Widget build(BuildContext context) {
+    var overlay = _haveOverlay
+        ? Container(
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.5),
+              borderRadius: BorderRadius.circular(100),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: _buildOverlay(),
+            ),
+          )
+        : null;
+
     return Container(
       width: _paddedSize,
       height: _paddedSize,
       child: Stack(
         children: [
-          Center(
-            child: Icon(
-              this.icon,
-              color: color,
-              size: this.size,
+          ClipPath(
+            clipper: _clipper,
+            child: Center(
+              child: Icon(
+                this.icon,
+                color: color,
+                size: this.size,
+              ),
             ),
           ),
           if (_haveOverlay)
             Positioned(
               right: 0,
               bottom: 0,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: color.withOpacity(0.5),
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: _buildOverlay(),
-                ),
-              ),
+              child: overlay,
             ),
+          // Expanded(
+          //     child: ClipPath(
+          //         clipper: _clipper, child: Container(color: Colors.red))),
         ],
       ),
     );
