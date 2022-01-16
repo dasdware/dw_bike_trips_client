@@ -103,6 +103,7 @@ class DistancesSection extends StatelessWidget {
               ),
               caption: 'all time',
               distance: distances.allTime,
+              width: 170,
             ),
           ],
         ),
@@ -277,6 +278,7 @@ class DashboardDistancePanel extends StatelessWidget {
       @required this.icon,
       @required this.caption,
       @required this.distance,
+      this.width = 160,
       this.referenceCaption,
       this.referenceDistance})
       : super(key: key);
@@ -284,13 +286,14 @@ class DashboardDistancePanel extends StatelessWidget {
   final Widget icon;
   final String caption;
   final double distance;
+  final double width;
   final String referenceCaption;
   final double referenceDistance;
 
   @override
   Widget build(BuildContext context) {
     return ThemedPanel(
-      width: 160,
+      width: width,
       padding: EdgeInsets.zero,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(13.0, 12.0, 13.0, 12.0),
