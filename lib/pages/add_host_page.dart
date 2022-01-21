@@ -1,7 +1,11 @@
 import 'package:dw_bike_trips_client/session/session.dart';
-import 'package:dw_bike_trips_client/theme_data.dart';
 import 'package:dw_bike_trips_client/widgets/error_list.dart';
+import 'package:dw_bike_trips_client/widgets/themed/button.dart';
+import 'package:dw_bike_trips_client/widgets/themed/heading.dart';
+import 'package:dw_bike_trips_client/widgets/themed/panel.dart';
 import 'package:dw_bike_trips_client/widgets/themed/scaffold.dart';
+import 'package:dw_bike_trips_client/widgets/themed/spacing.dart';
+import 'package:dw_bike_trips_client/widgets/themed/text.dart';
 import 'package:dw_bike_trips_client/widgets/themed/textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';
@@ -25,52 +29,45 @@ class _AddHostPageState extends State<AddHostPage> {
     }
   }
 
-  _buildTextFields(BuildContext context) {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          ThemedTextField(
-            controller: _urlController,
-            keyboardType: TextInputType.url,
-            labelText: 'URL',
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildButtons(BuildContext context) {
-    return new Column(
-      children: <Widget>[
-        new RaisedButton(
-          color: AppThemeData.highlightColor,
-          child: new Text('Add'),
-          onPressed: () => _addPressed(context),
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return ThemedScaffold(
       appBar: themedAppBar(
-        title: Text('Add new host'),
+        title: ThemedHeading(
+          caption: 'Add new host',
+          style: ThemedHeadingStyle.Big,
+        ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.only(top: 60.0),
         child: Center(
           child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                ErrorList(operationName: 'serverInfo'),
-                _buildTextFields(context),
-                SizedBox(
-                  height: 16.0,
-                ),
-                _buildButtons(context)
-              ],
+            child: ThemedPanel(
+              margin: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  ThemedText(
+                    text:
+                        'Enter the URI of the API endpoint that should be accessed by the new host. Once you are finished, use the button below to try to access the host and - if successful - add it to the hosts list.',
+                  ),
+                  ThemedSpacing(),
+                  ErrorList(operationName: 'serverInfo'),
+                  ThemedTextField(
+                    controller: _urlController,
+                    keyboardType: TextInputType.url,
+                    labelText: 'URL',
+                  ),
+                  ThemedSpacing(size: ThemedSpacingSize.Large),
+                  ThemedButton(
+                    icon: Icons.cloud_outlined,
+                    overlayIcon: Icons.add,
+                    caption: 'Register',
+                    onPressed: () => _addPressed(context),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

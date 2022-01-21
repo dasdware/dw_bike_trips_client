@@ -8,12 +8,14 @@ class ThemedPanel extends StatelessWidget {
   final double width;
   final double height;
   final EdgeInsets padding;
+  final EdgeInsets margin;
   final ThemedPanelStyle style;
 
   const ThemedPanel(
       {Key key,
       this.width,
       this.height,
+      this.margin = EdgeInsets.zero,
       this.padding = const EdgeInsets.all(8.0),
       this.style = ThemedPanelStyle.Normal,
       this.child})
@@ -35,16 +37,20 @@ class ThemedPanel extends StatelessWidget {
       duration: const Duration(milliseconds: 150),
       curve: Curves.easeOut,
       builder: (BuildContext context, double opacity, Widget child) {
-        return Container(
-          width: this.width,
-          height: this.height,
-          decoration: BoxDecoration(
-            color: AppThemeData.panelBackgroundColor.withOpacity(opacity),
-            borderRadius: BorderRadius.circular(AppThemeData.panelBorderRadius),
-          ),
-          child: Padding(
-            padding: this.padding,
-            child: this.child,
+        return Padding(
+          padding: margin,
+          child: Container(
+            width: this.width,
+            height: this.height,
+            decoration: BoxDecoration(
+              color: AppThemeData.panelBackgroundColor.withOpacity(opacity),
+              borderRadius:
+                  BorderRadius.circular(AppThemeData.panelBorderRadius),
+            ),
+            child: Padding(
+              padding: this.padding,
+              child: this.child,
+            ),
           ),
         );
       },
