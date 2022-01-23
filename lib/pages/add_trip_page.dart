@@ -1,8 +1,15 @@
 import 'package:dw_bike_trips_client/session/session.dart';
 import 'package:dw_bike_trips_client/session/trips_queue.dart';
 import 'package:dw_bike_trips_client/theme_data.dart';
+import 'package:dw_bike_trips_client/widgets/themed/button.dart';
 import 'package:dw_bike_trips_client/widgets/themed/date_picker.dart';
+import 'package:dw_bike_trips_client/widgets/themed/field_button.dart';
+import 'package:dw_bike_trips_client/widgets/themed/heading.dart';
+import 'package:dw_bike_trips_client/widgets/themed/icon_button.dart';
+import 'package:dw_bike_trips_client/widgets/themed/panel.dart';
 import 'package:dw_bike_trips_client/widgets/themed/scaffold.dart';
+import 'package:dw_bike_trips_client/widgets/themed/spacing.dart';
+import 'package:dw_bike_trips_client/widgets/themed/switch.dart';
 import 'package:dw_bike_trips_client/widgets/themed/text.dart';
 import 'package:dw_bike_trips_client/widgets/themed/textfield.dart';
 import 'package:dw_bike_trips_client/widgets/themed/time_picker.dart';
@@ -19,6 +26,7 @@ class _AddTripPageState extends State<AddTripPage> {
 
   DateTime _selectedTimestamp;
   bool _keepOpen = false;
+  String _addedTripsInformation = null;
 
   initState() {
     _selectedTimestamp = context.read<Session>().tripsQueue.lastSubmision;
@@ -36,15 +44,10 @@ class _AddTripPageState extends State<AddTripPage> {
           );
       if (_keepOpen) {
         _distanceController.value = TextEditingValue.empty;
-        Scaffold.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: AppThemeData.mainDarkestColor,
-            content: ThemedText(
-              text:
-                  'Added trip, ${context.read<Session>().tripsQueue.trips.length} trips in queue.',
-            ),
-          ),
-        );
+        setState(() {
+          _addedTripsInformation =
+              'Added trip, ${context.read<Session>().tripsQueue.trips.length} trips in queue.';
+        });
       } else {
         Navigator.of(context).pop();
       }
@@ -102,17 +105,15 @@ class _AddTripPageState extends State<AddTripPage> {
             child: Row(
               children: [
                 Expanded(
-                  child: FieldButton(
+                  child: ThemedFieldButton(
                     icon: Icons.date_range,
                     text: session.dateFormat.format(_selectedTimestamp),
                     onPressed: () => _selectDate(context),
                   ),
                 ),
-                SizedBox(
-                  width: 8.0,
-                ),
+                ThemedSpacing(),
                 Expanded(
-                  child: FieldButton(
+                  child: ThemedFieldButton(
                     icon: Icons.watch_later_outlined,
                     text: session.timeFormat.format(_selectedTimestamp),
                     onPressed: () => _selectTime(context),
@@ -121,48 +122,17 @@ class _AddTripPageState extends State<AddTripPage> {
               ],
             ),
           ),
-          SizedBox(
-            height: 8.0,
-          ),
+          ThemedSpacing(),
           ThemedTextField(
             controller: _distanceController,
             labelText: 'Distance',
             keyboardType: TextInputType.number,
           ),
-          Row(
-            children: [
-              Switch(
-                activeTrackColor: AppThemeData.highlightDarkerColor,
-                activeColor: AppThemeData.highlightColor,
-                inactiveThumbColor: Colors.white,
-                inactiveTrackColor: Colors.grey,
-                value: _keepOpen,
-                onChanged: _setKeepOpen,
-              ),
-              if (_keepOpen)
-                ThemedText(
-                  text: "Keep open",
-                )
-              else
-                ThemedText(
-                  text: "Keep open",
-                )
-            ],
+          ThemedSwitch(
+            text: 'Keep open',
+            value: _keepOpen,
+            onChanged: _setKeepOpen,
           )
-        ],
-      ),
-    );
-  }
-
-  Widget _buildButtons(BuildContext context) {
-    return Builder(
-      builder: (context) => new Column(
-        children: <Widget>[
-          new RaisedButton(
-            color: AppThemeData.highlightColor,
-            child: new Text('Add'),
-            onPressed: () => _addPressed(context),
-          ),
         ],
       ),
     );
@@ -172,55 +142,53 @@ class _AddTripPageState extends State<AddTripPage> {
   Widget build(BuildContext context) {
     return ThemedScaffold(
       appBar: themedAppBar(
-        title: Text('Add new trip'),
+        title: ThemedHeading(
+          caption: 'Add new trip',
+          style: ThemedHeadingStyle.Big,
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Center(
           child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                _buildTextFields(context),
-                SizedBox(
-                  height: 16.0,
-                ),
-                _buildButtons(context)
-              ],
+            child: ThemedPanel(
+              margin: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  ThemedText(
+                    text:
+                        'Select date and time of your trip and enter the distance driven. After that, use the button below to add it to the upload queue.',
+                    textAlign: TextAlign.left,
+                  ),
+                  ThemedSpacing(size: ThemedSpacingSize.Large),
+                  _buildTextFields(context),
+                  ThemedSpacing(size: ThemedSpacingSize.Large),
+                  ThemedButton(
+                    caption: 'Add',
+                    icon: Icons.add_circle,
+                    onPressed: () => _addPressed(context),
+                  ),
+                  if (_addedTripsInformation != null)
+                    Column(
+                      children: [
+                        ThemedSpacing(size: ThemedSpacingSize.Large),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ThemedText(
+                            text: _addedTripsInformation,
+                            textAlign: TextAlign.left,
+                            deemphasized: true,
+                          ),
+                        ),
+                      ],
+                    )
+                ],
+              ),
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class FieldButton extends StatelessWidget {
-  final IconData icon;
-  final String text;
-  final Function onPressed;
-
-  const FieldButton({Key key, this.icon, this.text, this.onPressed})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 50,
-      child: OutlinedButton.icon(
-        icon: Icon(icon),
-        style: ButtonStyle(
-          foregroundColor:
-              MaterialStateProperty.all<Color>(AppThemeData.highlightColor),
-          side: MaterialStateProperty.all<BorderSide>(
-            BorderSide(color: AppThemeData.highlightColor),
-          ),
-        ),
-        label: ThemedText(
-          text: text,
-          textColor: ThemedTextColor.Highlight,
-        ),
-        onPressed: onPressed,
       ),
     );
   }
