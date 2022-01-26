@@ -1,11 +1,9 @@
 import 'package:dw_bike_trips_client/session/session.dart';
 import 'package:dw_bike_trips_client/session/trips_queue.dart';
-import 'package:dw_bike_trips_client/theme_data.dart';
 import 'package:dw_bike_trips_client/widgets/themed/button.dart';
 import 'package:dw_bike_trips_client/widgets/themed/date_picker.dart';
 import 'package:dw_bike_trips_client/widgets/themed/field_button.dart';
 import 'package:dw_bike_trips_client/widgets/themed/heading.dart';
-import 'package:dw_bike_trips_client/widgets/themed/icon_button.dart';
 import 'package:dw_bike_trips_client/widgets/themed/panel.dart';
 import 'package:dw_bike_trips_client/widgets/themed/scaffold.dart';
 import 'package:dw_bike_trips_client/widgets/themed/spacing.dart';
@@ -26,7 +24,7 @@ class _AddTripPageState extends State<AddTripPage> {
 
   DateTime _selectedTimestamp;
   bool _keepOpen = false;
-  String _addedTripsInformation = null;
+  String _addedTripsInformation;
 
   initState() {
     _selectedTimestamp = context.read<Session>().tripsQueue.lastSubmision;
