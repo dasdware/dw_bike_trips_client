@@ -2,7 +2,7 @@ name: dw_bike_trips_client
 description: dasd.ware BikeTrips Client
 
 publish_to: "none"
-version: 1.0.0+1
+version: 0.9.0
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
