@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Selected [MIT](https://spdx.org/licenses/MIT.html) license for this repository
+
 ## [0.9.0] - 2022-01-26
 
 Initial release version of the dasd.ware BikeTrips Client. Contains the following functionality:
