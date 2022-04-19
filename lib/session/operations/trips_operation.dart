@@ -14,7 +14,7 @@ class TripsOperation extends ValuedOperation<List<Trip>> {
 
   @override
   Future<ValuedOperationResult<List<Trip>>> perform(
-      OperationContext context) async {
+      String pageName, OperationContext context) async {
     return doGraphQL(
       client,
       GraphQLQueries.trips,

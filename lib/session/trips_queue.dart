@@ -50,6 +50,7 @@ class TripsQueue {
   }
 
   Future<bool> post(
+      String pageName,
       OperationContext context,
       GraphQLClient client,
       TripsHistory tripsController,
@@ -58,8 +59,10 @@ class TripsQueue {
       return true;
     }
 
-    var postTripsResult = await context.perform(PostTripsOperation(
-        client, tripsController, trips, dashboardController));
+    var postTripsResult = await context.perform(
+        pageName,
+        PostTripsOperation(
+            client, tripsController, trips, dashboardController));
     if (postTripsResult.success && postTripsResult.value) {
       _clear();
       return true;

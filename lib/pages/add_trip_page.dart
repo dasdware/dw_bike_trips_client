@@ -139,50 +139,53 @@ class _AddTripPageState extends State<AddTripPage> {
   @override
   Widget build(BuildContext context) {
     return ThemedScaffold(
+      pageName: 'addTrip',
       appBar: themedAppBar(
         title: ThemedHeading(
           caption: 'Add new trip',
           style: ThemedHeadingStyle.Big,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Center(
-          child: SingleChildScrollView(
-            child: ThemedPanel(
-              margin: const EdgeInsets.all(16.0),
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  ThemedText(
-                    text:
-                        'Select date and time of your trip and enter the distance driven. After that, use the button below to add it to the upload queue.',
-                    textAlign: TextAlign.left,
-                  ),
-                  ThemedSpacing(size: ThemedSpacingSize.Large),
-                  _buildTextFields(context),
-                  ThemedSpacing(size: ThemedSpacingSize.Large),
-                  ThemedButton(
-                    caption: 'Add',
-                    icon: Icons.add_circle,
-                    onPressed: () => _addPressed(context),
-                  ),
-                  if (_addedTripsInformation != null)
-                    Column(
-                      children: [
-                        ThemedSpacing(size: ThemedSpacingSize.Large),
-                        SizedBox(
-                          width: double.infinity,
-                          child: ThemedText(
-                            text: _addedTripsInformation,
-                            textAlign: TextAlign.left,
-                            deemphasized: true,
+      body: Builder(
+        builder: (context) => Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Center(
+            child: SingleChildScrollView(
+              child: ThemedPanel(
+                margin: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    ThemedText(
+                      text:
+                          'Select date and time of your trip and enter the distance driven. After that, use the button below to add it to the upload queue.',
+                      textAlign: TextAlign.left,
+                    ),
+                    ThemedSpacing(size: ThemedSpacingSize.Large),
+                    _buildTextFields(context),
+                    ThemedSpacing(size: ThemedSpacingSize.Large),
+                    ThemedButton(
+                      caption: 'Add',
+                      icon: Icons.add_circle,
+                      onPressed: () => _addPressed(context),
+                    ),
+                    if (_addedTripsInformation != null)
+                      Column(
+                        children: [
+                          ThemedSpacing(size: ThemedSpacingSize.Large),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ThemedText(
+                              text: _addedTripsInformation,
+                              textAlign: TextAlign.left,
+                              deemphasized: true,
+                            ),
                           ),
-                        ),
-                      ],
-                    )
-                ],
+                        ],
+                      )
+                  ],
+                ),
               ),
             ),
           ),

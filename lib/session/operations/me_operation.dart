@@ -11,7 +11,8 @@ class MeOperation extends ValuedOperation<User> {
       : super('me', 'Fetching information about current user.');
 
   @override
-  Future<ValuedOperationResult<User>> perform(OperationContext context) {
+  Future<ValuedOperationResult<User>> perform(
+      String pageName, OperationContext context) {
     return doGraphQL(
         client,
         GraphQLQueries.me,

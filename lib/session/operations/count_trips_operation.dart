@@ -19,7 +19,7 @@ class CountTripsOperation extends ValuedOperation<CountTripsResult> {
 
   @override
   Future<ValuedOperationResult<CountTripsResult>> perform(
-      OperationContext context) async {
+      String pageName, OperationContext context) async {
     return doGraphQL<CountTripsResult>(
       client,
       GraphQLQueries.countTrips,

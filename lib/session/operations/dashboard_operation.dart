@@ -11,7 +11,8 @@ class DashboardOperation extends ValuedOperation<Dashboard> {
       : super('dashboard', 'Fetching data for dashboard.');
 
   @override
-  Future<ValuedOperationResult<Dashboard>> perform(OperationContext context) {
+  Future<ValuedOperationResult<Dashboard>> perform(
+      String pageName, OperationContext context) {
     var to = DateTime.now();
     var from = DateTime(to.year - 1, to.month);
 

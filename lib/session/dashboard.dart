@@ -65,6 +65,7 @@ class Dashboard {
 }
 
 class DashboardController {
+  final String pageName;
   final OperationContext context;
   final GraphQLClient client;
 
@@ -82,7 +83,7 @@ class DashboardController {
 
   get stream => _streamController.stream;
 
-  DashboardController(this.context, this.client);
+  DashboardController(this.pageName, this.context, this.client);
 
   void dispose() {
     _streamController.close();
@@ -90,6 +91,7 @@ class DashboardController {
 
   _update() async {
     var result = await context.perform(
+      pageName,
       DashboardOperation(client),
     );
 

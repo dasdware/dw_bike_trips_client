@@ -16,7 +16,8 @@ class LoginOperation extends ValuedOperation<Login> {
       : super('login', 'Logging in to host ${host.name}.');
 
   @override
-  Future<ValuedOperationResult<Login>> perform(OperationContext context) async {
+  Future<ValuedOperationResult<Login>> perform(
+      String pageName, OperationContext context) async {
     HttpLink httpLink = HttpLink(uri: host.url);
     GraphQLClient client =
         GraphQLClient(cache: InMemoryCache(), link: httpLink);
@@ -40,7 +41,8 @@ class LoginOperation extends ValuedOperation<Login> {
           .concat(httpLink),
     );
 
-    var meResult = await context.perform(MeOperation(authenticatedClient));
+    var meResult =
+        await context.perform(pageName, MeOperation(authenticatedClient));
     if (!meResult.success) {
       return meResult.asWithErrors<Login>();
     }

@@ -3,7 +3,6 @@ import 'package:dw_bike_trips_client/pages/hosts_page.dart';
 import 'package:dw_bike_trips_client/pages/login/login_form.dart';
 import 'package:dw_bike_trips_client/session/hosts.dart';
 import 'package:dw_bike_trips_client/session/session.dart';
-import 'package:dw_bike_trips_client/widgets/error_list.dart';
 import 'package:dw_bike_trips_client/widgets/logo.dart';
 import 'package:dw_bike_trips_client/widgets/themed/icon_button.dart';
 import 'package:dw_bike_trips_client/widgets/themed/scaffold.dart';
@@ -36,6 +35,7 @@ class _LoginPageState extends State<LoginPage> {
       builder: (context, snapshot) {
         final haveHosts = snapshot.hasData && snapshot.data.isNotEmpty;
         return ThemedScaffold(
+          pageName: 'login',
           appBar: themedAppBar(
             actions: [
               if (haveHosts)
@@ -54,7 +54,6 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Logo(),
-                    ErrorList(operationName: 'login'),
                     if (!haveHosts) NoHostsPanel() else LoginForm()
                   ],
                 ),

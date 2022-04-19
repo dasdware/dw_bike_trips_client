@@ -22,6 +22,7 @@ class HostsPage extends StatelessWidget {
         builder: (context, snapshot) {
           final haveHosts = snapshot.hasData && snapshot.data.isNotEmpty;
           return ThemedScaffold(
+            pageName: 'hosts',
             appBar: themedAppBar(
               title: ThemedHeading(
                 caption: 'Manage hosts',

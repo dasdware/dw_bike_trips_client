@@ -113,7 +113,8 @@ class TripsHistory {
 
   _update() async {
     if (_count == null) {
-      var countResult = await context.perform(CountTripsOperation(client));
+      var countResult =
+          await context.perform('history', CountTripsOperation(client));
       if (countResult.success) {
         _count = countResult.value.count;
       } else {
@@ -122,6 +123,7 @@ class TripsHistory {
     }
 
     var result = await context.perform(
+      'history',
       TripsOperation(
         client,
         limit: _count,

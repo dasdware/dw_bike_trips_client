@@ -45,7 +45,8 @@ class ValuedOperationResult<T> extends OperationResult {
 abstract class ValuedOperation<T> extends Operation {
   ValuedOperation(String name, String title) : super(name, title);
 
-  Future<ValuedOperationResult<T>> perform(OperationContext context);
+  Future<ValuedOperationResult<T>> perform(
+      String pageName, OperationContext context);
 }
 
 class OperationContext {
@@ -58,6 +59,9 @@ class OperationContext {
   Map<String, StreamController<OperationResult>>
       _lastOperationResultStreamControllers =
       Map<String, StreamController<OperationResult>>();
+
+  StreamController<OperationResult> _lastOperationResultStreamController =
+      StreamController<OperationResult>.broadcast();
 
   Operation get activeOperation {
     if (_activeOperations.isNotEmpty) {
@@ -72,19 +76,26 @@ class OperationContext {
 
   bool get hasActiveOperation => _activeOperations.isNotEmpty;
 
+  Stream<OperationResult> get lastOperationResultStream =>
+      _lastOperationResultStreamController.stream;
+
   Future<ValuedOperationResult<T>> perform<T>(
-      ValuedOperation<T> operation) async {
-    _lastOperationResults.remove(operation.name);
+      String pageName, ValuedOperation<T> operation) async {
+    ValuedOperationResult<T> result;
+    _lastOperationResults.remove(pageName);
     _activeOperations.push(operation);
     _activeOperationStreamController.sink.add(activeOperation);
     try {
-      ValuedOperationResult<T> result = await operation.perform(this);
-      _lastOperationResults[operation.name] = result;
-      _lastOperationResultStreamControllerOf(operation.name).sink.add(result);
+      result = await operation.perform(pageName, this);
+      _lastOperationResults[pageName] = result;
+      _lastOperationResultStreamControllerOf(pageName).sink.add(result);
       return result;
     } finally {
       _activeOperations.pop();
       _activeOperationStreamController.sink.add(activeOperation);
+      if (_activeOperations.isEmpty) {
+        _lastOperationResultStreamController.sink.add(result);
+      }
     }
   }
 
@@ -115,5 +126,6 @@ class OperationContext {
       streamController.close();
     }
     _activeOperationStreamController.close();
+    _lastOperationResultStreamController.close();
   }
 }

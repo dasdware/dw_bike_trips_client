@@ -17,7 +17,8 @@ class PostTripsOperation extends ValuedOperation<bool> {
       : super('postTrips', 'Posting enqeued trips to server.');
 
   @override
-  Future<ValuedOperationResult<bool>> perform(OperationContext context) async {
+  Future<ValuedOperationResult<bool>> perform(
+      String pageName, OperationContext context) async {
     return doGraphQL<bool>(
       client,
       GraphQLQueries.postTrips(trips),

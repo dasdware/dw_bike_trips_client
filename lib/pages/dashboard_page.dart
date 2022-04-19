@@ -18,6 +18,7 @@ class DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ThemedScaffold(
+      pageName: 'dashboard',
       extendBodyBehindAppBar: false,
       endDrawer: CurrentUserDrawer(),
       appBar: themedAppBar(

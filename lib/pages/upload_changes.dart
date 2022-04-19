@@ -1,4 +1,5 @@
 import 'package:dw_bike_trips_client/session/session.dart';
+import 'package:dw_bike_trips_client/widgets/page.dart';
 import 'package:dw_bike_trips_client/widgets/themed/heading.dart';
 import 'package:dw_bike_trips_client/widgets/themed/icon.dart';
 import 'package:dw_bike_trips_client/widgets/themed/panel.dart';
@@ -12,6 +13,7 @@ class UploadChangesPage extends StatelessWidget {
   _postPressed(BuildContext context) async {
     Session session = context.read<Session>();
     if (await session.tripsQueue.post(
+        ApplicationPage.of(context).pageName,
         session.operationContext,
         session.currentLogin.client,
         session.tripsHistory,
@@ -24,6 +26,7 @@ class UploadChangesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Session session = context.watch<Session>();
     return ThemedScaffold(
+      pageName: 'uploadChanges',
       appBar: themedAppBar(
         title: ThemedHeading(
           caption: "Upload changes",
@@ -59,13 +62,6 @@ class UploadChangesPage extends StatelessWidget {
                       ),
                     ],
                   ),
-/*                  title: ThemedText(
-                    text: session.formatDistance(trip.distance),
-                  ),
-                  subtitle: ThemedText(
-                    text: session.formatTimestamp(trip.timestamp),
-                    textSize: ThemedTextSize.Small,
-                  ),*/
                 ),
               )
               .toList(),

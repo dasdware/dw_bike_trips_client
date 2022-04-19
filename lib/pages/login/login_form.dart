@@ -1,4 +1,5 @@
 import 'package:dw_bike_trips_client/session/session.dart';
+import 'package:dw_bike_trips_client/widgets/page.dart';
 import 'package:dw_bike_trips_client/widgets/themed/button.dart';
 import 'package:dw_bike_trips_client/widgets/themed/heading.dart';
 import 'package:dw_bike_trips_client/widgets/themed/panel.dart';
@@ -21,7 +22,8 @@ class _LoginFormState extends State<LoginForm> {
   final TextEditingController _passwordFilter = TextEditingController();
 
   void _loginPressed(BuildContext context) async {
-    context.read<Session>().login(_emailFilter.text, _passwordFilter.text);
+    context.read<Session>().login(ApplicationPage.of(context).pageName,
+        _emailFilter.text, _passwordFilter.text);
   }
 
   @override

@@ -62,13 +62,16 @@ class Session {
     }
   }
 
-  Future<Host> serverInfo(String url) async {
-    var result = await this.operationContext.perform(ServerInfoOperation(url));
+  Future<Host> serverInfo(String pageName, String url) async {
+    print(pageName);
+    var result =
+        await this.operationContext.perform(pageName, ServerInfoOperation(url));
     return result.value;
   }
 
-  Future<bool> login(String email, String password) async {
+  Future<bool> login(String pageName, String email, String password) async {
     var loginResult = await operationContext.perform(
+      pageName,
       LoginOperation(hosts.activeHost, email, password),
     );
     if (!loginResult.success) {
@@ -78,7 +81,7 @@ class Session {
     _setCurrentLogin(loginResult.value);
     _tripsHistory = TripsHistory(operationContext, currentLogin.client);
     _dashboardController =
-        DashboardController(operationContext, currentLogin.client);
+        DashboardController('dashboard', operationContext, currentLogin.client);
     return true;
   }
 

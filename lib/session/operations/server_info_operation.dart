@@ -11,7 +11,8 @@ class ServerInfoOperation extends ValuedOperation<Host> {
       : super('serverInfo', 'Fetching server information for host "$url".');
 
   @override
-  Future<ValuedOperationResult<Host>> perform(OperationContext context) {
+  Future<ValuedOperationResult<Host>> perform(
+      String pageName, OperationContext context) {
     HttpLink httpLink = HttpLink(uri: url);
     GraphQLClient client =
         GraphQLClient(cache: InMemoryCache(), link: httpLink);
