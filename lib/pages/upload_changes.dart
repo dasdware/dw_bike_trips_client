@@ -67,11 +67,13 @@ class UploadChangesPage extends StatelessWidget {
               .toList(),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.cloud_upload_outlined),
-        onPressed: () async {
-          _postPressed(context);
-        },
+      floatingActionButton: Builder(
+        builder: (context) => FloatingActionButton(
+          child: Icon(Icons.cloud_upload_outlined),
+          onPressed: () async {
+            _postPressed(context);
+          },
+        ),
       ),
     );
   }
