@@ -26,11 +26,11 @@ class HostListTile extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: ThemedHeading(
+        title: const ThemedHeading(
           caption: 'Remove host',
         ),
         backgroundColor: AppThemeData.mainDarkerColor,
-        content: ThemedText(
+        content: const ThemedText(
           textAlign: TextAlign.start,
           text:
               'Are you sure you want to remove the selected host? This operation cannot be undone.',
@@ -62,10 +62,10 @@ class HostListTile extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
       child: ThemedPanel(
         style: _host.active
-            ? ThemedPanelStyle.MostEmphasized
-            : ThemedPanelStyle.Normal,
+            ? ThemedPanelStyle.mostEmphasized
+            : ThemedPanelStyle.normal,
         child: Padding(
-          padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
+          padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
           child: Row(
             children: [
               ThemedIconButton(
@@ -74,7 +74,7 @@ class HostListTile extends StatelessWidget {
                     : Icons.radio_button_off,
                 onPressed: () => _activateHost(context),
               ),
-              ThemedSpacing(),
+              const ThemedSpacing(),
               Expanded(
                 child: Opacity(
                   opacity: _host.active ? 1.0 : 0.8,
@@ -83,8 +83,8 @@ class HostListTile extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          ThemedIcon(icon: Icons.cloud_outlined),
-                          ThemedSpacing(),
+                          const ThemedIcon(icon: Icons.cloud_outlined),
+                          const ThemedSpacing(),
                           ThemedText(
                             text: _host.name,
                           ),
@@ -92,13 +92,13 @@ class HostListTile extends StatelessWidget {
                       ),
                       ThemedText(
                         text: _host.url,
-                        textSize: ThemedTextSize.Small,
+                        textSize: ThemedTextSize.small,
                       ),
                     ],
                   ),
                 ),
               ),
-              ThemedSpacing(),
+              const ThemedSpacing(),
               ThemedIconButton(
                 icon: Icons.delete,
                 onPressed: () => _removeHost(context),

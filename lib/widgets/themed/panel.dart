@@ -1,7 +1,7 @@
 import 'package:dw_bike_trips_client/theme_data.dart';
 import 'package:flutter/material.dart';
 
-enum ThemedPanelStyle { Normal, Emphasized, MostEmphasized }
+enum ThemedPanelStyle { normal, emphasized, mostEmphasized }
 
 class ThemedPanel extends StatelessWidget {
   final Widget child;
@@ -17,14 +17,14 @@ class ThemedPanel extends StatelessWidget {
       this.height,
       this.margin = EdgeInsets.zero,
       this.padding = const EdgeInsets.all(8.0),
-      this.style = ThemedPanelStyle.Normal,
+      this.style = ThemedPanelStyle.normal,
       this.child})
       : super(key: key);
 
   _calculateOpacity() {
-    return (style == ThemedPanelStyle.Emphasized)
+    return (style == ThemedPanelStyle.emphasized)
         ? AppThemeData.panelBackgroundEmphasizedOpacity
-        : (style == ThemedPanelStyle.MostEmphasized)
+        : (style == ThemedPanelStyle.mostEmphasized)
             ? AppThemeData.panelBackgroundMostEmphasizedOpacity
             : AppThemeData.panelBackgroundOpacity;
   }
@@ -40,15 +40,15 @@ class ThemedPanel extends StatelessWidget {
         return Padding(
           padding: margin,
           child: Container(
-            width: this.width,
-            height: this.height,
+            width: width,
+            height: height,
             decoration: BoxDecoration(
               color: AppThemeData.panelBackgroundColor.withOpacity(opacity),
               borderRadius:
                   BorderRadius.circular(AppThemeData.panelBorderRadius),
             ),
             child: Padding(
-              padding: this.padding,
+              padding: padding,
               child: this.child,
             ),
           ),

@@ -22,10 +22,10 @@ class ThemedTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Theme(
-      data: new ThemeData(
+    return Theme(
+      data: ThemeData(
         primaryColor: AppThemeData.activeLighterColor,
-        inputDecorationTheme: InputDecorationTheme(
+        inputDecorationTheme: const InputDecorationTheme(
           labelStyle: TextStyle(color: AppThemeData.activeColor),
           filled: false,
           fillColor: AppThemeData.mainDarkerColor,
@@ -41,7 +41,7 @@ class ThemedTextField extends StatelessWidget {
             ),
           ),
         ),
-        textTheme: TextTheme(
+        textTheme: const TextTheme(
           subtitle1: TextStyle(
             color: AppThemeData.activeColor,
           ),

@@ -16,7 +16,7 @@ class Session {
 
   Login _currentLogin;
   Login get currentLogin => _currentLogin;
-  StreamController<Login> _currentLoginStreamController =
+  final StreamController<Login> _currentLoginStreamController =
       StreamController<Login>.broadcast();
   Stream<Login> get currentLoginStream => _currentLoginStreamController.stream;
 
@@ -63,9 +63,8 @@ class Session {
   }
 
   Future<Host> serverInfo(String pageName, String url) async {
-    print(pageName);
     var result =
-        await this.operationContext.perform(pageName, ServerInfoOperation(url));
+        await operationContext.perform(pageName, ServerInfoOperation(url));
     return result.value;
   }
 

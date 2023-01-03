@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 Widget themedDatePickerBuilder(BuildContext context, Widget child) {
   return Theme(
     data: ThemeData.dark().copyWith(
-      colorScheme: ColorScheme.dark(
+      colorScheme: const ColorScheme.dark(
         primary: AppThemeData.mainLightestColor,
         secondary: AppThemeData.highlightLighterColor,
-        secondaryVariant: AppThemeData.highlightLighterColor,
         onPrimary: AppThemeData.mainDarkerColor,
         surface: AppThemeData.mainColor,
         onSurface: AppThemeData.highlightLighterColor,

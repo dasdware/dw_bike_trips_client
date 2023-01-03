@@ -1,4 +1,4 @@
-import 'package:dw_bike_trips_client/queries.dart' as GraphQLQueries;
+import 'package:dw_bike_trips_client/queries.dart' as queries;
 import 'package:dw_bike_trips_client/session/hosts.dart';
 import 'package:dw_bike_trips_client/session/operations.dart';
 import 'package:dw_bike_trips_client/session/operations/client.dart';
@@ -13,11 +13,11 @@ class ServerInfoOperation extends ValuedOperation<Host> {
   @override
   Future<ValuedOperationResult<Host>> perform(
       String pageName, OperationContext context) {
-    HttpLink httpLink = HttpLink(uri: url);
+    HttpLink httpLink = HttpLink(url);
     GraphQLClient client =
-        GraphQLClient(cache: InMemoryCache(), link: httpLink);
+        GraphQLClient(cache: GraphQLCache(), link: httpLink);
 
-    return doGraphQL(client, GraphQLQueries.serverInfo,
+    return doGraphQL(client, queries.serverInfo,
         (result) => Host(result['serverInfo']['name'], url));
   }
 }

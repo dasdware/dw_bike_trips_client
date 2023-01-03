@@ -6,17 +6,19 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 
 const Duration _timeout = Duration(seconds: 5);
 
-typedef T Converter<T>(dynamic value);
+typedef Converter<T> = T Function(dynamic value);
 
 Future<ValuedOperationResult<T>> doGraphQL<T>(
     GraphQLClient client, Document request, Converter<T> converter,
     {Map<String, dynamic> variables, bool mutation = false}) async {
   try {
+    variables ??= <String, dynamic>{};
+    
     var result = (mutation)
         ? await client
             .mutate(
               MutationOptions(
-                documentNode: gql(request.bake()),
+                document: gql(request.bake()),
                 variables: variables,
               ),
             )
@@ -24,13 +26,15 @@ Future<ValuedOperationResult<T>> doGraphQL<T>(
         : await client
             .query(
               QueryOptions(
-                documentNode: gql(request.bake()),
+                document: gql(request.bake()),
                 variables: variables,
               ),
             )
             .timeout(_timeout);
 
+
     if (result.hasException) {
+      print(result.exception);
       return ValuedOperationResult<T>.withErrors(result.exception.graphqlErrors
           .map((e) => OperationError(e.message))
           .toList());

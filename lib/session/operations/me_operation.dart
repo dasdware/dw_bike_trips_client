@@ -1,4 +1,4 @@
-import 'package:dw_bike_trips_client/queries.dart' as GraphQLQueries;
+import 'package:dw_bike_trips_client/queries.dart' as queries;
 import 'package:dw_bike_trips_client/session/operations.dart';
 import 'package:dw_bike_trips_client/session/operations/client.dart';
 import 'package:dw_bike_trips_client/session/user.dart';
@@ -15,7 +15,7 @@ class MeOperation extends ValuedOperation<User> {
       String pageName, OperationContext context) {
     return doGraphQL(
         client,
-        GraphQLQueries.me,
+        queries.me,
         (result) => User(result['me']['email'], result['me']['firstname'],
             result['me']['lastname']));
   }

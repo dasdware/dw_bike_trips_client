@@ -15,27 +15,29 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class DashboardPage extends StatelessWidget {
+  const DashboardPage({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ThemedScaffold(
       pageName: 'dashboard',
       extendBodyBehindAppBar: false,
-      endDrawer: CurrentUserDrawer(),
+      endDrawer: const CurrentUserDrawer(),
       appBar: themedAppBar(
-        title: ThemedHeading(
+        title: const ThemedHeading(
           caption: 'Dashboard',
-          style: ThemedHeadingStyle.Big,
+          style: ThemedHeadingStyle.big,
         ),
         actions: [
           ThemedIconButton(
             icon: Icons.history,
             onPressed: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => HistoryPage()));
+                  MaterialPageRoute(builder: (context) => const HistoryPage()));
             },
           ),
-          UploadTripsButton(),
-          CurrentUserButton()
+          const UploadTripsButton(),
+          const CurrentUserButton()
         ],
       ),
       body: StreamBuilder<Dashboard>(
@@ -52,11 +54,11 @@ class DashboardPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     DistancesSection(distances: snapshot.data.distances),
-                    SizedBox(
+                    const SizedBox(
                       height: 16.0,
                     ),
                     DashboardHistorySection(history: history),
-                    SizedBox(
+                    const SizedBox(
                       height: 64.0,
                     ),
                   ],
@@ -64,18 +66,18 @@ class DashboardPage extends StatelessWidget {
               ),
             );
           } else {
-            return Padding(
-              padding: const EdgeInsets.fromLTRB(0, 200, 0, 100),
+            return const Padding(
+              padding: EdgeInsets.fromLTRB(0, 200, 0, 100),
               child: Center(child: Logo()),
             );
           }
         },
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add_circle_outline),
+        child: const Icon(Icons.add_circle_outline),
         onPressed: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => AddTripPage()));
+              context, MaterialPageRoute(builder: (context) => const AddTripPage()));
         },
       ),
     );

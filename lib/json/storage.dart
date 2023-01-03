@@ -7,10 +7,8 @@ import 'package:path_provider/path_provider.dart';
 void saveHosts(Hosts hosts) async {
   final json = JSONHosts.fromHosts(hosts);
   final jsonString = jsonEncode(json);
-  print(jsonString);
 
   File output = await _getDefaultStorageFile('hosts');
-  print(output.path);
   await output.writeAsString(jsonString);
 }
 

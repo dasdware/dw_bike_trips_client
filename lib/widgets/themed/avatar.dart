@@ -1,6 +1,5 @@
 import 'package:dw_bike_trips_client/session/user.dart';
 import 'package:dw_bike_trips_client/theme_data.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ThemedAvatar extends StatelessWidget {
@@ -38,14 +37,15 @@ class ThemedAvatar extends StatelessWidget {
     if (onPressed != null) {
       return Padding(
         padding: const EdgeInsets.all(4.0),
-        child: FlatButton(
+        child: TextButton(
           onPressed: onPressed,
-          child: buildInitials(),
-          shape: CircleBorder(),
           clipBehavior: Clip.hardEdge,
-          color: AppThemeData.activeColor,
-          splashColor: AppThemeData.activeDarkerColor,
-          minWidth: 0.0,
+          style: TextButton.styleFrom(
+            shape: const CircleBorder(),
+            backgroundColor: AppThemeData.activeColor,
+            surfaceTintColor: AppThemeData.activeDarkerColor,
+          ),
+          child: buildInitials()
         ),
       );
     } else {
@@ -55,7 +55,7 @@ class ThemedAvatar extends StatelessWidget {
           backgroundColor: AppThemeData.panelBackgroundColor
               .withOpacity(AppThemeData.panelBackgroundMostEmphasizedOpacity),
           child: Padding(
-            padding: EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(20.0),
             child: FittedBox(
               fit: BoxFit.cover,
               child: buildInitials(),

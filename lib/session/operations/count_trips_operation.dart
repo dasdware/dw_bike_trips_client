@@ -1,4 +1,4 @@
-import 'package:dw_bike_trips_client/queries.dart' as GraphQLQueries;
+import 'package:dw_bike_trips_client/queries.dart' as queries;
 import 'package:dw_bike_trips_client/session/operations.dart';
 import 'package:dw_bike_trips_client/session/operations/client.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -22,7 +22,7 @@ class CountTripsOperation extends ValuedOperation<CountTripsResult> {
       String pageName, OperationContext context) async {
     return doGraphQL<CountTripsResult>(
       client,
-      GraphQLQueries.countTrips,
+      queries.countTrips,
       (result) {
         return CountTripsResult(
             result['countTrips']['count'],

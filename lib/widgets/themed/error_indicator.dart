@@ -48,12 +48,12 @@ class ErrorIndicator extends StatelessWidget {
                                     color: Colors.redAccent[100],
                                     size: 20,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 8.0,
                                   ),
                                   Expanded(
                                     child: Text(
-                                      pageName + ': ' + error.message,
+                                      '$pageName: ${error.message}',
                                       // overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
                                         color: Colors.redAccent[100],

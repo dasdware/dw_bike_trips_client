@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:dw_bike_trips_client/json/storage.dart' as Storage;
+import 'package:dw_bike_trips_client/json/storage.dart' as storage;
 
 class Host {
   final String name;
@@ -10,9 +10,9 @@ class Host {
 }
 
 class Hosts {
-  List<Host> _entries = [];
+  final List<Host> _entries = [];
 
-  StreamController<List<Host>> _entriesStreamController =
+  final StreamController<List<Host>> _entriesStreamController =
       StreamController<List<Host>>.broadcast();
 
   dispose() {
@@ -21,7 +21,7 @@ class Hosts {
 
   _changed() {
     _entriesStreamController.sink.add(_entries);
-    Storage.saveHosts(this);
+    storage.saveHosts(this);
   }
 
   addHost(String name, String url) {

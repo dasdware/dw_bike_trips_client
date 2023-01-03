@@ -28,10 +28,10 @@ class DistancesSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ThemedHeading(
+        const ThemedHeading(
           caption: 'Distances (km)',
         ),
-        SizedBox(
+        const SizedBox(
           height: 8.0,
         ),
         Row(
@@ -47,7 +47,7 @@ class DistancesSection extends StatelessWidget {
               referenceCaption: 'yesterday',
               referenceDistance: distances.yesterday,
             ),
-            SizedBox(
+            const SizedBox(
               width: 8.0,
             ),
             DashboardDistancePanel(
@@ -61,7 +61,7 @@ class DistancesSection extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 8.0,
         ),
         Row(
@@ -76,7 +76,7 @@ class DistancesSection extends StatelessWidget {
               referenceCaption: 'last month',
               referenceDistance: distances.lastMonth,
             ),
-            SizedBox(
+            const SizedBox(
               width: 8.0,
             ),
             DashboardDistancePanel(
@@ -91,7 +91,7 @@ class DistancesSection extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 8.0,
         ),
         Row(
@@ -147,18 +147,18 @@ class _DistanceProgressBarElement extends StatelessWidget {
         duration: duration,
         curve: Curves.easeOut,
         builder: (BuildContext context, double size, Widget child) {
-          return Container(
+          return SizedBox(
             height: thumbSize,
             child: Stack(
               children: [
                 Align(
-                  alignment: Alignment(-1, 0),
+                  alignment: const Alignment(-1, 0),
                   child: FractionallySizedBox(
                     widthFactor: (displayTrack) ? size : 0,
                     child: Container(
                       height: trackSize,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        borderRadius: const BorderRadius.all(Radius.circular(20)),
                         color: color,
                       ),
                     ),
@@ -230,7 +230,7 @@ class DistanceProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: max(trackSize, thumbSize),
       child: Stack(
         children: [
@@ -305,7 +305,7 @@ class DashboardDistancePanel extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 icon,
-                SizedBox(
+                const SizedBox(
                   width: 8.0,
                 ),
                 Column(
@@ -314,9 +314,9 @@ class DashboardDistancePanel extends StatelessWidget {
                   children: [
                     ThemedHeading(
                       caption: caption,
-                      style: ThemedHeadingStyle.Small,
+                      style: ThemedHeadingStyle.small,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 2.0,
                     ),
                     Text(
@@ -332,21 +332,21 @@ class DashboardDistancePanel extends StatelessWidget {
                 ),
               ],
             ),
-            if (this.referenceDistance != null)
-              SizedBox(
+            if (referenceDistance != null)
+              const SizedBox(
                 height: 8.0,
               ),
-            if (this.referenceDistance != null && this.referenceCaption != null)
+            if (referenceDistance != null && referenceCaption != null)
               ThemedHeading(
                 caption:
-                    '${this.referenceCaption}: ${context.watch<Session>().formatDistance(referenceDistance, withUnit: false)}',
-                style: ThemedHeadingStyle.Tiny,
+                    '$referenceCaption: ${context.watch<Session>().formatDistance(referenceDistance, withUnit: false)}',
+                style: ThemedHeadingStyle.tiny,
               ),
-            if (this.referenceDistance != null && this.referenceCaption != null)
-              SizedBox(
+            if (referenceDistance != null && referenceCaption != null)
+              const SizedBox(
                 height: 4.0,
               ),
-            if (this.referenceDistance != null)
+            if (referenceDistance != null)
               DistanceProgressBar(
                 distance: distance,
                 referenceDistance: referenceDistance,

@@ -36,13 +36,13 @@ class ThemedProgressIndicator extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                LinearProgressIndicator(
+                const LinearProgressIndicator(
                   backgroundColor: AppThemeData.mainDarkestColor,
                   valueColor: AlwaysStoppedAnimation<Color>(
                     AppThemeData.activeColor,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8.0,
                   width: double.infinity,
                 ),

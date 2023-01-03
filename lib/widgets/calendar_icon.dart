@@ -32,31 +32,31 @@ class CalendarIcon extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          width: this.style.width,
-          height: this.style.height,
+          width: style.width,
+          height: style.height,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(this.style.borderRadius),
+            borderRadius: BorderRadius.circular(style.borderRadius),
             border: Border.all(
-              color: this.style.color,
-              width: this.style.lineWidth,
+              color: style.color,
+              width: style.lineWidth,
             ),
           ),
         ),
         Positioned(
-          left: this.style.lineWidth,
-          right: this.style.lineWidth,
-          top: this.style.headerHeight - this.style.lineWidth,
-          height: this.style.lineWidth,
+          left: style.lineWidth,
+          right: style.lineWidth,
+          top: style.headerHeight - style.lineWidth,
+          height: style.lineWidth,
           child: Container(
-            color: this.style.color,
+            color: style.color,
           ),
         ),
         Positioned(
-          left: this.style.lineWidth + this.style.childPadding,
-          right: this.style.lineWidth + this.style.childPadding,
-          top: this.style.headerHeight + this.style.childPadding,
-          bottom: this.style.lineWidth + this.style.childPadding,
-          child: this.child,
+          left: style.lineWidth + style.childPadding,
+          right: style.lineWidth + style.childPadding,
+          top: style.headerHeight + style.childPadding,
+          bottom: style.lineWidth + style.childPadding,
+          child: child,
         ),
       ],
     );
@@ -74,19 +74,19 @@ class DayCalendarIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CalendarIcon(
+      style: style,
       child: Align(
         alignment: Alignment.center,
         child: Text(
-          this.day.toString(),
+          day.toString(),
           style: TextStyle(
-            color: this.style.color,
+            color: style.color,
             fontSize: 16,
             fontWeight: FontWeight.w600,
             height: 1.0,
           ),
         ),
       ),
-      style: this.style,
     );
   }
 }
@@ -100,6 +100,7 @@ class TodayCalendarIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CalendarIcon(
+      style: style,
       child: Stack(
         children: [
           Positioned(
@@ -109,9 +110,9 @@ class TodayCalendarIcon extends StatelessWidget {
             top: 1,
             child: Container(
               decoration: BoxDecoration(
-                color: this.style.color.withOpacity(0.3),
+                color: style.color.withOpacity(0.3),
                 border: Border.all(
-                  color: this.style.color,
+                  color: style.color,
                   width: 2, //this.style.lineWidth,
                 ),
               ),
@@ -119,7 +120,6 @@ class TodayCalendarIcon extends StatelessWidget {
           ),
         ],
       ),
-      style: this.style,
     );
   }
 }
@@ -133,6 +133,7 @@ class WeekCalendarIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CalendarIcon(
+      style: style,
       child: Stack(
         children: [
           Positioned(
@@ -142,17 +143,16 @@ class WeekCalendarIcon extends StatelessWidget {
             height: 8,
             child: Container(
               decoration: BoxDecoration(
-                color: this.style.color.withOpacity(0.3),
+                color: style.color.withOpacity(0.3),
                 border: Border.all(
-                  color: this.style.color,
-                  width: this.style.lineWidth,
+                  color: style.color,
+                  width: style.lineWidth,
                 ),
               ),
             ),
           ),
         ],
       ),
-      style: this.style,
     );
   }
 }
@@ -166,6 +166,7 @@ class MonthCalendarIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CalendarIcon(
+      style: style,
       child: Stack(
         children: [
           Positioned(
@@ -175,17 +176,16 @@ class MonthCalendarIcon extends StatelessWidget {
             bottom: 0,
             child: Container(
               decoration: BoxDecoration(
-                color: this.style.color.withOpacity(0.3),
+                color: style.color.withOpacity(0.3),
                 border: Border.all(
-                  color: this.style.color,
-                  width: this.style.lineWidth,
+                  color: style.color,
+                  width: style.lineWidth,
                 ),
               ),
             ),
           ),
         ],
       ),
-      style: this.style,
     );
   }
 }
@@ -201,19 +201,19 @@ class YearCalendarIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CalendarIcon(
+      style: style,
       child: Align(
         alignment: Alignment.center,
         child: Text(
-          this.year.toString(),
+          year.toString(),
           style: TextStyle(
-            color: this.style.color,
+            color: style.color,
             fontSize: 11,
             fontWeight: FontWeight.w600,
             height: 1.0,
           ),
         ),
       ),
-      style: this.style,
     );
   }
 }
@@ -227,6 +227,7 @@ class AllTimeCalendarIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CalendarIcon(
+      style: style,
       child: Padding(
         padding: const EdgeInsets.only(top: 1),
         child: Align(
@@ -234,7 +235,7 @@ class AllTimeCalendarIcon extends StatelessWidget {
           child: Text(
             'Σ',
             style: TextStyle(
-              color: this.style.color,
+              color: style.color,
               fontSize: 20,
               fontWeight: FontWeight.w500,
               height: 1.0,
@@ -242,7 +243,6 @@ class AllTimeCalendarIcon extends StatelessWidget {
           ),
         ),
       ),
-      style: this.style,
     );
   }
 }

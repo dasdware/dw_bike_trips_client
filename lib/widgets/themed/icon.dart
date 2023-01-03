@@ -16,12 +16,12 @@ class _IconClipper extends CustomClipper<Path> {
     path.arcToPoint(
       Offset(size.width - 2 * s, size.height - s),
       clockwise: true,
-      radius: Radius.circular(s),
+      radius: const Radius.circular(s),
     );
     path.arcToPoint(
       Offset(size.width, size.height - s),
       clockwise: true,
-      radius: Radius.circular(s),
+      radius: const Radius.circular(s),
     );
 
     path.lineTo(size.width, 0);
@@ -59,7 +59,7 @@ class ThemedIcon extends StatelessWidget {
     if (overlayText != null) {
       var text = Text(
         overlayText,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 10,
           fontWeight: FontWeight.bold,
           color: AppThemeData.activeLighterColor,
@@ -68,14 +68,14 @@ class ThemedIcon extends StatelessWidget {
 
       if (overlayText.length == 1) {
         return Container(
-            padding: EdgeInsets.symmetric(horizontal: 3.0), child: text);
+            padding: const EdgeInsets.symmetric(horizontal: 3.0), child: text);
       }
 
       return text;
     } else {
       return Icon(
-        this.overlayIcon,
-        color: this.color,
+        overlayIcon,
+        color: color,
         size: _overlayIconSize,
       );
     }
@@ -103,7 +103,7 @@ class ThemedIcon extends StatelessWidget {
           )
         : null;
 
-    return Container(
+    return SizedBox(
       width: _paddedSize,
       height: _paddedSize,
       child: Stack(
@@ -112,9 +112,9 @@ class ThemedIcon extends StatelessWidget {
             clipper: _clipper,
             child: Center(
               child: Icon(
-                this.icon,
+                icon,
                 color: color,
-                size: this.size,
+                size: size,
               ),
             ),
           ),

@@ -9,9 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HostsPage extends StatelessWidget {
+  const HostsPage({Key key}) : super(key: key);
+
   _addHostPressed(BuildContext context) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => AddHostPage()));
+        context, MaterialPageRoute(builder: (context) => const AddHostPage()));
   }
 
   @override
@@ -24,14 +26,14 @@ class HostsPage extends StatelessWidget {
           return ThemedScaffold(
             pageName: 'hosts',
             appBar: themedAppBar(
-              title: ThemedHeading(
+              title: const ThemedHeading(
                 caption: 'Manage hosts',
-                style: ThemedHeadingStyle.Big,
+                style: ThemedHeadingStyle.big,
               ),
             ),
             floatingActionButton: (haveHosts)
                 ? FloatingActionButton(
-                    child: Icon(Icons.add),
+                    child: const Icon(Icons.add),
                     onPressed: () => _addHostPressed(context),
                   )
                 : null,
@@ -41,7 +43,7 @@ class HostsPage extends StatelessWidget {
                         .map((host) => HostListTile(host: host))
                         .toList(),
                   )
-                : NoHostsPanel(),
+                : const NoHostsPanel(),
           );
         });
   }

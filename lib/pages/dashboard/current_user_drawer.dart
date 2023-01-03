@@ -20,7 +20,7 @@ class CurrentUserDrawer extends StatelessWidget {
     User currentUser = context.watch<Session>().currentLogin.user;
     return Theme(
       data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
-      child: Container(
+      child: SizedBox(
         width: 230,
         child: Drawer(
           child: Stack(
@@ -43,7 +43,7 @@ class CurrentUserDrawer extends StatelessWidget {
                   SizedBox(
                     height: 150,
                     child: DrawerHeader(
-                      margin: EdgeInsets.fromLTRB(40, 0, 20, 0),
+                      margin: const EdgeInsets.fromLTRB(40, 0, 20, 0),
                       child: ThemedAvatar(user: currentUser),
                     ),
                   ),
@@ -100,7 +100,7 @@ class InfoListTile extends StatelessWidget {
         ),
         title: Text(
           text,
-          style: TextStyle(color: AppThemeData.headingBigColor),
+          style: const TextStyle(color: AppThemeData.headingBigColor),
         ),
       ),
     );

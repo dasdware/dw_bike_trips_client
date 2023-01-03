@@ -10,9 +10,9 @@ class AppThemeData {
   static const spacing = 8.0;
   static const largeSpacing = 16.0;
 
-  static const headingColor = const Color.fromRGBO(255, 255, 255, 0.7);
-  static const headingMediumColor = const Color.fromRGBO(255, 255, 255, 0.8);
-  static const headingBigColor = const Color.fromRGBO(255, 255, 255, 0.9);
+  static const headingColor = Color.fromRGBO(255, 255, 255, 0.7);
+  static const headingMediumColor = Color.fromRGBO(255, 255, 255, 0.8);
+  static const headingBigColor = Color.fromRGBO(255, 255, 255, 0.9);
   static const headingSmallFontSize = 12.0;
   static const headingMediumFontSize = 16.0;
   static const headingBigFontSize = 20.0;
@@ -37,7 +37,7 @@ class AppThemeData {
   static const activeDarkerColor = highlightDarkerColor;
   static const activeDarkestColor = highlightDarkestColor;
 
-  static const tooltipBackground = const Color.fromRGBO(0, 0, 0, 0.6);
+  static const tooltipBackground = Color.fromRGBO(0, 0, 0, 0.6);
 
   static const currentValue = mainLightestColor;
   static const referenceValue = mainLighterColor;
@@ -47,7 +47,7 @@ class AppThemeData {
   static const errorColor = Colors.redAccent;
 
   static final themeData = ThemeData(
-    appBarTheme: AppBarTheme(
+    appBarTheme: const AppBarTheme(
       color: Colors.transparent,
       iconTheme: IconThemeData(
         color: Colors.white,
@@ -56,7 +56,7 @@ class AppThemeData {
     primaryColor: AppThemeData.mainDarkestColor,
     visualDensity: VisualDensity.adaptivePlatformDensity,
     scaffoldBackgroundColor: Colors.transparent,
-    floatingActionButtonTheme: FloatingActionButtonThemeData(
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: AppThemeData.activeColor,
       foregroundColor: AppThemeData.activeDarkestColor,
     ),

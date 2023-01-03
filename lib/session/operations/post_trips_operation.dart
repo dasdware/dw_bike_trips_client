@@ -1,4 +1,4 @@
-import 'package:dw_bike_trips_client/queries.dart' as GraphQLQueries;
+import 'package:dw_bike_trips_client/queries.dart' as queries;
 import 'package:dw_bike_trips_client/session/dashboard.dart';
 import 'package:dw_bike_trips_client/session/operations.dart';
 import 'package:dw_bike_trips_client/session/operations/client.dart';
@@ -21,12 +21,12 @@ class PostTripsOperation extends ValuedOperation<bool> {
       String pageName, OperationContext context) async {
     return doGraphQL<bool>(
       client,
-      GraphQLQueries.postTrips(trips),
+      queries.postTrips(trips),
       (result) {
         var success = (result['postTrips'] == trips.length);
         // print(client.cache).data);
         if (success) {
-          client.cache.reset();
+          client.cache.store.reset();
           tripsController.invalidate();
           dashboardController.refresh();
         }

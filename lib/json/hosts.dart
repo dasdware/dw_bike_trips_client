@@ -13,9 +13,9 @@ class JSONHosts {
   JSONHosts.fromJson(Map<String, dynamic> json) {
     activeHost = json['activeHost'];
     if (json['hosts'] != null) {
-      hosts = new List<JSONHost>();
+      hosts = <JSONHost>[];
       json['hosts'].forEach((v) {
-        hosts.add(new JSONHost.fromJson(v));
+        hosts.add(JSONHost.fromJson(v));
       });
     }
   }
@@ -31,10 +31,10 @@ class JSONHosts {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['activeHost'] = this.activeHost;
-    if (this.hosts != null) {
-      data['hosts'] = this.hosts.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['activeHost'] = activeHost;
+    if (hosts != null) {
+      data['hosts'] = hosts.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -56,9 +56,9 @@ class JSONHost {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['url'] = this.url;
-    data['name'] = this.name;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['url'] = url;
+    data['name'] = name;
     return data;
   }
 }

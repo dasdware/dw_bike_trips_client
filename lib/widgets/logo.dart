@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class Logo extends StatelessWidget {
+  const Logo({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -13,12 +15,12 @@ class Logo extends StatelessWidget {
           SvgPicture.asset('assets/logo.svg',
               color: AppThemeData.highlightColor,
               semanticsLabel: 'dasd.ware BikeTrips Logo'),
-          SizedBox(
+          const SizedBox(
             height: 8.0,
           ),
-          ThemedText(
+          const ThemedText(
             text: 'dasd.ware BikeTrips',
-            textColor: ThemedTextColor.Highlight,
+            textColor: ThemedTextColor.highlight,
           ),
         ],
       ),

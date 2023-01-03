@@ -15,6 +15,8 @@ import 'package:provider/provider.dart';
 import 'package:sticky_grouped_list/sticky_grouped_list.dart';
 
 class HistoryPage extends StatelessWidget {
+  const HistoryPage({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     var session = context.watch<Session>();
@@ -34,7 +36,7 @@ class HistoryPage extends StatelessWidget {
                     elements: snapshot.data,
                     groupBy: (trip) => calculateGroupKey(trip),
                     indexedItemBuilder: (context, trip, index) => Padding(
-                          padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+                          padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
                           child: Column(
                             children: [
                               Row(
@@ -45,18 +47,18 @@ class HistoryPage extends StatelessWidget {
                                       color: Colors.white.withOpacity(0.7),
                                     ),
                                   ),
-                                  SizedBox(width: 16.0),
-                                  Container(
+                                  const SizedBox(width: 16.0),
+                                  SizedBox(
                                     width: 32,
                                     child: ThemedText(
                                       text:
                                           '${session.formatWeekday(trip.timestamp)}'
                                               .toUpperCase(),
-                                      textSize: ThemedTextSize.Small,
+                                      textSize: ThemedTextSize.small,
                                       deemphasized: true,
                                     ),
                                   ),
-                                  SizedBox(width: 16.0),
+                                  const SizedBox(width: 16.0),
                                   ThemedText(
                                     text: session.formatDistance(trip.distance),
                                   ),
@@ -64,8 +66,7 @@ class HistoryPage extends StatelessWidget {
                                     Expanded(
                                       child: Align(
                                         alignment: Alignment.centerRight,
-                                        child: FlatButton(
-                                          padding: EdgeInsets.zero,
+                                        child: TextButton(
                                           onPressed: () => session.tripsHistory
                                               .toggleTripExpansion(trip),
                                           child: Row(
@@ -74,10 +75,10 @@ class HistoryPage extends StatelessWidget {
                                               ThemedText(
                                                 text: '${trip.count} trips'
                                                     .toUpperCase(),
-                                                textSize: ThemedTextSize.Small,
+                                                textSize: ThemedTextSize.small,
                                                 deemphasized: true,
                                               ),
-                                              SizedBox(width: 4.0),
+                                              const SizedBox(width: 4.0),
                                               Icon(
                                                 (!trip.expanded)
                                                     ? Icons.add_circle
@@ -97,7 +98,7 @@ class HistoryPage extends StatelessWidget {
                                   children: trip.parts.reversed
                                       .map((part) => Row(
                                             children: [
-                                              SizedBox(
+                                              const SizedBox(
                                                 width: 94,
                                               ),
                                               ThemedText(
@@ -118,12 +119,12 @@ class HistoryPage extends StatelessWidget {
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ThemedPanel(
-                          style: ThemedPanelStyle.Emphasized,
+                          style: ThemedPanelStyle.emphasized,
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              MonthCalendarIcon(),
-                              SizedBox(width: 8.0),
+                              const MonthCalendarIcon(),
+                              const SizedBox(width: 8.0),
                               Column(
                                 mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,13 +137,13 @@ class HistoryPage extends StatelessWidget {
                                     children: [
                                       ThemedHeading(
                                         caption: '${group.count} trips',
-                                        style: ThemedHeadingStyle.Tiny,
+                                        style: ThemedHeadingStyle.tiny,
                                       ),
-                                      ThemedDot(),
+                                      const ThemedDot(),
                                       ThemedHeading(
                                         caption: session
                                             .formatDistance(group.distance),
-                                        style: ThemedHeadingStyle.Tiny,
+                                        style: ThemedHeadingStyle.tiny,
                                       ),
                                     ],
                                   ),
@@ -153,16 +154,16 @@ class HistoryPage extends StatelessWidget {
                         ),
                       );
                     })
-                : ThemedText(
+                : const ThemedText(
                     text: 'no data',
                   );
             return ThemedScaffold(
               pageName: 'history',
               extendBodyBehindAppBar: false,
               appBar: themedAppBar(
-                title: ThemedHeading(
+                title: const ThemedHeading(
                   caption: 'Timeline',
-                  style: ThemedHeadingStyle.Big,
+                  style: ThemedHeadingStyle.big,
                 ),
                 actions: [
                   ThemedIconButton(

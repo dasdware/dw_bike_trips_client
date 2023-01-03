@@ -1,4 +1,4 @@
-import 'package:dw_bike_trips_client/queries.dart' as GraphQLQueries;
+import 'package:dw_bike_trips_client/queries.dart' as queries;
 import 'package:dw_bike_trips_client/session/hosts.dart';
 import 'package:dw_bike_trips_client/session/login.dart';
 import 'package:dw_bike_trips_client/session/operations.dart';
@@ -18,13 +18,13 @@ class LoginOperation extends ValuedOperation<Login> {
   @override
   Future<ValuedOperationResult<Login>> perform(
       String pageName, OperationContext context) async {
-    HttpLink httpLink = HttpLink(uri: host.url);
+    HttpLink httpLink = HttpLink(host.url);
     GraphQLClient client =
-        GraphQLClient(cache: InMemoryCache(), link: httpLink);
+        GraphQLClient(cache: GraphQLCache(), link: httpLink);
 
     var fetchTokenResult = await doGraphQL<String>(
       client,
-      GraphQLQueries.login,
+      queries.login,
       (result) => result['login']['token'],
       variables: {
         'email': email,
@@ -36,7 +36,7 @@ class LoginOperation extends ValuedOperation<Login> {
     }
 
     var authenticatedClient = GraphQLClient(
-      cache: InMemoryCache(),
+      cache: GraphQLCache(),
       link: AuthLink(getToken: () async => 'Bearer ${fetchTokenResult.value}')
           .concat(httpLink),
     );

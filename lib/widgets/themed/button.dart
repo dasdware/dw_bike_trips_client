@@ -23,7 +23,7 @@ class ThemedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return (flat)
-        ? FlatButton.icon(
+        ? TextButton.icon(
             icon: ThemedIcon(
               icon: icon,
               overlayIcon: overlayIcon,
@@ -31,16 +31,18 @@ class ThemedButton extends StatelessWidget {
               color: AppThemeData.activeColor,
               size: 22.0,
             ),
-            padding: EdgeInsets.fromLTRB(12.0, 6.0, 12.0, 6.0),
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.fromLTRB(12.0, 6.0, 12.0, 6.0),
+            ),
             label: Text(
               caption.toUpperCase(),
-              style: TextStyle(
+              style: const TextStyle(
                 color: AppThemeData.activeColor,
               ),
             ),
             onPressed: onPressed,
           )
-        : RaisedButton.icon(
+        : ElevatedButton.icon(
             icon: ThemedIcon(
               icon: icon,
               overlayIcon: overlayIcon,
@@ -48,11 +50,13 @@ class ThemedButton extends StatelessWidget {
               color: AppThemeData.activeDarkestColor,
               size: 22.0,
             ),
-            padding: EdgeInsets.fromLTRB(12.0, 6.0, 12.0, 6.0),
-            color: AppThemeData.activeColor,
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.fromLTRB(12.0, 6.0, 12.0, 6.0),
+              backgroundColor: AppThemeData.activeColor,
+            ),
             label: Text(
               caption.toUpperCase(),
-              style: TextStyle(
+              style: const TextStyle(
                 color: AppThemeData.activeDarkestColor,
               ),
             ),

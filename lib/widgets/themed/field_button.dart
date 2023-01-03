@@ -12,7 +12,7 @@ class ThemedFieldButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 50,
       child: OutlinedButton.icon(
         icon: Icon(icon),
@@ -20,12 +20,12 @@ class ThemedFieldButton extends StatelessWidget {
           foregroundColor:
               MaterialStateProperty.all<Color>(AppThemeData.highlightColor),
           side: MaterialStateProperty.all<BorderSide>(
-            BorderSide(color: AppThemeData.highlightColor),
+            const BorderSide(color: AppThemeData.highlightColor),
           ),
         ),
         label: ThemedText(
           text: text,
-          textColor: ThemedTextColor.Highlight,
+          textColor: ThemedTextColor.highlight,
         ),
         onPressed: onPressed,
       ),

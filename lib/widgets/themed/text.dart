@@ -1,8 +1,8 @@
 import 'package:dw_bike_trips_client/theme_data.dart';
 import 'package:flutter/material.dart';
 
-enum ThemedTextSize { Normal, Small }
-enum ThemedTextColor { Normal, Main, Highlight }
+enum ThemedTextSize { normal, small }
+enum ThemedTextColor { normal, main, highlight }
 
 class ThemedText extends StatelessWidget {
   final String text;
@@ -15,16 +15,16 @@ class ThemedText extends StatelessWidget {
       {Key key,
       this.text,
       this.textAlign = TextAlign.center,
-      this.textSize = ThemedTextSize.Normal,
-      this.textColor = ThemedTextColor.Normal,
+      this.textSize = ThemedTextSize.normal,
+      this.textColor = ThemedTextColor.normal,
       this.deemphasized = false})
       : super(key: key);
 
   get _color {
     var color = AppThemeData.textColor;
-    if (textColor == ThemedTextColor.Main) {
+    if (textColor == ThemedTextColor.main) {
       color = AppThemeData.mainLighterColor;
-    } else if (textColor == ThemedTextColor.Highlight) {
+    } else if (textColor == ThemedTextColor.highlight) {
       color = AppThemeData.highlightColor;
     }
 
@@ -40,7 +40,7 @@ class ThemedText extends StatelessWidget {
       text,
       style: TextStyle(
         color: _color,
-        fontSize: (textSize == ThemedTextSize.Small)
+        fontSize: (textSize == ThemedTextSize.small)
             ? AppThemeData.textSmallSize
             : AppThemeData.textSize,
       ),

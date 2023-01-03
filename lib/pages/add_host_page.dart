@@ -12,8 +12,10 @@ import 'package:flutter_config/flutter_config.dart';
 import 'package:provider/provider.dart';
 
 class AddHostPage extends StatefulWidget {
+  const AddHostPage({Key key}) : super(key: key);
+
   @override
-  _AddHostPageState createState() => _AddHostPageState();
+  State<AddHostPage> createState() => _AddHostPageState();
 }
 
 class _AddHostPageState extends State<AddHostPage> {
@@ -21,13 +23,15 @@ class _AddHostPageState extends State<AddHostPage> {
       TextEditingController(text: FlutterConfig.get('DEFAULT_HOST'));
 
   _addPressed(BuildContext context) async {
+    var session = context.read<Session>();
+    var navigator = Navigator.of(context);
     var url = _urlController.value.text;
     var newHost = await context
         .read<Session>()
         .serverInfo(ApplicationPage.of(context).pageName, url);
     if (newHost != null) {
-      context.read<Session>().hosts.addHost(newHost.name, newHost.url);
-      Navigator.of(context).pop();
+      session.hosts.addHost(newHost.name, newHost.url);
+      navigator.pop();
     }
   }
 
@@ -36,9 +40,9 @@ class _AddHostPageState extends State<AddHostPage> {
     return ThemedScaffold(
       pageName: 'addHost',
       appBar: themedAppBar(
-        title: ThemedHeading(
+        title: const ThemedHeading(
           caption: 'Add new host',
-          style: ThemedHeadingStyle.Big,
+          style: ThemedHeadingStyle.big,
         ),
       ),
       body: Builder(
@@ -52,17 +56,17 @@ class _AddHostPageState extends State<AddHostPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    ThemedText(
+                    const ThemedText(
                       text:
                           'Enter the URI of the API endpoint that should be accessed by the new host. Once you are finished, use the button below to try to access the host and - if successful - add it to the hosts list.',
                     ),
-                    ThemedSpacing(),
+                    const ThemedSpacing(),
                     ThemedTextField(
                       controller: _urlController,
                       keyboardType: TextInputType.url,
                       labelText: 'URL',
                     ),
-                    ThemedSpacing(size: ThemedSpacingSize.Large),
+                    const ThemedSpacing(size: ThemedSpacingSize.large),
                     ThemedButton(
                       icon: Icons.cloud_outlined,
                       overlayIcon: Icons.add,

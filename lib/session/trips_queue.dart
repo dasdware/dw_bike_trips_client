@@ -15,8 +15,8 @@ class Trip {
 
 class TripsQueue {
   DateTime _lastSubmission;
-  List<Trip> _trips = [];
-  StreamController<List<Trip>> _tripsStreamController =
+  final List<Trip> _trips = [];
+  final StreamController<List<Trip>> _tripsStreamController =
       StreamController<List<Trip>>.broadcast();
 
   DateTime get lastSubmision => _lastSubmission;

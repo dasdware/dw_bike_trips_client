@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 class ThemedBackground extends StatelessWidget {
   final Widget child;
 
-  ThemedBackground({Key key, this.child}) : super(key: key);
+  const ThemedBackground({Key key, this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,

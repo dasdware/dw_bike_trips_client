@@ -14,7 +14,7 @@ class LoginForm extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _LoginFormState createState() => _LoginFormState();
+  State<LoginForm> createState() => _LoginFormState();
 }
 
 class _LoginFormState extends State<LoginForm> {
@@ -29,30 +29,30 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(8.0, 24.0, 8.0, 8.0),
+      padding: const EdgeInsets.fromLTRB(8.0, 24.0, 8.0, 8.0),
       child: ThemedPanel(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             ThemedHeading(
               caption: context.watch<Session>().hosts.activeHost.name,
-              style: ThemedHeadingStyle.Medium,
+              style: ThemedHeadingStyle.medium,
             ),
-            ThemedSpacing(size: ThemedSpacingSize.Large),
+            const ThemedSpacing(size: ThemedSpacingSize.large),
             ThemedTextField(
               controller: _emailFilter,
               labelText: 'Email',
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
             ),
-            ThemedSpacing(),
+            const ThemedSpacing(),
             ThemedTextField(
               controller: _passwordFilter,
               labelText: 'Password',
               obscureText: true,
               onEditingComplete: () => _loginPressed(context),
             ),
-            ThemedSpacing(size: ThemedSpacingSize.Large),
+            const ThemedSpacing(size: ThemedSpacingSize.large),
             ThemedButton(
               icon: Icons.login,
               caption: 'Login',

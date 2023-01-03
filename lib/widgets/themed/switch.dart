@@ -32,7 +32,7 @@ class ThemedSwitch extends StatelessWidget {
           child: ThemedText(
               text: text,
               textColor:
-                  value ? ThemedTextColor.Highlight : ThemedTextColor.Normal),
+                  value ? ThemedTextColor.highlight : ThemedTextColor.normal),
         ),
       ],
     );

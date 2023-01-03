@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 Widget themedTimePickerBuilder(BuildContext context, Widget child) {
   return Theme(
     data: ThemeData.dark().copyWith(
-      colorScheme: ColorScheme.dark(
+      colorScheme: const ColorScheme.dark(
         primary: AppThemeData.highlightLighterColor,
         secondary: AppThemeData.highlightLighterColor,
-        secondaryVariant: AppThemeData.highlightLighterColor,
         onPrimary: AppThemeData.highlightDarkerColor,
         surface: AppThemeData.mainDarkerColor,
         onSurface: AppThemeData.mainLightestColor,

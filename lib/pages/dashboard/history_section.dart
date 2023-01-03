@@ -15,18 +15,16 @@ class DashboardHistoryEntryBarChartGroupData extends BarChartGroupData {
           x: x,
           barRods: [
             BarChartRodData(
-              y: entry.distance,
-              colors: isTouched
-                  ? [AppThemeData.activeColor]
-                  : [AppThemeData.headingColor],
+              toY: entry.distance,
+              color: isTouched
+                  ? AppThemeData.activeColor
+                  : AppThemeData.headingColor,
               width: 16,
               backDrawRodData: BackgroundBarChartRodData(
                 show: true,
-                y: maxDistance,
-                colors: [
-                  AppThemeData.panelBackgroundColor.withOpacity(
-                      AppThemeData.panelBackgroundMostEmphasizedOpacity)
-                ],
+                toY: maxDistance,
+                color: AppThemeData.panelBackgroundColor.withOpacity(
+                    AppThemeData.panelBackgroundMostEmphasizedOpacity),
               ),
             ),
           ],
@@ -53,10 +51,10 @@ class DashboardHistorySectionState extends State<DashboardHistorySection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ThemedHeading(
+        const ThemedHeading(
           caption: 'history',
         ),
-        SizedBox(
+        const SizedBox(
           height: 8.0,
         ),
         AspectRatio(
@@ -84,7 +82,7 @@ class DashboardHistorySectionState extends State<DashboardHistorySection> {
       }
     }
 
-    var result = List<DashboardHistoryEntryBarChartGroupData>();
+    var result = <DashboardHistoryEntryBarChartGroupData>[];
     for (int i = 0; i < history.length; ++i) {
       result.add(DashboardHistoryEntryBarChartGroupData(
           i, maxDistance, history[history.length - i - 1], i == touchedIndex));
@@ -105,17 +103,15 @@ class DashboardHistorySectionState extends State<DashboardHistorySection> {
 
               return BarTooltipItem(
                 "${entry.month}/${entry.year}\n${session.formatDistance(entry.distance)}",
-                TextStyle(
+                const TextStyle(
                   color: AppThemeData.highlightColor,
                   fontWeight: FontWeight.w500,
                 ),
               );
             }),
-        touchCallback: (barTouchResponse) {
+        touchCallback: (event, barTouchResponse) {
           setState(() {
-            if (barTouchResponse.spot != null &&
-                barTouchResponse.touchInput is! FlPanEnd &&
-                barTouchResponse.touchInput is! FlLongPressEnd) {
+            if (barTouchResponse.spot != null) {
               touchedIndex = barTouchResponse.spot.touchedBarGroupIndex;
             } else {
               touchedIndex = -1;
@@ -125,19 +121,25 @@ class DashboardHistorySectionState extends State<DashboardHistorySection> {
       ),
       titlesData: FlTitlesData(
         show: true,
-        bottomTitles: SideTitles(
-          showTitles: true,
-          getTextStyles: (value) => const TextStyle(
-              color: AppThemeData.headingColor,
-              fontWeight: FontWeight.w500,
-              fontSize: 14),
-          margin: 16,
-          getTitles: (double value) {
-            return barGroups[value.toInt()].entry.month.toString();
-          },
+        bottomTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            getTitlesWidget: (value, meta) => SideTitleWidget(
+              axisSide: AxisSide.bottom,
+              child: Text(
+                barGroups[value.toInt()].entry.month.toString(),
+                style: const TextStyle(
+                    color: AppThemeData.headingColor,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14),
+              ),
+            ),
+          ),
         ),
-        leftTitles: SideTitles(
-          showTitles: false,
+        leftTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: false,
+          ),
         ),
       ),
       borderData: FlBorderData(

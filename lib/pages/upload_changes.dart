@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class UploadChangesPage extends StatelessWidget {
+  const UploadChangesPage({Key key}) : super(key: key);
+
   _postPressed(BuildContext context) async {
     Session session = context.read<Session>();
     if (await session.tripsQueue.post(
@@ -28,9 +30,9 @@ class UploadChangesPage extends StatelessWidget {
     return ThemedScaffold(
       pageName: 'uploadChanges',
       appBar: themedAppBar(
-        title: ThemedHeading(
+        title: const ThemedHeading(
           caption: "Upload changes",
-          style: ThemedHeadingStyle.Big,
+          style: ThemedHeadingStyle.big,
         ),
       ),
       body: Padding(
@@ -39,15 +41,15 @@ class UploadChangesPage extends StatelessWidget {
           children: session.tripsQueue.trips
               .map(
                 (trip) => ThemedPanel(
-                  margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                  margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                   padding:
-                      EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+                      const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
                   child: Row(
                     children: [
-                      ThemedIcon(
+                      const ThemedIcon(
                         icon: Icons.add_circle_outline,
                       ),
-                      ThemedSpacing(),
+                      const ThemedSpacing(),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -56,7 +58,7 @@ class UploadChangesPage extends StatelessWidget {
                           ),
                           ThemedText(
                             text: session.formatTimestamp(trip.timestamp),
-                            textSize: ThemedTextSize.Small,
+                            textSize: ThemedTextSize.small,
                           ),
                         ],
                       ),
@@ -69,7 +71,7 @@ class UploadChangesPage extends StatelessWidget {
       ),
       floatingActionButton: Builder(
         builder: (context) => FloatingActionButton(
-          child: Icon(Icons.cloud_upload_outlined),
+          child: const Icon(Icons.cloud_upload_outlined),
           onPressed: () async {
             _postPressed(context);
           },

@@ -15,8 +15,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AddTripPage extends StatefulWidget {
+  const AddTripPage({Key key}) : super(key: key);
+
   @override
-  _AddTripPageState createState() => _AddTripPageState();
+  State<AddTripPage> createState() => _AddTripPageState();
 }
 
 class _AddTripPageState extends State<AddTripPage> {
@@ -26,6 +28,7 @@ class _AddTripPageState extends State<AddTripPage> {
   bool _keepOpen = false;
   String _addedTripsInformation;
 
+  @override
   initState() {
     _selectedTimestamp = context.read<Session>().tripsQueue.lastSubmision;
     super.initState();
@@ -95,44 +98,42 @@ class _AddTripPageState extends State<AddTripPage> {
 
   _buildTextFields(BuildContext context) {
     var session = context.watch<Session>();
-    return Container(
-      child: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(1.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: ThemedFieldButton(
-                    icon: Icons.date_range,
-                    text: session.dateFormat.format(_selectedTimestamp),
-                    onPressed: () => _selectDate(context),
-                  ),
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(1.0),
+          child: Row(
+            children: [
+              Expanded(
+                child: ThemedFieldButton(
+                  icon: Icons.date_range,
+                  text: session.dateFormat.format(_selectedTimestamp),
+                  onPressed: () => _selectDate(context),
                 ),
-                ThemedSpacing(),
-                Expanded(
-                  child: ThemedFieldButton(
-                    icon: Icons.watch_later_outlined,
-                    text: session.timeFormat.format(_selectedTimestamp),
-                    onPressed: () => _selectTime(context),
-                  ),
+              ),
+              const ThemedSpacing(),
+              Expanded(
+                child: ThemedFieldButton(
+                  icon: Icons.watch_later_outlined,
+                  text: session.timeFormat.format(_selectedTimestamp),
+                  onPressed: () => _selectTime(context),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          ThemedSpacing(),
-          ThemedTextField(
-            controller: _distanceController,
-            labelText: 'Distance',
-            keyboardType: TextInputType.number,
-          ),
-          ThemedSwitch(
-            text: 'Keep open',
-            value: _keepOpen,
-            onChanged: _setKeepOpen,
-          )
-        ],
-      ),
+        ),
+        const ThemedSpacing(),
+        ThemedTextField(
+          controller: _distanceController,
+          labelText: 'Distance',
+          keyboardType: TextInputType.number,
+        ),
+        ThemedSwitch(
+          text: 'Keep open',
+          value: _keepOpen,
+          onChanged: _setKeepOpen,
+        )
+      ],
     );
   }
 
@@ -141,9 +142,9 @@ class _AddTripPageState extends State<AddTripPage> {
     return ThemedScaffold(
       pageName: 'addTrip',
       appBar: themedAppBar(
-        title: ThemedHeading(
+        title: const ThemedHeading(
           caption: 'Add new trip',
-          style: ThemedHeadingStyle.Big,
+          style: ThemedHeadingStyle.big,
         ),
       ),
       body: Builder(
@@ -157,14 +158,14 @@ class _AddTripPageState extends State<AddTripPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    ThemedText(
+                    const ThemedText(
                       text:
                           'Select date and time of your trip and enter the distance driven. After that, use the button below to add it to the upload queue.',
                       textAlign: TextAlign.left,
                     ),
-                    ThemedSpacing(size: ThemedSpacingSize.Large),
+                    const ThemedSpacing(size: ThemedSpacingSize.large),
                     _buildTextFields(context),
-                    ThemedSpacing(size: ThemedSpacingSize.Large),
+                    const ThemedSpacing(size: ThemedSpacingSize.large),
                     ThemedButton(
                       caption: 'Add',
                       icon: Icons.add_circle,
@@ -173,7 +174,7 @@ class _AddTripPageState extends State<AddTripPage> {
                     if (_addedTripsInformation != null)
                       Column(
                         children: [
-                          ThemedSpacing(size: ThemedSpacingSize.Large),
+                          const ThemedSpacing(size: ThemedSpacingSize.large),
                           SizedBox(
                             width: double.infinity,
                             child: ThemedText(

@@ -52,7 +52,7 @@ class TripsHistory {
   final GraphQLClient client;
 
   List<AccumulatedTrip> _trips;
-  StreamController<List<AccumulatedTrip>> _streamController =
+  final StreamController<List<AccumulatedTrip>> _streamController =
       StreamController<List<AccumulatedTrip>>.broadcast();
 
   get trips {

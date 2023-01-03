@@ -70,7 +70,7 @@ class DashboardController {
   final GraphQLClient client;
 
   Dashboard _dashboard;
-  StreamController<Dashboard> _streamController =
+  final StreamController<Dashboard> _streamController =
       StreamController<Dashboard>.broadcast();
 
   get dashboard {

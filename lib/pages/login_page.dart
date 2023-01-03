@@ -10,8 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({Key key}) : super(key: key);
+
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
@@ -24,9 +26,9 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     Session session = Provider.of<Session>(context);
 
-    _manageHostsPressed(BuildContext context) {
+    manageHostsPressed(BuildContext context) {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => HostsPage()));
+          context, MaterialPageRoute(builder: (context) => const HostsPage()));
     }
 
     return StreamBuilder<List<Host>>(
@@ -42,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
                 ThemedIconButton(
                   icon: Icons.cloud_outlined,
                   tooltip: 'Manage Hosts',
-                  onPressed: () => _manageHostsPressed(context),
+                  onPressed: () => manageHostsPressed(context),
                 ),
             ],
           ),
@@ -53,8 +55,8 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Logo(),
-                    if (!haveHosts) NoHostsPanel() else LoginForm()
+                    const Logo(),
+                    if (!haveHosts) const NoHostsPanel() else const LoginForm()
                   ],
                 ),
               ),

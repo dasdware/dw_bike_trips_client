@@ -61,7 +61,7 @@ class ThemedScaffold extends StatelessWidget {
                     ThemedProgressIndicator(
                       operationContext.activeOperation.title,
                     ),
-                  ErrorIndicator()
+                  const ErrorIndicator()
                 ],
               );
             }),

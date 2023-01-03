@@ -2,7 +2,7 @@ import 'package:dw_bike_trips_client/pages/dashboard_page.dart';
 import 'package:dw_bike_trips_client/pages/login_page.dart';
 import 'package:dw_bike_trips_client/session/login.dart';
 import 'package:dw_bike_trips_client/session/session.dart';
-import 'package:dw_bike_trips_client/json/storage.dart' as Storage;
+import 'package:dw_bike_trips_client/json/storage.dart' as storage;
 import 'package:dw_bike_trips_client/theme_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';
@@ -11,19 +11,21 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterConfig.loadEnvVariables();
-  runApp(MyApp(Session(await Storage.loadHosts())));
+  runApp(MyApp(Session(await storage.loadHosts())));
 }
 
 class MainScreen extends StatelessWidget {
+  const MainScreen({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<Login>(
       stream: Provider.of<Session>(context).currentLoginStream,
       builder: (context, snapshot) {
         if (snapshot.hasData && snapshot.data != null) {
-          return DashboardPage();
+          return const DashboardPage();
         } else {
-          return LoginPage();
+          return const LoginPage();
         }
       },
     );
@@ -33,7 +35,7 @@ class MainScreen extends StatelessWidget {
 class MyApp extends StatelessWidget {
   final Session _session;
 
-  MyApp(Session session) : _session = session;
+  const MyApp(Session session, {Key key}) : _session = session, super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,7 @@ class MyApp extends StatelessWidget {
       MaterialApp(
         title: 'dasd.ware BikeTrips',
         theme: AppThemeData.themeData,
-        home: MainScreen(),
+        home: const MainScreen(),
       ),
     );
   }

@@ -13,7 +13,7 @@ class NoHostsPanel extends StatelessWidget {
 
   _registerHostPressed(BuildContext context) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => AddHostPage()));
+        context, MaterialPageRoute(builder: (context) => const AddHostPage()));
   }
 
   @override
@@ -26,20 +26,20 @@ class NoHostsPanel extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Opacity(
+              const Opacity(
                 opacity: 0.6,
                 child: ThemedIcon(
                   icon: Icons.cloud_off,
                   size: 64,
                 ),
               ),
-              ThemedSpacing(size: ThemedSpacingSize.Large),
-              Text(
+              const ThemedSpacing(size: ThemedSpacingSize.large),
+              const Text(
                 'You have not yet registered any hosts. Use the button below to add a new one.',
                 style: TextStyle(color: AppThemeData.textColor, fontSize: 18),
                 textAlign: TextAlign.center,
               ),
-              ThemedSpacing(size: ThemedSpacingSize.Large),
+              const ThemedSpacing(size: ThemedSpacingSize.large),
               ThemedButton(
                 icon: Icons.cloud_outlined,
                 overlayIcon: Icons.add,

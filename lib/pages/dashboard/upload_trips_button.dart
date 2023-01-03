@@ -25,7 +25,7 @@ class UploadTripsButton extends StatelessWidget {
           overlayText: overlayText,
           onPressed: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => UploadChangesPage()));
+                MaterialPageRoute(builder: (context) => const UploadChangesPage()));
           },
         );
       },

@@ -1,4 +1,4 @@
-import 'package:dw_bike_trips_client/queries.dart' as GraphQLQueries;
+import 'package:dw_bike_trips_client/queries.dart' as queries;
 import 'package:dw_bike_trips_client/session/operations.dart';
 import 'package:dw_bike_trips_client/session/operations/client.dart';
 import 'package:dw_bike_trips_client/session/trips_queue.dart';
@@ -17,7 +17,7 @@ class TripsOperation extends ValuedOperation<List<Trip>> {
       String pageName, OperationContext context) async {
     return doGraphQL(
       client,
-      GraphQLQueries.trips,
+      queries.trips,
       (result) {
         List<dynamic> loadedTrips = result['trips'];
         return loadedTrips

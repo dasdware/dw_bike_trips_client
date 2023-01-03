@@ -1,4 +1,4 @@
-import 'package:dw_bike_trips_client/queries.dart' as GraphQLQueries;
+import 'package:dw_bike_trips_client/queries.dart' as queries;
 import 'package:dw_bike_trips_client/session/dashboard.dart';
 import 'package:dw_bike_trips_client/session/operations.dart';
 import 'package:dw_bike_trips_client/session/operations/client.dart';
@@ -16,7 +16,7 @@ class DashboardOperation extends ValuedOperation<Dashboard> {
     var to = DateTime.now();
     var from = DateTime(to.year - 1, to.month);
 
-    return doGraphQL(client, GraphQLQueries.dashboard(from, to), (result) {
+    return doGraphQL(client, queries.dashboard(from, to), (result) {
       var distances = DashboardDistances(
         today: result['dashboard']['distances']['today'].toDouble(),
         yesterday: result['dashboard']['distances']['yesterday'].toDouble(),
@@ -29,7 +29,7 @@ class DashboardOperation extends ValuedOperation<Dashboard> {
         allTime: result['dashboard']['distances']['allTime'].toDouble(),
       );
 
-      var history = List<DashboardHistoryEntry>();
+      var history = <DashboardHistoryEntry>[];
       var expectedYear = to.year;
       var expectedMonth = to.month;
 

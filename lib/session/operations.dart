@@ -50,17 +50,17 @@ abstract class ValuedOperation<T> extends Operation {
 }
 
 class OperationContext {
-  Stack<Operation> _activeOperations = Stack<Operation>();
-  StreamController<Operation> _activeOperationStreamController =
+  final Stack<Operation> _activeOperations = Stack<Operation>();
+  final StreamController<Operation> _activeOperationStreamController =
       StreamController<Operation>.broadcast();
 
-  Map<String, OperationResult> _lastOperationResults =
-      Map<String, OperationResult>();
-  Map<String, StreamController<OperationResult>>
+  final Map<String, OperationResult> _lastOperationResults =
+      <String, OperationResult>{};
+  final Map<String, StreamController<OperationResult>>
       _lastOperationResultStreamControllers =
-      Map<String, StreamController<OperationResult>>();
+      <String, StreamController<OperationResult>>{};
 
-  StreamController<OperationResult> _lastOperationResultStreamController =
+  final StreamController<OperationResult> _lastOperationResultStreamController =
       StreamController<OperationResult>.broadcast();
 
   Operation get activeOperation {
