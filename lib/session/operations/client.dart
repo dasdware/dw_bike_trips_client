@@ -34,7 +34,6 @@ Future<ValuedOperationResult<T>> doGraphQL<T>(
 
 
     if (result.hasException) {
-      print(result.exception);
       return ValuedOperationResult<T>.withErrors(result.exception.graphqlErrors
           .map((e) => OperationError(e.message))
           .toList());
