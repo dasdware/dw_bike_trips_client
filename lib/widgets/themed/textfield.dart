@@ -24,6 +24,9 @@ class ThemedTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme(
       data: ThemeData(
+        textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: AppThemeData.activeColor,
+        ),
         primaryColor: AppThemeData.activeLighterColor,
         inputDecorationTheme: const InputDecorationTheme(
           labelStyle: TextStyle(color: AppThemeData.activeColor),
@@ -34,7 +37,12 @@ class ThemedTextField extends StatelessWidget {
               color: AppThemeData.activeColor,
             ),
           ),
-          focusColor: AppThemeData.activeColor,
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: AppThemeData.activeColor,
+              width: 2,
+            ),
+          ),
           border: OutlineInputBorder(
             borderSide: BorderSide(
               color: AppThemeData.activeColor,
