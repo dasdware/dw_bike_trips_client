@@ -111,7 +111,7 @@ class DashboardHistorySectionState extends State<DashboardHistorySection> {
             }),
         touchCallback: (event, barTouchResponse) {
           setState(() {
-            if (barTouchResponse.spot != null) {
+            if (barTouchResponse?.spot != null) {
               touchedIndex = barTouchResponse.spot.touchedBarGroupIndex;
             } else {
               touchedIndex = -1;
@@ -141,11 +141,22 @@ class DashboardHistorySectionState extends State<DashboardHistorySection> {
             showTitles: false,
           ),
         ),
+        rightTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: false,
+          ),
+        ),
+        topTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: false,
+          ),
+        ),
       ),
       borderData: FlBorderData(
         show: false,
       ),
       barGroups: barGroups,
+      gridData: FlGridData(show: false,),
     );
   }
 }
