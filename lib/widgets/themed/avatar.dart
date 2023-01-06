@@ -12,15 +12,18 @@ class ThemedAvatar extends StatelessWidget {
   final User user;
   final Function onPressed;
 
-  Widget buildInitials() {
-    var initials = user.firstname.substring(0, 1).toUpperCase() +
+  buildInitialsText() {
+    return user.firstname.substring(0, 1).toUpperCase() +
         user.lastname.substring(0, 1).toUpperCase();
+  }
+
+  Widget buildInitials() {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: FittedBox(
         fit: BoxFit.cover,
         child: Text(
-          initials,
+          buildInitialsText(),
           style: TextStyle(
               color: (onPressed != null)
                   ? AppThemeData.activeDarkestColor
@@ -45,7 +48,13 @@ class ThemedAvatar extends StatelessWidget {
             backgroundColor: AppThemeData.activeColor,
             surfaceTintColor: AppThemeData.activeDarkerColor,
           ),
-          child: buildInitials()
+          child: Text(
+            buildInitialsText(), 
+            style: const TextStyle(
+              color: AppThemeData.activeDarkestColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
       );
     } else {
