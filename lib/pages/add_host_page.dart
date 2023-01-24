@@ -8,7 +8,6 @@ import 'package:dw_bike_trips_client/widgets/themed/spacing.dart';
 import 'package:dw_bike_trips_client/widgets/themed/text.dart';
 import 'package:dw_bike_trips_client/widgets/themed/textfield.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_config/flutter_config.dart';
 import 'package:provider/provider.dart';
 
 class AddHostPage extends StatefulWidget {
@@ -20,7 +19,7 @@ class AddHostPage extends StatefulWidget {
 
 class _AddHostPageState extends State<AddHostPage> {
   final TextEditingController _urlController =
-      TextEditingController(text: FlutterConfig.get('DEFAULT_HOST'));
+      TextEditingController(text: '');
 
   _addPressed(BuildContext context) async {
     var session = context.read<Session>();

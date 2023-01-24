@@ -1,16 +1,14 @@
+import 'package:dw_bike_trips_client/json/storage.dart' as storage;
 import 'package:dw_bike_trips_client/pages/dashboard_page.dart';
 import 'package:dw_bike_trips_client/pages/login_page.dart';
 import 'package:dw_bike_trips_client/session/login.dart';
 import 'package:dw_bike_trips_client/session/session.dart';
-import 'package:dw_bike_trips_client/json/storage.dart' as storage;
 import 'package:dw_bike_trips_client/theme_data.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_config/flutter_config.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await FlutterConfig.loadEnvVariables();
   runApp(MyApp(Session(await storage.loadHosts())));
 }
 
