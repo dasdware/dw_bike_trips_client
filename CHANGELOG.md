@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Selected [MIT](https://spdx.org/licenses/MIT.html) license for this repository
+- Basic support for desktop plattforms ([#11](https://github.com/dasdware/dw_bike_trips_client/issues/11))
 
 ### Fixes
 
