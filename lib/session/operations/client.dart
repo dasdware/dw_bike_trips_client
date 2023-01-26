@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:dw_bike_trips_client/session/operations.dart';
-import 'package:graphql_builder/graphql_builder.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 const Duration _timeout = Duration(seconds: 5);
@@ -9,7 +8,7 @@ const Duration _timeout = Duration(seconds: 5);
 typedef Converter<T> = T Function(dynamic value);
 
 Future<ValuedOperationResult<T>> doGraphQL<T>(
-    GraphQLClient client, Document request, Converter<T> converter,
+    GraphQLClient client, String request, Converter<T> converter,
     {Map<String, dynamic> variables, bool mutation = false}) async {
   try {
     variables ??= <String, dynamic>{};
@@ -18,7 +17,7 @@ Future<ValuedOperationResult<T>> doGraphQL<T>(
         ? await client
             .mutate(
               MutationOptions(
-                document: gql(request.bake()),
+                document: gql(request),
                 variables: variables,
               ),
             )
@@ -26,7 +25,7 @@ Future<ValuedOperationResult<T>> doGraphQL<T>(
         : await client
             .query(
               QueryOptions(
-                document: gql(request.bake()),
+                document: gql(request),
                 variables: variables,
               ),
             )

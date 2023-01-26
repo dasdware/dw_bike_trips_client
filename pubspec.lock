@@ -277,13 +277,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.1.1"
-  graphql_builder:
-    dependency: "direct main"
-    description:
-      name: graphql_builder
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
   graphql_flutter:
     dependency: "direct main"
     description:
