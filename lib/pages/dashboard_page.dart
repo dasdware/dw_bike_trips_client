@@ -3,7 +3,7 @@ import 'package:dw_bike_trips_client/pages/dashboard/current_user_button.dart';
 import 'package:dw_bike_trips_client/pages/dashboard/current_user_drawer.dart';
 import 'package:dw_bike_trips_client/pages/dashboard/distances_section.dart';
 import 'package:dw_bike_trips_client/pages/dashboard/history_section.dart';
-import 'package:dw_bike_trips_client/pages/dashboard/upload_trips_button.dart';
+import 'package:dw_bike_trips_client/pages/dashboard/upload_changes_button.dart';
 import 'package:dw_bike_trips_client/pages/history_page.dart';
 import 'package:dw_bike_trips_client/session/dashboard.dart';
 import 'package:dw_bike_trips_client/session/session.dart';
@@ -36,7 +36,7 @@ class DashboardPage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const HistoryPage()));
             },
           ),
-          const UploadTripsButton(),
+          const UploadChangesButton(),
           const CurrentUserButton()
         ],
       ),

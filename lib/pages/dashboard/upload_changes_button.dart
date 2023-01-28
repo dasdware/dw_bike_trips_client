@@ -5,8 +5,8 @@ import 'package:dw_bike_trips_client/widgets/themed/icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class UploadTripsButton extends StatelessWidget {
-  const UploadTripsButton({
+class UploadChangesButton extends StatelessWidget {
+  const UploadChangesButton({
     Key key,
   }) : super(key: key);
 
