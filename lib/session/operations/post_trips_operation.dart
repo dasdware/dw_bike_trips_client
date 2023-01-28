@@ -3,7 +3,7 @@ import 'package:dw_bike_trips_client/session/dashboard.dart';
 import 'package:dw_bike_trips_client/session/operations.dart';
 import 'package:dw_bike_trips_client/session/operations/client.dart';
 import 'package:dw_bike_trips_client/session/trips_history.dart';
-import 'package:dw_bike_trips_client/session/trips_queue.dart';
+import 'package:dw_bike_trips_client/session/trip.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 class PostTripsOperation extends ValuedOperation<bool> {

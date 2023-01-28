@@ -1,4 +1,4 @@
-import 'package:dw_bike_trips_client/session/trips_queue.dart';
+import 'package:dw_bike_trips_client/session/trip.dart';
 
 const serverInfo = """
   query serverInfo {

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:dw_bike_trips_client/session/operations.dart';
 import 'package:dw_bike_trips_client/session/operations/count_trips_operation.dart';
 import 'package:dw_bike_trips_client/session/operations/trips_operation.dart';
-import 'package:dw_bike_trips_client/session/trips_queue.dart';
+import 'package:dw_bike_trips_client/session/trip.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 class AccumulatedTrip {

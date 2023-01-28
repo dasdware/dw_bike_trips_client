@@ -1,4 +1,6 @@
 import 'dart:async';
+
+import 'package:dw_bike_trips_client/session/changes_queue.dart';
 import 'package:dw_bike_trips_client/session/dashboard.dart';
 import 'package:dw_bike_trips_client/session/hosts.dart';
 import 'package:dw_bike_trips_client/session/login.dart';
@@ -6,7 +8,6 @@ import 'package:dw_bike_trips_client/session/operations.dart';
 import 'package:dw_bike_trips_client/session/operations/login_operation.dart';
 import 'package:dw_bike_trips_client/session/operations/server_info_operation.dart';
 import 'package:dw_bike_trips_client/session/trips_history.dart';
-import 'package:dw_bike_trips_client/session/trips_queue.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +22,9 @@ class Session {
   Stream<Login> get currentLoginStream => _currentLoginStreamController.stream;
 
   final Hosts hosts;
-  final TripsQueue tripsQueue = TripsQueue();
+
+  ChangesQueue _changesQueue;
+  ChangesQueue get changesQueue => _changesQueue;
 
   TripsHistory _tripsHistory;
   TripsHistory get tripsHistory => _tripsHistory;
@@ -37,12 +40,14 @@ class Session {
   final NumberFormat distanceFormat = NumberFormat("##0.00'km'");
   final NumberFormat distanceWithoutUnitFormat = NumberFormat("##0.00");
 
-  Session(this.hosts);
+  Session(this.hosts) {
+    _changesQueue = ChangesQueue(this);
+  }
 
   dispose() {
     _currentLoginStreamController.close();
     hosts.dispose();
-    tripsQueue.dispose();
+    _changesQueue.dispose();
     operationContext.close();
     _disposeTripsController();
     _disposeDashboardController();

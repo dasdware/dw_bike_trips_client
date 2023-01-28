@@ -1,5 +1,5 @@
 import 'package:dw_bike_trips_client/session/session.dart';
-import 'package:dw_bike_trips_client/session/trips_queue.dart';
+import 'package:dw_bike_trips_client/session/trip.dart';
 import 'package:dw_bike_trips_client/widgets/themed/button.dart';
 import 'package:dw_bike_trips_client/widgets/themed/date_picker.dart';
 import 'package:dw_bike_trips_client/widgets/themed/field_button.dart';
@@ -30,14 +30,14 @@ class _AddTripPageState extends State<AddTripPage> {
 
   @override
   initState() {
-    _selectedTimestamp = context.read<Session>().tripsQueue.lastSubmision;
+    _selectedTimestamp = context.read<Session>().changesQueue.lastSubmision;
     super.initState();
   }
 
   _addPressed(BuildContext context) {
     var distance = double.tryParse(_distanceController.value.text);
     if (distance != null) {
-      context.read<Session>().tripsQueue.enqueue(
+      context.read<Session>().changesQueue.enqueueAddTrip(
             Trip(
               timestamp: _selectedTimestamp,
               distance: distance,
@@ -47,7 +47,7 @@ class _AddTripPageState extends State<AddTripPage> {
         _distanceController.value = TextEditingValue.empty;
         setState(() {
           _addedTripsInformation =
-              'Added trip, ${context.read<Session>().tripsQueue.trips.length} trips in queue.';
+              'Added trip, ${context.read<Session>().changesQueue.changes.length} changes in queue.';
         });
       } else {
         Navigator.of(context).pop();
