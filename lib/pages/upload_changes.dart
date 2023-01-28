@@ -1,6 +1,7 @@
 import 'package:dw_bike_trips_client/session/changes_queue.dart';
 import 'package:dw_bike_trips_client/session/session.dart';
 import 'package:dw_bike_trips_client/widgets/page.dart';
+import 'package:dw_bike_trips_client/widgets/themed/alert.dart';
 import 'package:dw_bike_trips_client/widgets/themed/heading.dart';
 import 'package:dw_bike_trips_client/widgets/themed/icon_button.dart';
 import 'package:dw_bike_trips_client/widgets/themed/panel.dart';
@@ -23,8 +24,18 @@ class UploadChangesPage extends StatelessWidget {
   }
 
   _undoPressed(BuildContext context, Change change) {
-    Session session = context.read<Session>();
-    session.changesQueue.undo(change);
+    confirm(
+      context,
+      title: 'Revert change',
+      message:
+          'Are you sure you want to revert the selected change? This operation cannot be undone.',
+      okIcon: Icons.undo,
+      okText: 'Revert',
+      onConfirmed: () {
+        Session session = context.read<Session>();
+        session.changesQueue.undo(change);
+      },
+    );
   }
 
   @override
