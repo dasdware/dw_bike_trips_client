@@ -46,8 +46,8 @@ class ChangesQueue {
     _changesStreamController.sink.add(_changes);
   }
 
-  _clear() {
-    _changes.clear();
+  undo(Change change) {
+    _changes.remove(change);
     _changed();
   }
 

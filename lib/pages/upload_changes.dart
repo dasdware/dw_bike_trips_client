@@ -1,6 +1,8 @@
+import 'package:dw_bike_trips_client/session/changes_queue.dart';
 import 'package:dw_bike_trips_client/session/session.dart';
 import 'package:dw_bike_trips_client/widgets/page.dart';
 import 'package:dw_bike_trips_client/widgets/themed/heading.dart';
+import 'package:dw_bike_trips_client/widgets/themed/icon_button.dart';
 import 'package:dw_bike_trips_client/widgets/themed/panel.dart';
 import 'package:dw_bike_trips_client/widgets/themed/scaffold.dart';
 import 'package:dw_bike_trips_client/widgets/themed/spacing.dart';
@@ -12,14 +14,17 @@ class UploadChangesPage extends StatelessWidget {
 
   _postPressed(BuildContext context) async {
     Session session = context.read<Session>();
-    if (
-      await session.changesQueue.performChanges(
-        ApplicationPage.of(context).pageName,
-        session.currentLogin.client,
-      )
-    ) {
+    if (await session.changesQueue.performChanges(
+      ApplicationPage.of(context).pageName,
+      session.currentLogin.client,
+    )) {
       Navigator.of(context).pop();
     }
+  }
+
+  _undoPressed(BuildContext context, Change change) {
+    Session session = context.read<Session>();
+    session.changesQueue.undo(change);
   }
 
   @override
@@ -35,24 +40,37 @@ class UploadChangesPage extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: ListView(
-          children: session.changesQueue.changes
-              .map(
-                (trip) => ThemedPanel(
-                  margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
-                  child: Row(
-                    children: [
-                      trip.buildIcon(context),
-                      const ThemedSpacing(),
-                      trip.buildWidget(context),
-                    ],
-                  ),
-                ),
-              )
-              .toList(),
-        ),
+        child: StreamBuilder<List<Change>>(
+            initialData: session.changesQueue.changes,
+            stream: session.changesQueue.changesStream,
+            builder: (context, snapshot) {
+              return ListView(
+                children: snapshot.data
+                    .map(
+                      (change) => ThemedPanel(
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 16.0),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 12.0, horizontal: 16.0),
+                        child: Row(
+                          children: [
+                            change.buildIcon(context),
+                            const ThemedSpacing(),
+                            Expanded(
+                              child: change.buildWidget(context),
+                            ),
+                            ThemedIconButton(
+                              icon: Icons.undo,
+                              tooltip: "Revert change",
+                              onPressed: () => _undoPressed(context, change),
+                            )
+                          ],
+                        ),
+                      ),
+                    )
+                    .toList(),
+              );
+            }),
       ),
       floatingActionButton: Builder(
         builder: (context) => FloatingActionButton(
