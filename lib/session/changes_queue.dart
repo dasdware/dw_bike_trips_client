@@ -16,6 +16,14 @@ abstract class Change {
   Widget buildWidget(BuildContext context);
 
   ValuedOperation<dynamic> createOperation(GraphQLClient client);
+
+  bool canEdit() {
+    return false;
+  }
+
+  void edit(BuildContext context) {
+    throw UnsupportedError('This change does not support editing.');
+  }
 }
 
 class ChangesQueue {

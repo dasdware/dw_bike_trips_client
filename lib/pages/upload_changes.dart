@@ -38,6 +38,10 @@ class UploadChangesPage extends StatelessWidget {
     );
   }
 
+  _editPressed(BuildContext context, Change change) {
+    change.edit(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     Session session = context.watch<Session>();
@@ -70,6 +74,12 @@ class UploadChangesPage extends StatelessWidget {
                             Expanded(
                               child: change.buildWidget(context),
                             ),
+                            if (change.canEdit())
+                              ThemedIconButton(
+                                icon: Icons.edit,
+                                tooltip: "Edit change",
+                                onPressed: () => _editPressed(context, change),
+                              ),
                             ThemedIconButton(
                               icon: Icons.undo,
                               tooltip: "Revert change",
