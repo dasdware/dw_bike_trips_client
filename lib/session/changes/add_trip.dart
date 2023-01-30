@@ -1,3 +1,4 @@
+import 'package:dw_bike_trips_client/pages/edit_trip_page.dart';
 import 'package:dw_bike_trips_client/session/changes_queue.dart';
 import 'package:dw_bike_trips_client/session/dashboard.dart';
 import 'package:dw_bike_trips_client/session/operations.dart';
@@ -14,11 +15,12 @@ import 'package:provider/provider.dart';
 
 class AddTripChange extends Change {
 
-  final Trip _trip;
+  final ChangeableTrip _trip;
   final TripsHistory _tripsController;
   final DashboardController _dashboardController;
 
-  AddTripChange(this._trip, this._tripsController, this._dashboardController);
+  AddTripChange(Trip trip, this._tripsController, this._dashboardController)
+    : _trip = ChangeableTrip(trip);
   
   @override
   Widget buildIcon(BuildContext context) {
@@ -30,22 +32,39 @@ class AddTripChange extends Change {
   @override
   Widget buildWidget(BuildContext context) {
     Session session = context.watch<Session>();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ThemedHeading(
-          caption: session.formatDistance(_trip.distance),
-        ),
-        ThemedText(
-          text: session.formatTimestamp(_trip.timestamp),
-          textSize: ThemedTextSize.small,
-        ),
-      ],
+    return StreamBuilder<Trip>(
+      initialData: _trip.trip,
+      stream: _trip.stream,
+      builder: (context, snapshot) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ThemedHeading(
+              caption: session.formatDistance(snapshot.data.distance),
+            ),
+            ThemedText(
+              text: session.formatTimestamp(snapshot.data.timestamp),
+              textSize: ThemedTextSize.small,
+            ),
+          ],
+        );
+      }
     );
   }
 
   @override
   ValuedOperation<bool> createOperation(GraphQLClient client) {
-    return PostTripsOperation(client, _tripsController, [_trip], _dashboardController);
+    return PostTripsOperation(client, _tripsController, [_trip.trip], _dashboardController);
+  }
+
+  @override
+  bool canEdit() {
+    return true;
+  }
+
+  @override
+  void edit(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => EditTripPage(trip: _trip)));
   }
 }
