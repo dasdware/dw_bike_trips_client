@@ -14,43 +14,59 @@ import 'package:dw_bike_trips_client/widgets/themed/time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class AddTripPage extends StatefulWidget {
-  const AddTripPage({Key key}) : super(key: key);
+class EditTripPage extends StatefulWidget {
+  final ChangeableTrip trip;
+
+  const EditTripPage({Key key, this.trip}) : super(key: key);
 
   @override
-  State<AddTripPage> createState() => _AddTripPageState();
+  State<EditTripPage> createState() => _EditTripPageState();
 }
 
-class _AddTripPageState extends State<AddTripPage> {
-  final TextEditingController _distanceController = TextEditingController();
+class _EditTripPageState extends State<EditTripPage> {
+  TextEditingController _distanceController;
 
+  bool _isEditing = false;
   DateTime _selectedTimestamp;
   bool _keepOpen = false;
   String _addedTripsInformation;
 
   @override
   initState() {
-    _selectedTimestamp = context.read<Session>().changesQueue.lastSubmision;
+    _isEditing = widget.trip != null;
+    if (_isEditing) {
+      _selectedTimestamp = widget.trip.timestamp;
+      _distanceController =
+          TextEditingController(text: widget.trip.distance.toString());
+    } else {
+      _selectedTimestamp = context.read<Session>().changesQueue.lastSubmision;
+      _distanceController = TextEditingController();
+    }
     super.initState();
   }
 
   _addPressed(BuildContext context) {
     var distance = double.tryParse(_distanceController.value.text);
     if (distance != null) {
-      context.read<Session>().changesQueue.enqueueAddTrip(
-            Trip(
-              timestamp: _selectedTimestamp,
-              distance: distance,
-            ),
-          );
-      if (_keepOpen) {
-        _distanceController.value = TextEditingValue.empty;
-        setState(() {
-          _addedTripsInformation =
-              'Added trip, ${context.read<Session>().changesQueue.changes.length} changes in queue.';
-        });
-      } else {
+      if (_isEditing) {
+        widget.trip.update(_selectedTimestamp, distance);
         Navigator.of(context).pop();
+      } else {
+        context.read<Session>().changesQueue.enqueueAddTrip(
+              Trip(
+                timestamp: _selectedTimestamp,
+                distance: distance,
+              ),
+            );
+        if (_keepOpen) {
+          _distanceController.value = TextEditingValue.empty;
+          setState(() {
+            _addedTripsInformation =
+                'Added trip, ${context.read<Session>().changesQueue.changes.length} changes in queue.';
+          });
+        } else {
+          Navigator.of(context).pop();
+        }
       }
     }
   }
@@ -128,11 +144,12 @@ class _AddTripPageState extends State<AddTripPage> {
           labelText: 'Distance',
           keyboardType: TextInputType.number,
         ),
-        ThemedSwitch(
-          text: 'Keep open',
-          value: _keepOpen,
-          onChanged: _setKeepOpen,
-        )
+        if (!_isEditing)
+          ThemedSwitch(
+            text: 'Keep open',
+            value: _keepOpen,
+            onChanged: _setKeepOpen,
+          )
       ],
     );
   }
@@ -140,10 +157,10 @@ class _AddTripPageState extends State<AddTripPage> {
   @override
   Widget build(BuildContext context) {
     return ThemedScaffold(
-      pageName: 'addTrip',
+      pageName: _isEditing ? 'editTrip' : 'addTrip',
       appBar: themedAppBar(
-        title: const ThemedHeading(
-          caption: 'Add new trip',
+        title: ThemedHeading(
+          caption: _isEditing ? 'Edit trip' : 'Add new trip',
           style: ThemedHeadingStyle.big,
         ),
       ),
@@ -158,17 +175,18 @@ class _AddTripPageState extends State<AddTripPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    const ThemedText(
-                      text:
-                          'Select date and time of your trip and enter the distance driven. After that, use the button below to add it to the upload queue.',
+                    ThemedText(
+                      text: _isEditing
+                        ? 'Select date and time of your trip and enter the distance driven. After that, use the button below to change it in the upload queue.'
+                        : 'Select date and time of your trip and enter the distance driven. After that, use the button below to add it to the upload queue.',
                       textAlign: TextAlign.left,
                     ),
                     const ThemedSpacing(size: ThemedSpacingSize.large),
                     _buildTextFields(context),
                     const ThemedSpacing(size: ThemedSpacingSize.large),
                     ThemedButton(
-                      caption: 'Add',
-                      icon: Icons.add_circle,
+                      caption: _isEditing ? 'Apply' : 'Add',
+                      icon: _isEditing ? Icons.check_circle : Icons.add_circle,
                       onPressed: () => _addPressed(context),
                     ),
                     if (_addedTripsInformation != null)

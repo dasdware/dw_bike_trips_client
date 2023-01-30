@@ -1,4 +1,4 @@
-import 'package:dw_bike_trips_client/pages/add_trip_page.dart';
+import 'package:dw_bike_trips_client/pages/edit_trip_page.dart';
 import 'package:dw_bike_trips_client/pages/dashboard/current_user_button.dart';
 import 'package:dw_bike_trips_client/pages/dashboard/current_user_drawer.dart';
 import 'package:dw_bike_trips_client/pages/dashboard/distances_section.dart';
@@ -77,7 +77,7 @@ class DashboardPage extends StatelessWidget {
         child: const Icon(Icons.add_circle_outline),
         onPressed: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => const AddTripPage()));
+              context, MaterialPageRoute(builder: (context) => const EditTripPage()));
         },
       ),
     );
