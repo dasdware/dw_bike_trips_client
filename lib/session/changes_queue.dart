@@ -86,6 +86,7 @@ class ChangesQueue {
       }
     }
 
+    _changed();
     return success;
   }
 }
