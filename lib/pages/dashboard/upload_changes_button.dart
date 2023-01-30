@@ -1,4 +1,4 @@
-import 'package:dw_bike_trips_client/pages/upload_changes.dart';
+import 'package:dw_bike_trips_client/pages/upload_changes_page.dart';
 import 'package:dw_bike_trips_client/session/changes_queue.dart';
 import 'package:dw_bike_trips_client/session/session.dart';
 import 'package:dw_bike_trips_client/widgets/themed/icon_button.dart';
