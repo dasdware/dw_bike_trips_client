@@ -169,41 +169,45 @@ class _EditTripPageState extends State<EditTripPage> {
           padding: const EdgeInsets.all(8.0),
           child: Center(
             child: SingleChildScrollView(
-              child: ThemedPanel(
-                margin: const EdgeInsets.all(16.0),
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    ThemedText(
-                      text: _isEditing
-                        ? 'Select date and time of your trip and enter the distance driven. After that, use the button below to change it in the upload queue.'
-                        : 'Select date and time of your trip and enter the distance driven. After that, use the button below to add it to the upload queue.',
-                      textAlign: TextAlign.left,
-                    ),
-                    const ThemedSpacing(size: ThemedSpacingSize.large),
-                    _buildTextFields(context),
-                    const ThemedSpacing(size: ThemedSpacingSize.large),
-                    ThemedButton(
-                      caption: _isEditing ? 'Apply' : 'Add',
-                      icon: _isEditing ? Icons.check_circle : Icons.add_circle,
-                      onPressed: () => _addPressed(context),
-                    ),
-                    if (_addedTripsInformation != null)
-                      Column(
-                        children: [
-                          const ThemedSpacing(size: ThemedSpacingSize.large),
-                          SizedBox(
-                            width: double.infinity,
-                            child: ThemedText(
-                              text: _addedTripsInformation,
-                              textAlign: TextAlign.left,
-                              deemphasized: true,
+              child: Container(
+                constraints: const BoxConstraints(maxWidth: 500),
+                child: ThemedPanel(
+                  margin: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      ThemedText(
+                        text: _isEditing
+                            ? 'Select date and time of your trip and enter the distance driven. After that, use the button below to change it in the upload queue.'
+                            : 'Select date and time of your trip and enter the distance driven. After that, use the button below to add it to the upload queue.',
+                        textAlign: TextAlign.left,
+                      ),
+                      const ThemedSpacing(size: ThemedSpacingSize.large),
+                      _buildTextFields(context),
+                      const ThemedSpacing(size: ThemedSpacingSize.large),
+                      ThemedButton(
+                        caption: _isEditing ? 'Apply' : 'Add',
+                        icon:
+                            _isEditing ? Icons.check_circle : Icons.add_circle,
+                        onPressed: () => _addPressed(context),
+                      ),
+                      if (_addedTripsInformation != null)
+                        Column(
+                          children: [
+                            const ThemedSpacing(size: ThemedSpacingSize.large),
+                            SizedBox(
+                              width: double.infinity,
+                              child: ThemedText(
+                                text: _addedTripsInformation,
+                                textAlign: TextAlign.left,
+                                deemphasized: true,
+                              ),
                             ),
-                          ),
-                        ],
-                      )
-                  ],
+                          ],
+                        )
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -59,37 +59,44 @@ class UploadChangesPage extends StatelessWidget {
             initialData: session.changesQueue.changes,
             stream: session.changesQueue.changesStream,
             builder: (context, snapshot) {
-              return ListView(
-                children: snapshot.data
-                    .map(
-                      (change) => ThemedPanel(
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 8.0, horizontal: 16.0),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 12.0, horizontal: 16.0),
-                        child: Row(
-                          children: [
-                            change.buildIcon(context),
-                            const ThemedSpacing(),
-                            Expanded(
-                              child: change.buildWidget(context),
+              return Center(
+                child: Container(
+                  constraints: const BoxConstraints(maxWidth: 600),
+                  child: ListView(
+                    children: snapshot.data
+                        .map(
+                          (change) => ThemedPanel(
+                            margin: const EdgeInsets.symmetric(
+                                vertical: 8.0, horizontal: 16.0),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 12.0, horizontal: 16.0),
+                            child: Row(
+                              children: [
+                                change.buildIcon(context),
+                                const ThemedSpacing(),
+                                Expanded(
+                                  child: change.buildWidget(context),
+                                ),
+                                if (change.canEdit())
+                                  ThemedIconButton(
+                                    icon: Icons.edit,
+                                    tooltip: "Edit change",
+                                    onPressed: () =>
+                                        _editPressed(context, change),
+                                  ),
+                                ThemedIconButton(
+                                  icon: Icons.undo,
+                                  tooltip: "Revert change",
+                                  onPressed: () =>
+                                      _undoPressed(context, change),
+                                )
+                              ],
                             ),
-                            if (change.canEdit())
-                              ThemedIconButton(
-                                icon: Icons.edit,
-                                tooltip: "Edit change",
-                                onPressed: () => _editPressed(context, change),
-                              ),
-                            ThemedIconButton(
-                              icon: Icons.undo,
-                              tooltip: "Revert change",
-                              onPressed: () => _undoPressed(context, change),
-                            )
-                          ],
-                        ),
-                      ),
-                    )
-                    .toList(),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
               );
             }),
       ),

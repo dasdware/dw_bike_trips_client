@@ -30,35 +30,38 @@ class _LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(8.0, 24.0, 8.0, 8.0),
-      child: ThemedPanel(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            ThemedHeading(
-              caption: context.watch<Session>().hosts.activeHost.name,
-              style: ThemedHeadingStyle.medium,
-            ),
-            const ThemedSpacing(size: ThemedSpacingSize.large),
-            ThemedTextField(
-              controller: _emailFilter,
-              labelText: 'Email',
-              keyboardType: TextInputType.emailAddress,
-              textInputAction: TextInputAction.next,
-            ),
-            const ThemedSpacing(),
-            ThemedTextField(
-              controller: _passwordFilter,
-              labelText: 'Password',
-              obscureText: true,
-              onEditingComplete: () => _loginPressed(context),
-            ),
-            const ThemedSpacing(size: ThemedSpacingSize.large),
-            ThemedButton(
-              icon: Icons.login,
-              caption: 'Login',
-              onPressed: () => _loginPressed(context),
-            ),
-          ],
+      child: Container(
+        constraints: const BoxConstraints(maxWidth: 400),
+        child: ThemedPanel(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              ThemedHeading(
+                caption: context.watch<Session>().hosts.activeHost.name,
+                style: ThemedHeadingStyle.medium,
+              ),
+              const ThemedSpacing(size: ThemedSpacingSize.large),
+              ThemedTextField(
+                controller: _emailFilter,
+                labelText: 'Email',
+                keyboardType: TextInputType.emailAddress,
+                textInputAction: TextInputAction.next,
+              ),
+              const ThemedSpacing(),
+              ThemedTextField(
+                controller: _passwordFilter,
+                labelText: 'Password',
+                obscureText: true,
+                onEditingComplete: () => _loginPressed(context),
+              ),
+              const ThemedSpacing(size: ThemedSpacingSize.large),
+              ThemedButton(
+                icon: Icons.login,
+                caption: 'Login',
+                onPressed: () => _loginPressed(context),
+              ),
+            ],
+          ),
         ),
       ),
     );

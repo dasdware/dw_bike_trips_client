@@ -38,10 +38,15 @@ class HostsPage extends StatelessWidget {
                   )
                 : null,
             body: (haveHosts)
-                ? ListView(
-                    children: snapshot.data
-                        .map((host) => HostListTile(host: host))
-                        .toList(),
+                ? Center(
+                    child: Container(
+                      constraints: const BoxConstraints(maxWidth: 600),
+                      child: ListView(
+                        children: snapshot.data
+                            .map((host) => HostListTile(host: host))
+                            .toList(),
+                      ),
+                    ),
                   )
                 : const NoHostsPanel(),
           );

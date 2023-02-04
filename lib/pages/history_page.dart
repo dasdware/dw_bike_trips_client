@@ -28,132 +28,148 @@ class HistoryPage extends StatelessWidget {
           stream: session.tripsHistory.stream,
           builder: (context, snapshot) {
             Widget body = (snapshot.hasData)
-                ? StickyGroupedListView<AccumulatedTrip, int>(
-                    stickyHeaderBackgroundColor: AppThemeData.mainDarkestColor,
-                    groupComparator: (first, second) => second - first,
-                    itemComparator: (first, second) =>
-                        second.timestamp.compareTo(first.timestamp),
-                    elements: snapshot.data,
-                    groupBy: (trip) => calculateGroupKey(trip),
-                    indexedItemBuilder: (context, trip, index) => Padding(
-                          padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  DayCalendarIcon(
-                                    day: trip.timestamp.day,
-                                    style: CalendarIconStyle(
-                                      color: Colors.white.withOpacity(0.7),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 16.0),
-                                  SizedBox(
-                                    width: 32,
-                                    child: ThemedText(
-                                      text:
-                                          '${session.formatWeekday(trip.timestamp)}'
-                                              .toUpperCase(),
-                                      textSize: ThemedTextSize.small,
-                                      deemphasized: true,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 16.0),
-                                  ThemedText(
-                                    text: session.formatDistance(trip.distance),
-                                  ),
-                                  if (trip.count > 1)
-                                    Expanded(
-                                      child: Align(
-                                        alignment: Alignment.centerRight,
-                                        child: TextButton(
-                                          onPressed: () => session.tripsHistory
-                                              .toggleTripExpansion(trip),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              ThemedText(
-                                                text: '${trip.count} trips'
-                                                    .toUpperCase(),
-                                                textSize: ThemedTextSize.small,
-                                                deemphasized: true,
-                                              ),
-                                              const SizedBox(width: 4.0),
-                                              Icon(
-                                                (!trip.expanded)
-                                                    ? Icons.add_circle
-                                                    : Icons.remove_circle,
-                                                color:
-                                                    AppThemeData.highlightColor,
-                                              ),
-                                            ],
+                ? Center(
+                    child: Container(
+                      constraints: const BoxConstraints(maxWidth: 600),
+                      child: StickyGroupedListView<AccumulatedTrip, int>(
+                          stickyHeaderBackgroundColor:
+                              AppThemeData.mainDarkestColor,
+                          groupComparator: (first, second) => second - first,
+                          itemComparator: (first, second) =>
+                              second.timestamp.compareTo(first.timestamp),
+                          elements: snapshot.data,
+                          groupBy: (trip) => calculateGroupKey(trip),
+                          indexedItemBuilder: (context, trip, index) => Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    16.0, 8.0, 16.0, 8.0),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        DayCalendarIcon(
+                                          day: trip.timestamp.day,
+                                          style: CalendarIconStyle(
+                                            color:
+                                                Colors.white.withOpacity(0.7),
                                           ),
                                         ),
-                                      ),
+                                        const SizedBox(width: 16.0),
+                                        SizedBox(
+                                          width: 32,
+                                          child: ThemedText(
+                                            text:
+                                                '${session.formatWeekday(trip.timestamp)}'
+                                                    .toUpperCase(),
+                                            textSize: ThemedTextSize.small,
+                                            deemphasized: true,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 16.0),
+                                        ThemedText(
+                                          text: session
+                                              .formatDistance(trip.distance),
+                                        ),
+                                        if (trip.count > 1)
+                                          Expanded(
+                                            child: Align(
+                                              alignment: Alignment.centerRight,
+                                              child: TextButton(
+                                                onPressed: () => session
+                                                    .tripsHistory
+                                                    .toggleTripExpansion(trip),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    ThemedText(
+                                                      text:
+                                                          '${trip.count} trips'
+                                                              .toUpperCase(),
+                                                      textSize:
+                                                          ThemedTextSize.small,
+                                                      deemphasized: true,
+                                                    ),
+                                                    const SizedBox(width: 4.0),
+                                                    Icon(
+                                                      (!trip.expanded)
+                                                          ? Icons.add_circle
+                                                          : Icons.remove_circle,
+                                                      color: AppThemeData
+                                                          .highlightColor,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                      ],
                                     ),
-                                ],
-                              ),
-                              if (trip.count > 1 && trip.expanded)
-                                Column(
-                                  children: trip.parts.reversed
-                                      .map((part) => Row(
-                                            children: [
-                                              const SizedBox(
-                                                width: 94,
-                                              ),
-                                              ThemedText(
-                                                text: session.formatDistance(
-                                                    part.distance),
-                                                deemphasized: true,
-                                              ),
-                                            ],
-                                          ))
-                                      .toList(),
+                                    if (trip.count > 1 && trip.expanded)
+                                      Column(
+                                        children: trip.parts.reversed
+                                            .map((part) => Row(
+                                                  children: [
+                                                    const SizedBox(
+                                                      width: 94,
+                                                    ),
+                                                    ThemedText(
+                                                      text: session
+                                                          .formatDistance(
+                                                              part.distance),
+                                                      deemphasized: true,
+                                                    ),
+                                                  ],
+                                                ))
+                                            .toList(),
+                                      ),
+                                  ],
                                 ),
-                            ],
-                          ),
-                        ),
-                    groupSeparatorBuilder: (value) {
-                      var group = session.tripsHistory
-                          .groupByKey(calculateGroupKey(value));
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ThemedPanel(
-                          style: ThemedPanelStyle.emphasized,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const MonthCalendarIcon(),
-                              const SizedBox(width: 8.0),
-                              Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ThemedHeading(
-                                    caption: DateFormat.yMMMM().format(
-                                        DateTime(group.year, group.month)),
-                                  ),
-                                  Row(
-                                    children: [
-                                      ThemedHeading(
-                                        caption: '${group.count} trips',
-                                        style: ThemedHeadingStyle.tiny,
-                                      ),
-                                      const ThemedDot(),
-                                      ThemedHeading(
-                                        caption: session
-                                            .formatDistance(group.distance),
-                                        style: ThemedHeadingStyle.tiny,
-                                      ),
-                                    ],
-                                  ),
-                                ],
                               ),
-                            ],
-                          ),
-                        ),
-                      );
-                    })
+                          groupSeparatorBuilder: (value) {
+                            var group = session.tripsHistory
+                                .groupByKey(calculateGroupKey(value));
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ThemedPanel(
+                                style: ThemedPanelStyle.emphasized,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    const MonthCalendarIcon(),
+                                    const SizedBox(width: 8.0),
+                                    Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        ThemedHeading(
+                                          caption: DateFormat.yMMMM().format(
+                                              DateTime(
+                                                  group.year, group.month)),
+                                        ),
+                                        Row(
+                                          children: [
+                                            ThemedHeading(
+                                              caption: '${group.count} trips',
+                                              style: ThemedHeadingStyle.tiny,
+                                            ),
+                                            const ThemedDot(),
+                                            ThemedHeading(
+                                              caption: session.formatDistance(
+                                                  group.distance),
+                                              style: ThemedHeadingStyle.tiny,
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }),
+                    ),
+                  )
                 : const ThemedText(
                     text: 'no data',
                   );

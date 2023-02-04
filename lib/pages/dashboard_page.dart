@@ -46,18 +46,34 @@ class DashboardPage extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var history = snapshot.data.history;
+            var isLarge = MediaQuery.of(context).size.width > 1024;
 
             return SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Column(
+                child: Flex(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  direction: isLarge ? Axis.horizontal : Axis.vertical,
                   children: [
-                    DistancesSection(distances: snapshot.data.distances),
+                    Center(
+                      child: Container(
+                        constraints:
+                            BoxConstraints(maxWidth: isLarge ? 328 : 500),
+                        child: DistancesSection(
+                            distances: snapshot.data.distances),
+                      ),
+                    ),
                     const SizedBox(
                       height: 16.0,
+                      width: 32.0,
                     ),
-                    DashboardHistorySection(history: history),
+                    Center(
+                      child: Container(
+                        constraints: const BoxConstraints(maxWidth: 500),
+                        child: DashboardHistorySection(history: history),
+                      ),
+                    ),
                     const SizedBox(
                       height: 64.0,
                     ),
@@ -76,8 +92,8 @@ class DashboardPage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add_circle_outline),
         onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => const EditTripPage()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const EditTripPage()));
         },
       ),
     );

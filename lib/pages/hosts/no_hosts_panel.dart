@@ -21,32 +21,35 @@ class NoHostsPanel extends StatelessWidget {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: ThemedPanel(
-          padding: const EdgeInsets.all(32.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Opacity(
-                opacity: 0.6,
-                child: ThemedIcon(
-                  icon: Icons.cloud_off,
-                  size: 64,
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 400),
+          child: ThemedPanel(
+            padding: const EdgeInsets.all(32.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Opacity(
+                  opacity: 0.6,
+                  child: ThemedIcon(
+                    icon: Icons.cloud_off,
+                    size: 64,
+                  ),
                 ),
-              ),
-              const ThemedSpacing(size: ThemedSpacingSize.large),
-              const Text(
-                'You have not yet registered any hosts. Use the button below to add a new one.',
-                style: TextStyle(color: AppThemeData.textColor, fontSize: 18),
-                textAlign: TextAlign.center,
-              ),
-              const ThemedSpacing(size: ThemedSpacingSize.large),
-              ThemedButton(
-                icon: Icons.cloud_outlined,
-                overlayIcon: Icons.add,
-                caption: 'Register Host',
-                onPressed: () => _registerHostPressed(context),
-              ),
-            ],
+                const ThemedSpacing(size: ThemedSpacingSize.large),
+                const Text(
+                  'You have not yet registered any hosts. Use the button below to add a new one.',
+                  style: TextStyle(color: AppThemeData.textColor, fontSize: 18),
+                  textAlign: TextAlign.center,
+                ),
+                const ThemedSpacing(size: ThemedSpacingSize.large),
+                ThemedButton(
+                  icon: Icons.cloud_outlined,
+                  overlayIcon: Icons.add,
+                  caption: 'Register Host',
+                  onPressed: () => _registerHostPressed(context),
+                ),
+              ],
+            ),
           ),
         ),
       ),
