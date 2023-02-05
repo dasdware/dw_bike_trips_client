@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.9.1] - 2023-02-05
+
 ### Added
 
 - Selected [MIT](https://spdx.org/licenses/MIT.html) license for this repository
@@ -30,5 +32,6 @@ Initial release version of the dasd.ware BikeTrips Client. Contains the followin
 - Viewing simple statistics in a dashboard.
 - Adding new trips with timestamp and distance.
 
-[unreleased]: https://github.com/dasdware/dw_bike_trips_client/compare/v0.9.0...HEAD
+[unreleased]: https://github.com/dasdware/dw_bike_trips_client/compare/v0.9.1...HEAD
+[0.9.1]: https://github.com/dasdware/dw_bike_trips_client/releases/tag/v0.9.1
 [0.9.0]: https://github.com/dasdware/dw_bike_trips_client/releases/tag/v0.9.0
