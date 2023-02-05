@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Selected [MIT](https://spdx.org/licenses/MIT.html) license for this repository
 - Basic support for desktop plattforms ([#11](https://github.com/dasdware/dw_bike_trips_client/issues/11))
+- Editing and reverting changes in the upload queue ([#12](https://github.com/dasdware/dw_bike_trips_client/issues/12))
 
 ### Fixes
 
