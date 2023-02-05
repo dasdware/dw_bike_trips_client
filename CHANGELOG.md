@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Basic support for desktop plattforms ([#11](https://github.com/dasdware/dw_bike_trips_client/issues/11))
 - Editing and reverting changes in the upload queue ([#12](https://github.com/dasdware/dw_bike_trips_client/issues/12))
 
+## Changed
+
+- Updated to current Flutter version ([#11](https://github.com/dasdware/dw_bike_trips_client/issues/11))
+
 ### Fixes
 
 - Improved error handling ([#9](https://github.com/dasdware/dw_bike_trips_client/issues/9))
