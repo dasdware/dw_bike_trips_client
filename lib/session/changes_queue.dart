@@ -1,7 +1,7 @@
-
 import 'dart:async';
 
 import 'package:dw_bike_trips_client/session/changes/add_trip.dart';
+import 'package:dw_bike_trips_client/session/changes/edit_trip.dart';
 import 'package:dw_bike_trips_client/session/operations.dart';
 import 'package:dw_bike_trips_client/session/session.dart';
 import 'package:dw_bike_trips_client/session/trip.dart';
@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 abstract class Change {
-
   List<OperationError> lastErrors;
 
   Widget buildIcon(BuildContext context);
@@ -39,6 +38,10 @@ class ChangesQueue {
       StreamController<List<Change>>.broadcast();
   Stream<List<Change>> get changesStream => _changesStreamController.stream;
 
+  final StreamController<Change> _successStreamController =
+      StreamController<Change>.broadcast();
+  Stream<Change> get _successStream => _successStreamController.stream;
+
   ChangesQueue(this._session) {
     _changed();
     _lastSubmission = DateTime.now();
@@ -65,8 +68,41 @@ class ChangesQueue {
   }
 
   enqueueAddTrip(Trip trip) {
-    enqueue(AddTripChange(trip, _session.tripsHistory, _session.dashboardController));
+    enqueue(AddTripChange(
+        trip, _session.tripsHistory, _session.dashboardController));
     _lastSubmission = trip.timestamp;
+  }
+
+  final _updateTrips = <int, EditTripChange>{};
+
+  EditTripChange updateTrip(Trip trip) {
+    if (_updateTrips.containsKey(trip.id)) {
+      return _updateTrips[trip.id];
+    }
+
+    var result = EditTripChange(
+        trip, _session.tripsHistory, _session.dashboardController);
+    _updateTrips[trip.id] = result;
+
+    StreamSubscription<Trip> subscription;
+    subscription = result.trip.stream.listen(
+      (event) {
+        enqueue(result);
+        subscription.cancel();
+      },
+    );
+
+    StreamSubscription<Change> successSubscription;
+    successSubscription = _successStream.listen(
+      (event) {
+        if (event == result) {
+          _updateTrips.remove(result.trip.id);
+          successSubscription.cancel();
+        }
+      },
+    );
+
+    return result;
   }
 
   performChanges(String pageName, GraphQLClient client) async {
@@ -78,7 +114,8 @@ class ChangesQueue {
       var result = await _session.operationContext.perform(pageName, operation);
 
       if (result.success) {
-        changes.removeAt(index);
+        var successChange = changes.removeAt(index);
+        _successStreamController.sink.add(successChange);
       } else {
         changes[index].lastErrors = result.errors;
         success = false;

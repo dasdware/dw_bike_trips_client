@@ -38,6 +38,18 @@ String postTrips(List<Trip> trips) {
   """;
 }
 
+String editTrips(List<Trip> trips) {
+  return """
+    mutation {
+      editTrips(
+        trips: [
+          ${trips.map((trip) => "{id: ${trip.id}, timestamp: \"${trip.timestamp.toIso8601String()}\", distance: ${trip.distance}}").join("\n")}
+        ]
+      )
+    }
+  """;
+}
+
 const countTrips = """
   query countTrips {
     countTrips {
