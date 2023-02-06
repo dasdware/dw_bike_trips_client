@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixes
+
+- Allow integer values from API in dashboard ([#14](https://github.com/dasdware/dw_bike_trips_client/issues/14))
+
 ## [0.9.1] - 2023-02-05
 
 ### Added
