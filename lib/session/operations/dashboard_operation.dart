@@ -49,7 +49,7 @@ class DashboardOperation extends ValuedOperation<Dashboard> {
 
         if (entryYear == expectedYear && entryMonth == expectedMonth) {
           history.add(DashboardHistoryEntry(
-              entryYear, entryMonth, entry['count'], entry['distance']));
+              entryYear, entryMonth, entry['count'], entry['distance'] + 0.0));
           ++index;
         } else {
           history
