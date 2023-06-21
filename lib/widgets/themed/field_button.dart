@@ -23,10 +23,12 @@ class ThemedFieldButton extends StatelessWidget {
             const BorderSide(color: AppThemeData.highlightColor),
           ),
         ),
-        label: ThemedText(
-          text: text,
-          textColor: ThemedTextColor.highlight,
-        ),
+        label: (text != null)
+            ? ThemedText(
+                text: text,
+                textColor: ThemedTextColor.highlight,
+              )
+            : null,
         onPressed: onPressed,
       ),
     );

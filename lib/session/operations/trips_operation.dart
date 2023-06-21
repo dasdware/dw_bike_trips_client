@@ -1,6 +1,7 @@
 import 'package:dw_bike_trips_client/queries.dart' as queries;
 import 'package:dw_bike_trips_client/session/operations.dart';
 import 'package:dw_bike_trips_client/session/operations/client.dart';
+import 'package:dw_bike_trips_client/session/operations/timestamp.dart';
 import 'package:dw_bike_trips_client/session/trip.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
@@ -23,7 +24,7 @@ class TripsOperation extends ValuedOperation<List<Trip>> {
         return loadedTrips
             .map((t) => Trip(
                 id: int.parse(t["id"]),
-                timestamp: DateTime.parse(t["timestamp"]),
+                timestamp: Timestamp.parse(t["timestamp"]),
                 distance: t["distance"] + 0.0))
             .toList();
       },

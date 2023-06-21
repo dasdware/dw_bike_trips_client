@@ -1,9 +1,11 @@
+import 'package:dw_bike_trips_client/session/operations/timestamp.dart';
 import 'package:dw_bike_trips_client/session/session.dart';
 import 'package:dw_bike_trips_client/session/trip.dart';
+import 'package:dw_bike_trips_client/theme_data.dart';
 import 'package:dw_bike_trips_client/widgets/themed/button.dart';
 import 'package:dw_bike_trips_client/widgets/themed/date_picker.dart';
-import 'package:dw_bike_trips_client/widgets/themed/field_button.dart';
 import 'package:dw_bike_trips_client/widgets/themed/heading.dart';
+import 'package:dw_bike_trips_client/widgets/themed/icon.dart';
 import 'package:dw_bike_trips_client/widgets/themed/panel.dart';
 import 'package:dw_bike_trips_client/widgets/themed/scaffold.dart';
 import 'package:dw_bike_trips_client/widgets/themed/spacing.dart';
@@ -27,7 +29,7 @@ class _EditTripPageState extends State<EditTripPage> {
   TextEditingController _distanceController;
 
   bool _isEditing = false;
-  DateTime _selectedTimestamp;
+  Timestamp _selectedTimestamp;
   bool _keepOpen = false;
   String _addedTripsInformation;
 
@@ -71,7 +73,7 @@ class _EditTripPageState extends State<EditTripPage> {
     }
   }
 
-  _setSelectedTimestamp(DateTime timestamp) {
+  _setSelectedTimestamp(Timestamp timestamp) {
     setState(() {
       _selectedTimestamp = timestamp;
     });
@@ -85,31 +87,27 @@ class _EditTripPageState extends State<EditTripPage> {
 
   _selectDate(BuildContext context) async {
     DateTime selection =
-        await showThemedDatePicker(context, _selectedTimestamp);
+        await showThemedDatePicker(context, _selectedTimestamp.toDateTime());
 
     if (selection != null) {
       _setSelectedTimestamp(
-        DateTime(
-          selection.year,
-          selection.month,
-          selection.day,
-          _selectedTimestamp.hour,
-          _selectedTimestamp.minute,
-          _selectedTimestamp.second,
-          0,
-          0,
-        ),
+        _selectedTimestamp.withDate(
+            selection.year, selection.month, selection.day),
       );
     }
   }
 
   _selectTime(BuildContext context) async {
     DateTime selection =
-        await showThemedTimePicker(context, _selectedTimestamp);
+        await showThemedTimePicker(context, _selectedTimestamp.toDateTime());
 
     if (selection != null) {
-      _setSelectedTimestamp(selection);
+      _setSelectedTimestamp(Timestamp.dt(selection, withTime: true));
     }
+  }
+
+  _removeTime(BuildContext context) async {
+    _setSelectedTimestamp(_selectedTimestamp.withoutTime());
   }
 
   _buildTextFields(BuildContext context) {
@@ -119,20 +117,106 @@ class _EditTripPageState extends State<EditTripPage> {
         Padding(
           padding: const EdgeInsets.all(1.0),
           child: Row(
+            // mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                child: ThemedFieldButton(
-                  icon: Icons.date_range,
-                  text: session.dateFormat.format(_selectedTimestamp),
-                  onPressed: () => _selectDate(context),
+              Container(
+                width: 156,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(4.0)),
+                  border: Border.all(color: AppThemeData.activeColor),
+                ),
+                child: InkWell(
+                  splashColor: AppThemeData.mainDarkestColor,
+                  //highlightColor: AppThemeData.mainDarkerColor,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12.0, horizontal: 8.0),
+                    child: Row(
+                      children: [
+                        const ThemedIcon(
+                          icon: Icons.date_range,
+                          color: AppThemeData.activeColor,
+                        ),
+                        Expanded(
+                          child: Center(
+                            child: Text(
+                              session.formatDate(_selectedTimestamp),
+                              style: const TextStyle(
+                                  fontSize: 16.0,
+                                  color: AppThemeData.activeColor),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  onTap: () => _selectDate(context),
                 ),
               ),
-              const ThemedSpacing(),
-              Expanded(
-                child: ThemedFieldButton(
-                  icon: Icons.watch_later_outlined,
-                  text: session.timeFormat.format(_selectedTimestamp),
-                  onPressed: () => _selectTime(context),
+              Container(
+                width: 165,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(4.0)),
+                  border: Border.all(color: AppThemeData.activeColor),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Expanded(
+                      child: InkWell(
+                        splashColor: AppThemeData.mainDarkestColor,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 12.0, horizontal: 8.0),
+                          child: Row(
+                            children: [
+                              const ThemedIcon(
+                                icon: Icons.watch_later_outlined,
+                                color: AppThemeData.activeColor,
+                              ),
+                              Expanded(
+                                child: Center(
+                                  child: Text(
+                                    session.formatTime(_selectedTimestamp),
+                                    style: const TextStyle(
+                                        fontSize: 16.0,
+                                        color: AppThemeData.activeColor),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        onTap: () => _selectTime(context),
+                      ),
+                    ),
+                    if (_selectedTimestamp.hasTime)
+                      Row(
+                        children: [
+                          Container(
+                            width: 1,
+                            height: 48,
+                            color: AppThemeData.activeColor,
+                          ),
+                          SizedBox(
+                            width: 48,
+                            child: InkWell(
+                              splashColor: AppThemeData.mainDarkestColor,
+                              child: const Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 12.0, horizontal: 8.0),
+                                child: ThemedIcon(
+                                  icon: Icons.clear,
+                                  color: AppThemeData.activeColor,
+                                ),
+                              ),
+                              onTap: () => _removeTime(context),
+                            ),
+                          ),
+                        ],
+                      ),
+                  ],
                 ),
               ),
             ],

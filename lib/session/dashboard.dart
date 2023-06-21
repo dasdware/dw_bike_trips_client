@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dw_bike_trips_client/session/operations.dart';
 import 'package:dw_bike_trips_client/session/operations/dashboard_operation.dart';
+import 'package:dw_bike_trips_client/session/operations/timestamp.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 class DashboardDistances {
@@ -57,7 +58,7 @@ class Dashboard {
       : distances = DashboardDistances.zero(),
         history = Iterable<int>.generate(12).map(
           (i) {
-            var now = DateTime.now();
+            var now = Timestamp.now();
             return DashboardHistoryEntry(
                 now.year, (now.month - i) % 12, 0, 0.0);
           },

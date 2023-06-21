@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'dart:math';
 
 import 'package:dw_bike_trips_client/session/dashboard.dart';
+import 'package:dw_bike_trips_client/session/operations/timestamp.dart';
 import 'package:dw_bike_trips_client/session/session.dart';
 import 'package:dw_bike_trips_client/theme_data.dart';
 import 'package:dw_bike_trips_client/widgets/calendar_icon.dart';
@@ -39,7 +40,7 @@ class DistancesSection extends StatelessWidget {
           children: [
             DashboardDistancePanel(
               icon: DayCalendarIcon(
-                day: DateTime.now().day,
+                day: Timestamp.now().day,
                 style: calendarIconStyle,
               ),
               caption: 'today',
@@ -81,7 +82,7 @@ class DistancesSection extends StatelessWidget {
             ),
             DashboardDistancePanel(
               icon: YearCalendarIcon(
-                year: DateTime.now().year,
+                year: Timestamp.now().year,
                 style: calendarIconStyle,
               ),
               caption: 'this year',
@@ -158,7 +159,8 @@ class _DistanceProgressBarElement extends StatelessWidget {
                     child: Container(
                       height: trackSize,
                       decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(20)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(20)),
                         color: color,
                       ),
                     ),

@@ -2,6 +2,7 @@ import 'package:dw_bike_trips_client/queries.dart' as queries;
 import 'package:dw_bike_trips_client/session/dashboard.dart';
 import 'package:dw_bike_trips_client/session/operations.dart';
 import 'package:dw_bike_trips_client/session/operations/client.dart';
+import 'package:dw_bike_trips_client/session/operations/timestamp.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 class DashboardOperation extends ValuedOperation<Dashboard> {
@@ -13,8 +14,8 @@ class DashboardOperation extends ValuedOperation<Dashboard> {
   @override
   Future<ValuedOperationResult<Dashboard>> perform(
       String pageName, OperationContext context) {
-    var to = DateTime.now();
-    var from = DateTime(to.year - 1, to.month);
+    var to = Timestamp.now();
+    var from = Timestamp(year: to.year - 1, month: to.month, day: to.day);
 
     return doGraphQL(client, queries.dashboard(from, to), (result) {
       var distances = DashboardDistances(

@@ -1,3 +1,4 @@
+import 'package:dw_bike_trips_client/session/operations/timestamp.dart';
 import 'package:dw_bike_trips_client/session/trip.dart';
 
 const serverInfo = """
@@ -31,7 +32,7 @@ String postTrips(List<Trip> trips) {
     mutation {
       postTrips(
         trips: [
-          ${trips.map((trip) => "{timestamp: \"${trip.timestamp.toIso8601String()}\", distance: ${trip.distance}}").join("\n")}
+          ${trips.map((trip) => "{timestamp: \"${trip.timestamp.toString()}\", distance: ${trip.distance}}").join("\n")}
         ]
       )
     }
@@ -43,7 +44,7 @@ String editTrips(List<Trip> trips) {
     mutation {
       editTrips(
         trips: [
-          ${trips.map((trip) => "{id: ${trip.id}, timestamp: \"${trip.timestamp.toIso8601String()}\", distance: ${trip.distance}}").join("\n")}
+          ${trips.map((trip) => "{id: ${trip.id}, timestamp: \"${trip.timestamp.toString()}\", distance: ${trip.distance}}").join("\n")}
         ]
       )
     }
@@ -72,14 +73,14 @@ const trips = """
   }
 """;
 
-String dashboard(DateTime from, DateTime to) {
+String dashboard(Timestamp from, Timestamp to) {
   return """
     query completeDashboard {
       dashboard {
         distances {today yesterday thisWeek lastWeek thisMonth lastMonth thisYear lastYear allTime }
       }
       accumulateTrips(
-        range: {from: "${from.toIso8601String()}", to: "${to.toIso8601String()}"},
+        range: {from: "${from.toString()}", to: "${to.toString()}"},
         grouping: month
       ) {
         name

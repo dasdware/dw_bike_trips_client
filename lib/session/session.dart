@@ -7,6 +7,7 @@ import 'package:dw_bike_trips_client/session/login.dart';
 import 'package:dw_bike_trips_client/session/operations.dart';
 import 'package:dw_bike_trips_client/session/operations/login_operation.dart';
 import 'package:dw_bike_trips_client/session/operations/server_info_operation.dart';
+import 'package:dw_bike_trips_client/session/operations/timestamp.dart';
 import 'package:dw_bike_trips_client/session/trips_history.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -101,16 +102,27 @@ class Session {
     _currentLoginStreamController.sink.add(_currentLogin);
   }
 
-  formatTimestamp(DateTime timestamp) {
-    return timestampFormat.format(timestamp);
+  formatTimestamp(Timestamp timestamp) {
+    if (timestamp.hasTime) {
+      return timestampFormat.format(timestamp.toDateTime());
+    } else {
+      return formatDate(timestamp);
+    }
   }
 
-  formatDate(DateTime timestamp) {
-    return dateFormat.format(timestamp);
+  formatDate(Timestamp timestamp) {
+    return dateFormat.format(timestamp.toDateTime());
   }
 
-  formatWeekday(DateTime timestamp) {
-    return weekdayFormat.format(timestamp);
+  formatTime(Timestamp timestamp) {
+    if (timestamp.hasTime) {
+      return timeFormat.format(timestamp.toDateTime());
+    }
+    return '-';
+  }
+
+  formatWeekday(Timestamp timestamp) {
+    return weekdayFormat.format(timestamp.toDateTime());
   }
 
   formatDistance(double distance, {bool withUnit = true}) {

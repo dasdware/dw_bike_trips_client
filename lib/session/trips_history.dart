@@ -2,19 +2,19 @@ import 'dart:async';
 
 import 'package:dw_bike_trips_client/session/operations.dart';
 import 'package:dw_bike_trips_client/session/operations/count_trips_operation.dart';
+import 'package:dw_bike_trips_client/session/operations/timestamp.dart';
 import 'package:dw_bike_trips_client/session/operations/trips_operation.dart';
 import 'package:dw_bike_trips_client/session/trip.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 class AccumulatedTrip {
   final List<Trip> parts;
-  final DateTime timestamp;
+  final Timestamp timestamp;
 
   bool expanded = false;
 
   AccumulatedTrip(Trip trip)
-      : timestamp = DateTime(trip.timestamp.toLocal().year,
-            trip.timestamp.toLocal().month, trip.timestamp.toLocal().day),
+      : timestamp = trip.timestamp.clone(),
         parts = List<Trip>.of([trip]);
 
   int get count => parts.length;
@@ -38,7 +38,7 @@ class TripsGroup {
 }
 
 int calculateAccumulationKey(Trip trip) {
-  var t = trip.timestamp.toLocal();
+  var t = trip.timestamp;
   return t.year * 100 * 100 + t.month * 100 + t.day;
 }
 

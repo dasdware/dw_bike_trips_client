@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dw_bike_trips_client/session/changes/add_trip.dart';
 import 'package:dw_bike_trips_client/session/changes/edit_trip.dart';
 import 'package:dw_bike_trips_client/session/operations.dart';
+import 'package:dw_bike_trips_client/session/operations/timestamp.dart';
 import 'package:dw_bike_trips_client/session/session.dart';
 import 'package:dw_bike_trips_client/session/trip.dart';
 import 'package:flutter/material.dart';
@@ -26,8 +27,8 @@ abstract class Change {
 }
 
 class ChangesQueue {
-  DateTime _lastSubmission;
-  DateTime get lastSubmision => _lastSubmission;
+  Timestamp _lastSubmission;
+  Timestamp get lastSubmision => _lastSubmission;
 
   final _changes = <Change>[];
   List<Change> get changes => _changes;
@@ -44,9 +45,7 @@ class ChangesQueue {
 
   ChangesQueue(this._session) {
     _changed();
-    _lastSubmission = DateTime.now();
-    _lastSubmission = DateTime(_lastSubmission.year, _lastSubmission.month,
-        _lastSubmission.day, 0, 0, 0, 0, 0);
+    _lastSubmission = Timestamp.now();
   }
 
   dispose() {
