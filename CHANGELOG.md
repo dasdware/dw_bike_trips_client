@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixes
 
+- Add the ability to edit individual trips ([#7](https://github.com/dasdware/dw_bike_trips_client/issues/7))
 - Allow integer values from API in dashboard ([#14](https://github.com/dasdware/dw_bike_trips_client/issues/14))
 
 ## [0.9.1] - 2023-02-05
