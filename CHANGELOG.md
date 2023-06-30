@@ -7,10 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Fixes
+Nothing yet!
+
+## [0.10.0]
+
+### Added
 
 - Allow for optional time portion in trip timestamps ([#16](https://github.com/dasdware/dw_bike_trips_client/issues/16)). Old entries that have been added with midnight as time portion are considered to have no time.
 - Add the ability to edit individual trips ([#7](https://github.com/dasdware/dw_bike_trips_client/issues/7))
+
+### Fixes
+
 - Allow integer values from API in dashboard ([#14](https://github.com/dasdware/dw_bike_trips_client/issues/14))
 
 ## [0.9.1] - 2023-02-05
@@ -39,5 +46,6 @@ Initial release version of the dasd.ware BikeTrips Client. Contains the followin
 - Adding new trips with timestamp and distance.
 
 [unreleased]: https://github.com/dasdware/dw_bike_trips_client/compare/v0.9.1...HEAD
+[0.10.0]: https://github.com/dasdware/dw_bike_trips_client/releases/tag/v0.10.0
 [0.9.1]: https://github.com/dasdware/dw_bike_trips_client/releases/tag/v0.9.1
 [0.9.0]: https://github.com/dasdware/dw_bike_trips_client/releases/tag/v0.9.0
